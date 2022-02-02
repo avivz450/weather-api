@@ -1,9 +1,9 @@
-import log from "@ajar/marker";
-import { multiplyR } from "./calc.js";
-import { saySomething } from "./myModule.js";
+import log from '@ajar/marker';
+import app from './modules/app/app.js';
 
-const multiplied = multiplyR(3, 4, 5);
-console.log(multiplied);
+const { PORT = 3030, HOST = 'localhost' } = process.env;
 
-const response = saySomething("hello");
-log.magenta(response);
+(async () => {
+    await app.listen(PORT as number, HOST as string);
+    log.magenta(`api is live on`, ` ✨ ⚡  http://${HOST}:${PORT} ✨ ⚡`);
+})().catch(console.log);

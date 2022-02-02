@@ -1,0 +1,12 @@
+{
+    "PORT" : "3000",
+    "HOST" : "localhost",
+    "NODE_ENV": "development",
+    "DB_NAME": "",
+    "SQL_PORT": "3306",
+    "SQL_USER": "root",
+    "SQL_PASSWORD": "qwerty",
+    "APP_SECRET": "AvivRenanaYair",
+    "HTTP_LOG_PATH": "./logs/http.log",
+    "ERRORS_LOG_PATH": "./logs/errors.log"
+}
