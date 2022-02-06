@@ -1,7 +1,7 @@
-import { HttpError } from './http.exception.js';
+import HttpError from "./http.exception.js";
 
-export class UrlNotFoundError extends HttpError {
-  constructor(url: string) {
-    super(`Url with path ${url} not found`, 404);
-  }
+export default class UrlNotFoundError extends HttpError {
+    constructor(url: string) {
+        super(`Url with path ${url} not found`, 404);
+    }
 }

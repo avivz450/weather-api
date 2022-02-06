@@ -1,57 +1,64 @@
-import path from 'path';
-import express, { Application } from 'express';
-import cors from 'cors';
-import log from '@ajar/marker';
+import path from "path";
+import express, { Application } from "express";
+import cors from "cors";
+import log from "@ajar/marker";
 import {
-  errorLogger,
-  errorResponse,
-  printError,
-  urlNotFound
-} from '../middlewares/error.handler.js';
-import { logger } from '../middlewares/logger.middleware.js';
-import { attachRequestId } from '../middlewares/attachRequestId.middleware.js';
+    errorLogger,
+    errorResponse,
+    printError,
+    urlNotFound,
+} from "../middlewares/error.handler.js";
+import logger from "../middlewares/logger.middleware.js";
+import attachRequestId from "../middlewares/attachRequestId.middleware.js";
 
 const { cwd } = process;
-const { PORT = 8080, HOST = 'localhost', DB_URI } = process.env;
+const { PORT = 8080, HOST = "localhost" } = process.env;
 
 class App {
-  static readonly API_PATH = '/api';
-  static readonly REQUESTS_LOG_PATH = path.join(cwd(), 'logs', 'requests.log');
-  static readonly ERRORS_LOG_PATH = path.join(cwd(), 'logs', 'errors.log');
+    private readonly app: Application;
 
-  private readonly app: Application;
+    static readonly API_PATH = "/api";
 
-  constructor() {
-    this.app = express();
+    static readonly ERRORS_LOG_PATH = path.join(cwd(), "logs", "errors.log");
 
-    this.initializeMiddlewares();
-    this.initializeRoutes();
-    this.initializeErrorMiddlewares();
-  }
+    static readonly REQUESTS_LOG_PATH = path.join(
+        cwd(),
+        "logs",
+        "requests.log"
+    );
 
-  private initializeMiddlewares() {
-    this.app.use(attachRequestId);
-    this.app.use(cors());
-    this.app.use(logger(App.REQUESTS_LOG_PATH));
-    this.app.use(express.json());
-  }
+    constructor() {
+        this.app = express();
 
-  private initializeRoutes() {
-      
-  }
+        this.initializeMiddlewares();
+       // this.initializeRoutes();
+        this.initializeErrorMiddlewares();
+    }
 
-  private initializeErrorMiddlewares() {
-    this.app.use(urlNotFound);
-    this.app.use(printError);
-    this.app.use(errorLogger(App.ERRORS_LOG_PATH));
-    this.app.use(errorResponse);
-  }
+    private initializeMiddlewares() {
+        this.app.use(attachRequestId);
+        this.app.use(cors());
+        this.app.use(logger(App.REQUESTS_LOG_PATH));
+        this.app.use(express.json());
+    }
 
-  async start() {
-    this.app.listen(Number(PORT), HOST as string, () => {
-      log.magenta('api is live on', ` ✨ ⚡  http://${HOST}:${PORT} ✨ ⚡`);
-    });
-  }
+    // private initializeRoutes() {}
+
+    private initializeErrorMiddlewares() {
+        this.app.use(urlNotFound);
+        this.app.use(printError);
+        this.app.use(errorLogger(App.ERRORS_LOG_PATH));
+        this.app.use(errorResponse);
+    }
+
+    async start() {
+        this.app.listen(Number(PORT), HOST as string, () => {
+            log.magenta(
+                "api is live on",
+                ` ✨ ⚡  http://${HOST}:${PORT} ✨ ⚡`
+            );
+        });
+    }
 }
 
 const app = new App();
