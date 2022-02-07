@@ -1,7 +1,9 @@
 import InvalidArgumentsError from "../exceptions/InvalidArguments.exception.js";
 
 class AccountValidator {
-    private readonly individualIdLength = 7;
+    private readonly individual_id_length = 7;
+    
+    private readonly company_id_length = 8;
 
     static validateAccountMandatoryFields = (payload: any) => {
         if (payload.currency === undefined) {
@@ -27,6 +29,19 @@ class AccountValidator {
         }
     };
 
+    static checkBusinessMandatoryFieldsExist(payload: any) {
+        AccountValidator.validateAccountMandatoryFields(payload);
+
+        if (payload.company_id === undefined) {
+            throw new InvalidArgumentsError("companyId is undefined");
+        }
+        if (!/^[a-zA-Z]+$/.test(payload.company_name)) {
+            throw new InvalidArgumentsError(
+                "companyName supposed to consist only letters"
+            );
+        }
+    }
+
     static checkIfPrimaryIdProvided(payload: any) {
         if (payload.primary_id !== undefined) {
             throw new InvalidArgumentsError("primaryId should not be provided");
@@ -36,7 +51,7 @@ class AccountValidator {
     static checkIdIsValid(id: string, idLength: number) {
         if (!(id.length === idLength && /^\d+$/.test(id))) {
             throw new InvalidArgumentsError(
-                "individualId must be between 1000000 and 9999999"
+                `id must be made of ${idLength} numbers`
             );
         }
     }
@@ -57,8 +72,20 @@ class AccountValidator {
     async validateIndividualAccountCreation(payload: any) {
         AccountValidator.checkIndividualMandatoryFieldsExist(payload);
         AccountValidator.checkIfPrimaryIdProvided(payload);
-        AccountValidator.checkIdIsValid(payload.individual_id, this.individualIdLength);
+        AccountValidator.checkIdIsValid(
+            payload.individual_id,
+            this.individual_id_length
+        );
         await AccountValidator.checkIndividualIdInDb(payload.individual_id);
+    }
+
+    async validateBusinessAccountCreation(payload: any) {
+        AccountValidator.checkBusinessMandatoryFieldsExist(payload);
+        AccountValidator.checkIfPrimaryIdProvided(payload);
+        AccountValidator.checkIdIsValid(
+            payload.individual_id,
+            this.company_id_length
+        );
     }
 }
 
