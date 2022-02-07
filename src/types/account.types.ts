@@ -38,14 +38,13 @@ export interface IAddress {
 }
 
 export interface ITransferRequest {
-    sourceAccount: number,
-    DestinationAccount: number,
-    currency?: string,
-    amount: number,
-
+    sourceAccount: number;
+    DestinationAccount: number;
+    currency?: string;
+    amount: number;
 }
 
 export interface ITransferResponse {
-    sourceAccount: Partial<IAccount>,
-    DestinationAccount: Partial<IAccount>
+    sourceAccount: Partial<IAccount>;
+    DestinationAccount: Partial<IAccount>;
 }
