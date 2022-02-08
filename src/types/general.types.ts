@@ -1,3 +1,3 @@
 export interface IGeneralObj {
-    [key: string]: string;
+  [key: string]: string;
 }

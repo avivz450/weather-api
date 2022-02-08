@@ -1,14 +1,14 @@
-import express from "express";
+import express from 'express';
 // import raw from "../middlewares/route.async.wrapper.js";
 
 class AccountRouter {
-    private readonly accountRouter = express.Router();
+  private readonly accountRouter = express.Router();
 
-    //    constructor() {}
+  //    constructor() {}
 
-    get router() {
-        return this.accountRouter;
-    }
+  get router() {
+    return this.accountRouter;
+  }
 }
 
 const accountRouter = new AccountRouter();
