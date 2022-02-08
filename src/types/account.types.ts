@@ -1,8 +1,8 @@
 export interface IAccount {
-  account_id: number;
-  currency: string;
-  balance?: number;
-  status?: AccountStatuses;
+    account_id: number;
+    currency: string;
+    balance?: number;
+    status?: AccountStatuses;
 }
 
 export enum AccountStatuses {
