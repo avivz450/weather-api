@@ -2,6 +2,7 @@ import path from "path";
 import express, { Application } from "express";
 import cors from "cors";
 import log from "@ajar/marker";
+import { conect } from "../db/sql/sql.connection.js";
 import {
     errorLogger,
     errorResponse,
@@ -11,9 +12,9 @@ import {
 import logger from "../middlewares/logger.middleware.js";
 import attachRequestId from "../middlewares/attachRequestId.middleware.js";
 import accountRouter from "../routes/account.router.js";
-import individualAccountRouter from "../routes/businessAccount.router.js";
-import businessAccountRouter from "../routes/familyAccount.router.js";
-import familyAccountRouter from "../routes/IndividualAccount.router.js";
+import individualAccountRouter from "../routes/IndividualAccount.router.js";
+import businessAccountRouter from "../routes/businessAccount.router.js";
+import familyAccountRouter from "../routes/familyAccount.router.js";
 
 const { PORT = 8080, HOST = "localhost" } = process.env;
 
@@ -36,9 +37,8 @@ class App {
 
     constructor() {
         this.app = express();
-
         this.initializeMiddlewares();
-        // this.initializeRoutes();
+        this.initializeRoutes();
         this.initializeErrorMiddlewares();
     }
 
@@ -66,7 +66,9 @@ class App {
         this.app.use(errorResponse);
     }
 
-    start() {
+    async start() {
+        // conect mysql db
+        await conect();
         this.app.listen(Number(PORT), HOST, () => {
             log.magenta(
                 "api is live on",

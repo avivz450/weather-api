@@ -6,7 +6,9 @@ import AccountValidator from "./account.validation.js";
 class IndividualAccountValidator {
     private readonly individual_id_length = 7;
 
-    static checkIndividualMandatoryFieldsExist = (payload: IGeneralObj): void => {
+    static checkIndividualMandatoryFieldsExist = (
+        payload: IGeneralObj
+    ): void => {
         AccountValidator.validateAccountMandatoryFields(payload);
 
         if (payload.individual_id === undefined) {
