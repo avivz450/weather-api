@@ -1,55 +1,56 @@
 export interface IAccount {
-    account_id: number;
-    currency: number;
-    balance?: number;
-    status?: AccountStatuses;
+  account_id: number;
+  currency: string;
+  balance?: number;
+  status?: AccountStatuses;
 }
 
 export enum AccountStatuses {
-    notActive,
-    active,
+  notActive,
+  active,
 }
 
 export interface IIndividualAccount extends IAccount {
-    individual_id: number;
-    first_name: string;
-    last_name: string;
-    email?: string;
-    address?: IAddress;
+  account_id: number;
+  individual_id: number;
+  first_name: string;
+  last_name: string;
+  email?: string;
+  address?: Partial<IAddress>;
 }
 
-export interface IBusinessAccount extends Account {
-    account_id: number;
-    company_id: string;
-    company_name: string;
-    context?: string;
-    address?: IAddress;
+export interface IBusinessAccount extends IAccount {
+  account_id: number;
+  company_id: string;
+  company_name: string;
+  context?: string;
+  address?: Partial<IAddress>;
 }
 
 type AccountDetails = [string, number];
 export interface IFamilyAccount extends IAccount {
-    individualAccountsDetails: AccountDetails[];
+  individualAccountsDetails: AccountDetails[];
 }
 
 export interface IAddress {
-    address_id: number;
-    country_name: string;
-    country_code: number;
-    postal_code: number;
-    city: string;
-    region: string;
-    street_name: string;
-    street_number: number;
+  address_id: number;
+  country_name: string;
+  country_code: number;
+  postal_code: number;
+  city: string;
+  region: string;
+  street_name: string;
+  street_number: number;
 }
 
 export interface ITransferRequest {
-    sourceAccount: number;
-    DestinationAccount: number;
-    currency?: string;
-    amount: number;
+  source_account: number;
+  destination_account: number;
+  currency?: string;
+  amount: number;
 }
 
 export interface ITransferResponse {
-    sourceAccount: Partial<IAccount>;
-    DestinationAccount: Partial<IAccount>;
+  source_account: Partial<IAccount>;
+  destination_account: Partial<IAccount>;
 }

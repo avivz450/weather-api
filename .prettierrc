@@ -1,5 +1,19 @@
 {
-  "tabWidth": 4,
+  "singleQuote": true,
+  "trailingComma": "all",   
+  "printWidth": 100,
+  "proseWrap": "always",
+  "quoteProps": "as-needed",
+  "arrowParens": "avoid",
+  "useTabs": false,
+  "tabWidth": 2,
   "semi": true,
-  "singleQuote": false
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "parser": "typescript"
+      }
+    }
+  ]
 }
