@@ -1,12 +1,15 @@
 import express from "express";
-import businessController from "../controllers/businessAccount.controller.js";
+import {BusinessController} from "../controllers/businessAccount.controller.js";
 import raw from "../middlewares/route.async.wrapper.js";
 
 class BusinessAccountRouter {
     private readonly businessAccountRouter = express.Router();
 
     constructor() {
-        this.businessAccountRouter.post("/",raw(businessController.createAccount));
+        this.businessAccountRouter.post(
+            "/",
+            raw(BusinessController.createAccount)
+        );
     }
 
     get router() {

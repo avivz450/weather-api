@@ -64,7 +64,7 @@ class App {
     }
 
     async start() {
-        //conect mysql db
+        // conect mysql db
         await conect();
         this.app.listen(Number(PORT), HOST as string, () => {
             log.magenta(
