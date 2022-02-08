@@ -26,6 +26,11 @@ export interface IBusinessAccount extends Account {
     address?: IAddress;
 }
 
+type AccountDetails = [string, number];
+export interface IFamilyAccount extends IAccount {
+    individualAccountsDetails: AccountDetails[];
+}
+
 export interface IAddress {
     address_id: number;
     country_name: string;

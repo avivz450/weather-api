@@ -1,5 +1,5 @@
 import InvalidArgumentsError from "../exceptions/InvalidArguments.exception.js";
-import AccountValidator from "./account.validation.js"
+import AccountValidator from "./account.validation.js";
 
 class IndividualAccountValidator {
     private readonly individual_id_length = 7;
@@ -42,7 +42,9 @@ class IndividualAccountValidator {
             payload.individual_id,
             this.individual_id_length
         );
-        await IndividualAccountValidator.checkIndividualIdInDb(payload.individual_id);
+        await IndividualAccountValidator.checkIndividualIdInDb(
+            payload.individual_id
+        );
     }
 }
 

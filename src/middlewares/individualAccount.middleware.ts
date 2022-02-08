@@ -6,7 +6,9 @@ const verifyIndividualAccountCreation: RequestHandler = async (
     res,
     next
 ) => {
-    await individualAccountValidator.validateIndividualAccountCreation(req.body);
+    await individualAccountValidator.validateIndividualAccountCreation(
+        req.body
+    );
     next();
 };
 
