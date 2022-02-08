@@ -2,11 +2,12 @@ import { RequestHandler } from "express";
 // import { UrlNotFoundException } from '../../exceptions/urlNotFound.exception.js';
 // import { ResponseMessage } from '../../types/messages.interface.js';
 import { BusinessAccountService } from "../services/businessAccount.service.js";
+import { IBusinessAccount } from "../types/account.types.js";
 
 export class BusinessController {
-    static createAccount: RequestHandler = async (req, res) => {
+    static createAccount: RequestHandler = async (req,res) => {
         const users = await BusinessAccountService.createBusinessAccount(
-            req.body
+            req.body as IBusinessAccount
         );
         // const response: ResponseMessage = {
         //   status: 200,

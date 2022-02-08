@@ -66,15 +66,10 @@ class App {
         this.app.use(errorResponse);
     }
 
-<<<<<<< HEAD
     async start() {
         // conect mysql db
         await conect();
-        this.app.listen(Number(PORT), HOST as string, () => {
-=======
-    start() {
         this.app.listen(Number(PORT), HOST, () => {
->>>>>>> 3a44019e2e5aab22180d660982187f2e71a68506
             log.magenta(
                 "api is live on",
                 ` ✨ ⚡  http://${HOST}:${PORT} ✨ ⚡`
