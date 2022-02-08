@@ -1,5 +1,5 @@
 import express from "express";
-import {BusinessController} from "../controllers/businessAccount.controller.js";
+import { BusinessController } from "../controllers/businessAccount.controller.js";
 import raw from "../middlewares/route.async.wrapper.js";
 
 class BusinessAccountRouter {

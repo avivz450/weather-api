@@ -3,13 +3,14 @@ import {
     // ITransferRequest,
     // ITransferResponse,
 } from "../types/account.types.js";
-import {BussinessAccountRepository} from "../repositories/bussinessAccount.repository.js";
+import { BussinessAccountRepository } from "../repositories/bussinessAccount.repository.js";
 
 export class BusinessAccountService {
-     static async createBusinessAccount(payload: Omit<IBusinessAccount, "accountID">) {
-        const businessAccount = await BussinessAccountRepository.createBusinessAccount(
-            payload
-        );
+    static async createBusinessAccount(
+        payload: Omit<IBusinessAccount, "accountID">
+    ) {
+        const businessAccount =
+            await BussinessAccountRepository.createBusinessAccount(payload);
         return businessAccount;
     }
 

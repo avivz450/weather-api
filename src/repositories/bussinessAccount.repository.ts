@@ -3,7 +3,9 @@ import { sql_con } from "../db/sql/sql.connection.js";
 import { IBusinessAccount } from "../types/account.types.js";
 
 export class BussinessAccountRepository {
-     static async createBusinessAccount(payload: Omit<IBusinessAccount, "accountID">) {
+    static async createBusinessAccount(
+        payload: Omit<IBusinessAccount, "accountID">
+    ) {
         // get currencyID with currency name
         const [currencyQuery] = (await sql_con.query(
             "SELECT currencyID FROM currency WHERE currencyCode = ?",
@@ -57,15 +59,16 @@ export class BussinessAccountRepository {
             bussinessPayload
         )) as unknown as OkPacket[];
 
-        const businessAccount = await BussinessAccountRepository.getBusinessAccountByAccountID(
-            bussinessInsertion.insertId.toString()
-        );
-        return businessAccount;
+        const businessAccount =
+            await BussinessAccountRepository.getBusinessAccountByAccountID(
+                bussinessInsertion.insertId.toString()
+            );
+        return businessAccount as IBusinessAccount;
     }
 
-     static async getBusinessAccountByAccountID(account_id: string) {
+    static async getBusinessAccountByAccountID(account_id: string) {
         const [accountModel] = (await sql_con.query(
-        `SELECT a.accountID, ba.companyID,ba.companyName,ba.context ,a.balance,s.statusName as status,c.currencyCode
+            `SELECT a.accountID, ba.companyID,ba.companyName,ba.context ,a.balance,s.statusName as status,c.currencyCode
         FROM account as a join businessAccount as ba on a.accountID= ba.accountID 
         join statusAccount as s on s.statusID=a.statusID
         join currency as c on c.currencyID=a.currencyID
@@ -82,7 +85,7 @@ export class BussinessAccountRepository {
         )) as unknown as RowDataPacket[];
 
         const resultModel = { ...accountModel[0], address: addressModel[0] };
-        return resultModel;
+        return resultModel as IBusinessAccount;
     }
 }
 

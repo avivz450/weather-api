@@ -16,7 +16,6 @@ import individualAccountRouter from "../routes/IndividualAccount.router.js";
 import businessAccountRouter from "../routes/businessAccount.router.js";
 import familyAccountRouter from "../routes/familyAccount.router.js";
 
-const { cwd } = process;
 const { PORT = 8080, HOST = "localhost" } = process.env;
 
 class App {
@@ -24,10 +23,14 @@ class App {
 
     readonly API_PATH = "/api/account";
 
-    static readonly ERRORS_LOG_PATH = path.join(cwd(), "logs", "errors.log");
+    static readonly ERRORS_LOG_PATH = path.join(
+        process.cwd(),
+        "logs",
+        "errors.log"
+    );
 
     static readonly REQUESTS_LOG_PATH = path.join(
-        cwd(),
+        process.cwd(),
         "logs",
         "requests.log"
     );
