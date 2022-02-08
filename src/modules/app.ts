@@ -15,7 +15,6 @@ import individualAccountRouter from "../routes/businessAccount.router.js";
 import businessAccountRouter from "../routes/familyAccount.router.js";
 import familyAccountRouter from "../routes/IndividualAccount.router.js";
 
-const { cwd } = process;
 const { PORT = 8080, HOST = "localhost" } = process.env;
 
 class App {
@@ -23,10 +22,14 @@ class App {
 
     readonly API_PATH = "/api/account";
 
-    static readonly ERRORS_LOG_PATH = path.join(cwd(), "logs", "errors.log");
+    static readonly ERRORS_LOG_PATH = path.join(
+        process.cwd(),
+        "logs",
+        "errors.log"
+    );
 
     static readonly REQUESTS_LOG_PATH = path.join(
-        cwd(),
+        process.cwd(),
         "logs",
         "requests.log"
     );
@@ -63,8 +66,8 @@ class App {
         this.app.use(errorResponse);
     }
 
-    async start() {
-        this.app.listen(Number(PORT), HOST as string, () => {
+    start() {
+        this.app.listen(Number(PORT), HOST, () => {
             log.magenta(
                 "api is live on",
                 ` ✨ ⚡  http://${HOST}:${PORT} ✨ ⚡`

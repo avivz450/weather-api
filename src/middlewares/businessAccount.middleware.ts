@@ -1,12 +1,13 @@
 import { RequestHandler } from "express";
 import businessAccountValidator from "../modules/businessAccount.validation.js";
+import { IGeneralObj } from "../types/general.types.js";
 
-const verifyBusinessAccountCreation: RequestHandler = async (
+const verifyBusinessAccountCreation: RequestHandler = (
     req,
     res,
     next
 ) => {
-    await businessAccountValidator.validateBusinessAccountCreation(req.body);
+    businessAccountValidator.validateBusinessAccountCreation(req.body as IGeneralObj);
     next();
 };
 
