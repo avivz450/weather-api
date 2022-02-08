@@ -1,0 +1,302 @@
+1a8588cf-fe90-4da9-b906-26378b38e47b - 404 :: Url with path /api/account/business/ not found >> Error: Url with path /api/account/business/ not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/body-parser/lib/read.js:130:5
+    at invokeCallback (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/raw-body/index.js:224:16)
+    at done (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/raw-body/index.js:213:7)
+    at IncomingMessage.onEnd (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/raw-body/index.js:273:7)
+c8238cdd-f7dd-405f-b022-7ef615e69f37 - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/body-parser/lib/read.js:130:5
+    at invokeCallback (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/raw-body/index.js:224:16)
+    at done (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/raw-body/index.js:213:7)
+    at IncomingMessage.onEnd (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/raw-body/index.js:273:7)
+e689c21d-0a30-42e0-b66e-27477aa35450 - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/body-parser/lib/read.js:130:5
+    at invokeCallback (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/raw-body/index.js:224:16)
+    at done (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/raw-body/index.js:213:7)
+    at IncomingMessage.onEnd (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/raw-body/index.js:273:7)
+f6bd63f8-15af-4d2b-a458-db54812281cc - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+e46b93e7-89fa-47bf-9df6-7fa1177d528a - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+46a64fb2-acde-4df5-8e61-f0169d0b991f - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+3f3f3852-3fa8-4f4d-be8e-06dae1391847 - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+3aada1e1-6f59-4a5b-b43b-6e1862fed3cb - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+1d1c2c8c-46e9-4b5e-ad04-383939473800 - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+a668a3ad-a032-4b08-818f-71c1511aabb8 - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+4e527c34-495d-42dc-a56e-6b00c000bc01 - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+79161e7d-b45a-4f80-b855-f7e08dd83bc3 - 404 :: Url with path /api/account/business not found >> Error: Url with path /api/account/business not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+bf72c89b-e679-4c3e-8d9b-93f8e80174c5 - 404 :: Url with path /api/account/business/ not found >> Error: Url with path /api/account/business/ not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+c47683fe-698f-4194-b84e-c409751b585b - 404 :: Url with path /api/account/business/ not found >> Error: Url with path /api/account/business/ not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+6e9b7367-a5c6-4429-bde0-097fd33341a7 - 404 :: Url with path /api/account/business/ not found >> Error: Url with path /api/account/business/ not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+f53a38b6-30e8-4493-b828-fd80b5e5094b - 404 :: Url with path /api/account/business/ not found >> Error: Url with path /api/account/business/ not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+075a3869-8fd8-4756-b7f7-14d2dc751e8d - undefined :: Cannot read property 'query' of undefined >> TypeError: Cannot read property 'query' of undefined
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:6:45)
+    at BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:58)
+    at BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:49)
+    at file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:19
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:281:22
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+458f0683-f70e-4817-869d-db1240f91c28 - undefined :: Cannot read property 'query' of undefined >> TypeError: Cannot read property 'query' of undefined
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:6:45)
+    at BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:58)
+    at BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:49)
+    at file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:19
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:281:22
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+259ec611-6107-4dfa-b937-974ecf259341 - undefined :: Column 'currencyID' cannot be null >> Error: Column 'currencyID' cannot be null
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:20:50)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+facd5aa9-6a08-468f-9fe2-1763d0d067fa - undefined :: Column 'currencyID' cannot be null >> Error: Column 'currencyID' cannot be null
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:21:50)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+d2e26310-dd38-4dc1-aac5-1d11f6b9f49d - undefined :: Column 'currencyID' cannot be null >> Error: Column 'currencyID' cannot be null
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:21:50)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+50ad982a-3d53-4e33-b103-d54c4f52d43f - undefined :: Column 'currencyID' cannot be null >> Error: Column 'currencyID' cannot be null
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:23:50)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+070c8f8c-4cd8-4cbb-b1b7-530af991ce8b - undefined :: Table 'bank_db.bussinessaccount' doesn't exist >> Error: Table 'bank_db.bussinessaccount' doesn't exist
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:42:52)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+14bc7151-5417-4469-b706-54a70bd199db - undefined :: Column 'companyName' cannot be null >> Error: Column 'companyName' cannot be null
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:42:52)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+d60047c2-7886-445c-951a-3c5eafce5a22 - undefined :: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT  a.*, ba.companyID,ba.companyName,ba.context,ad.*
+        FROM account as' at line 1 >> Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT  a.*, ba.companyID,ba.companyName,ba.context,ad.*
+        FROM account as' at line 1
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:46:38)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:43:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+bce8abe4-ae1c-4f30-b9c8-b0f31c24ae72 - undefined :: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT  a.*, ba.companyID,ba.companyName,ba.context,ad.*
+        FROM account as' at line 1 >> Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT  a.*, ba.companyID,ba.companyName,ba.context,ad.*
+        FROM account as' at line 1
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:46:38)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:43:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+7aeed17d-52df-4642-abba-f5a16271897f - undefined :: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT  a.*, ba.companyID,ba.companyName,ba.context,ad.*
+        FROM account as' at line 1 >> Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT  a.*, ba.companyID,ba.companyName,ba.context,ad.*
+        FROM account as' at line 1
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:46:38)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:43:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+fab903b6-6c23-49ef-9b48-92ce8371513a - undefined :: Column 'accountID' in where clause is ambiguous >> Error: Column 'accountID' in where clause is ambiguous
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:46:38)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:43:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+c24309b9-d31a-403f-9469-1e5b9a7088f9 - undefined :: Column 'accountID' in where clause is ambiguous >> Error: Column 'accountID' in where clause is ambiguous
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:46:38)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:43:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+21c0c61b-ce76-4290-a902-79039dd4a8f0 - undefined :: Table 'bank_db.adress' doesn't exist >> Error: Table 'bank_db.adress' doesn't exist
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:46:38)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:43:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+10f17562-b363-4957-b42f-293481be1236 - undefined :: Table 'bank_db.status' doesn't exist >> Error: Table 'bank_db.status' doesn't exist
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:46:38)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:43:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+f36dab5e-6539-49e0-b94e-4e8739d8f8b6 - undefined :: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[except addressID],a.balance,s.statusName as status,c.currencyCode
+        FROM ' at line 1 >> Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[except addressID],a.balance,s.statusName as status,c.currencyCode
+        FROM ' at line 1
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:42:40)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:39:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+9c10ac69-3388-4854-b399-c6129412acef - undefined :: Unknown table 'ad' >> Error: Unknown table 'ad'
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:42:46)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:39:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+a3bfd21f-5c86-4556-b96a-769208ed1ac0 - undefined :: Unknown table 'ad' >> Error: Unknown table 'ad'
+    at PromiseConnection.query (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/mysql2/promise.js:93:22)
+    at BussinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:42:46)
+    at BussinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:39:27)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
+    at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13

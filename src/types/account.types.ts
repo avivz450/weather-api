@@ -18,7 +18,7 @@ export interface IIndividualAccount extends IAccount {
     address?: IAddress;
 }
 
-export interface IBusinessAccount extends Account {
+export interface IBusinessAccount extends IAccount {
     account_id: number;
     company_id: string;
     company_name: string;
