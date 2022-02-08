@@ -33,7 +33,7 @@ export const errorLogger = (filepath: string): ErrorMiddleware => {
         const { requestId } = req;
         const { message, status, stack } = err;
         writeStream.write(
-            `${requestId} - ${status} :: ${message} >> ${stack}\n`
+            `${requestId} - ${status} :: ${message} >> ${stack as string}\n`
         );
 
         next(err);

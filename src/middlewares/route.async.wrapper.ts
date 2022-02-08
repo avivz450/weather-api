@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-export default (asyncCb: RequestHandler): RequestHandler =>
+export default (asyncCb: Function): RequestHandler =>
     async (req, res, next) => {
         try {
             await asyncCb(req, res, next);

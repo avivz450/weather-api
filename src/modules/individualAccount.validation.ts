@@ -1,10 +1,12 @@
 import InvalidArgumentsError from "../exceptions/InvalidArguments.exception.js";
-import AccountValidator from "./account.validation.js"
+import individualAccountService from "../services/individualAccount.service.js";
+import { IGeneralObj } from "../types/general.types.js";
+import AccountValidator from "./account.validation.js";
 
 class IndividualAccountValidator {
     private readonly individual_id_length = 7;
 
-    static checkIndividualMandatoryFieldsExist = (payload: any) => {
+    static checkIndividualMandatoryFieldsExist = (payload: IGeneralObj): void => {
         AccountValidator.validateAccountMandatoryFields(payload);
 
         if (payload.individual_id === undefined) {
@@ -35,14 +37,16 @@ class IndividualAccountValidator {
         }
     }
 
-    async validateIndividualAccountCreation(payload: any) {
+    async validateIndividualAccountCreation(payload: IGeneralObj) {
         IndividualAccountValidator.checkIndividualMandatoryFieldsExist(payload);
         AccountValidator.checkIfPrimaryIdProvided(payload);
         AccountValidator.checkIdIsValid(
             payload.individual_id,
             this.individual_id_length
         );
-        await IndividualAccountValidator.checkIndividualIdInDb(payload.individual_id);
+        await IndividualAccountValidator.checkIndividualIdInDb(
+            payload.individual_id
+        );
     }
 }
 

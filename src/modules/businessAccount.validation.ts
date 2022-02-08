@@ -1,10 +1,11 @@
 import InvalidArgumentsError from "../exceptions/InvalidArguments.exception.js";
+import { IGeneralObj } from "../types/general.types.js";
 import AccountValidator from "./account.validation.js";
 
 class BusinessAccountValidator {
     private readonly company_id_length = 8;
 
-    static checkBusinessMandatoryFieldsExist(payload: any) {
+    static checkBusinessMandatoryFieldsExist(payload: IGeneralObj) {
         AccountValidator.validateAccountMandatoryFields(payload);
 
         if (payload.company_id === undefined) {
@@ -17,7 +18,7 @@ class BusinessAccountValidator {
         }
     }
 
-    async validateBusinessAccountCreation(payload: any) {
+    validateBusinessAccountCreation(payload: IGeneralObj) {
         BusinessAccountValidator.checkBusinessMandatoryFieldsExist(payload);
         AccountValidator.checkIfPrimaryIdProvided(payload);
         AccountValidator.checkIdIsValid(
