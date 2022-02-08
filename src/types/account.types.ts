@@ -1,8 +1,8 @@
 export interface IAccount {
-    account_id: number;
-    currency: string;
-    balance?: number;
-    status?: AccountStatuses;
+  account_id: number;
+  currency: string;
+  balance?: number;
+  status?: AccountStatuses;
 }
 
 export enum AccountStatuses {
@@ -27,7 +27,7 @@ export interface IBusinessAccount extends IAccount {
   address?: Partial<IAddress>;
 }
 
-type AccountDetails = [string, number];
+export type AccountDetails = [string, number];
 export interface IFamilyAccount extends IAccount {
   individualAccountsDetails: AccountDetails[];
 }

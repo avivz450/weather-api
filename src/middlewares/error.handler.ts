@@ -24,20 +24,18 @@ export const printError: ErrorMiddleware = (err, req, res, next) => {
 };
 
 export const errorLogger = (filepath: string): ErrorMiddleware => {
-    const writeStream = fs.createWriteStream(filepath, {
-        flags: "a",
-        encoding: "utf-8",
-    });
+  const writeStream = fs.createWriteStream(filepath, {
+    flags: 'a',
+    encoding: 'utf-8',
+  });
 
-    return (err, req, res, next) => {
-        const { requestId } = req;
-        const { message, status, stack } = err;
-        writeStream.write(
-            `${requestId} - ${status} :: ${message} >> ${stack as string}\n`
-        );
+  return (err, req, res, next) => {
+    const { requestId } = req;
+    const { message, status, stack } = err;
+    writeStream.write(`${requestId} - ${status} :: ${message} >> ${stack as string}\n`);
 
-        next(err);
-    };
+    next(err);
+  };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

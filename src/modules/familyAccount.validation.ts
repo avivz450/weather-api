@@ -1,14 +1,16 @@
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import AccountValidator from './account.validation.js';
+import { IGeneralObj } from '../types/general.types.js';
+import { AccountDetails } from '../types/account.types.js';
 
 class FamilyAccountValidator {
-  static checkFamilyMandatoryFieldsExist(payload: any) {
+  static checkFamilyMandatoryFieldsExist(payload:IGeneralObj) {
     AccountValidator.validateAccountMandatoryFields(payload);
 
     if (Array.isArray(payload.individualAccountsDetails) === false) {
       throw new InvalidArgumentsError('individualAccountsDetails is not an array');
     } else {
-      payload.individualAccountsDetails.forEach(accountDetails => {
+      (payload.individualAccountsDetails as unknown as AccountDetails[]).forEach(accountDetails => {
         if (typeof accountDetails[0] !== 'string') {
           throw new InvalidArgumentsError('individualAccountsDetails is not an array');
         }
@@ -19,7 +21,7 @@ class FamilyAccountValidator {
     }
   }
 
-  async validateFamilyAccountCreation(payload: any) {
+  validateFamilyAccountCreation(payload: IGeneralObj) {
     FamilyAccountValidator.checkFamilyMandatoryFieldsExist(payload);
     AccountValidator.checkIfPrimaryIdProvided(payload);
   }
