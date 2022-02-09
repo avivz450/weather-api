@@ -2,10 +2,8 @@ import { AccountTypes, IAccount, AccountStatuses } from '../types/account.types.
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 
 class AccountValidator {
-  isValidId(id: string, id_length: number): void {
-    if (!(id.length === id_length && /^\d+$/.test(id))) {
-      throw new InvalidArgumentsError(`id must be made of ${id_length} numbers`);
-    }
+  isValidId(id: string, id_length: number) {
+    return id.length === id_length && /^\d+$/.test(id);
   }
 
   isActive(accounts: IAccount[]) {
@@ -42,7 +40,9 @@ class AccountValidator {
       return true;
     });
     if (!isSameCurrency) {
-      throw new InvalidArgumentsError(`account with the id ${different_currency_account_id} has different currency`);
+      throw new InvalidArgumentsError(
+        `account with the id ${different_currency_account_id} has different currency`,
+      );
     }
     return true;
   }
@@ -52,11 +52,7 @@ class AccountValidator {
       return account !== null ? acc + 1 : acc;
     }, 0);
 
-    if (numberOfExistAccounts === amount) {
-      return true;
-    }
-
-    throw new InvalidArgumentsError(`expected ${amount} of accounts to be exist`);
+    return numberOfExistAccounts === amount;
   }
 }
 

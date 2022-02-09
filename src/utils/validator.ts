@@ -4,21 +4,11 @@ import { IGeneralObj } from '../types/general.types.js';
 
 class Validator {
   public checkRequiredFieldsExist(obj: IGeneralObj, mandatory_keys: string[]) {
-    return mandatory_keys.every(key => {
-      if (!(key in obj)) {
-        throw new InvalidArgumentsError(`${key} is not inserted`);
-      }
-      return true;
-    });
+    return mandatory_keys.every(key => (key in obj ? true : false));
   }
 
   public checkFieldsNotExist(obj: IGeneralObj, mandatory_keys: string[]) {
-    return mandatory_keys.every(key => {
-      if (key in obj) {
-        throw new InvalidArgumentsError(`${key} should not be inserted`);
-      }
-      return true;
-    });
+    return mandatory_keys.every(key => (key in obj ? false : true));
   }
 
   public isPositiveNumber(key: string, num: number) {
