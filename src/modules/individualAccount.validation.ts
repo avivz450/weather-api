@@ -29,7 +29,7 @@ export class IndividualAccountValidator {
       `id must be made of ${IndividualAccountValidator.individual_id_length} numbers`,
     ]);
 
-    const individualAccount = await individualAccountService.getIndividualAccountsByIndividualId([
+    const individualAccount = await individualAccountService.getIndividualAccountsByIndividualIds([
       payload.individual_id,
     ]);
 

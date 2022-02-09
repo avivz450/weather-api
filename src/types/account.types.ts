@@ -4,12 +4,10 @@ export interface IAccount {
   balance?: number;
   status?: AccountStatuses;
 }
-
 export enum AccountStatuses {
   notActive,
   active,
 }
-
 export interface IIndividualAccount extends IAccount {
   individual_id: string;
   first_name: string;
@@ -17,7 +15,6 @@ export interface IIndividualAccount extends IAccount {
   email?: string;
   address?: Partial<IAddress>;
 }
-
 export interface IBusinessAccount extends IAccount {
   company_id: string;
   company_name: string;
@@ -45,15 +42,14 @@ export interface IAddress {
   street_name: string;
   street_number: number;
 }
-
 export interface ITransferRequest {
-  source_account: number;
-  destination_account: number;
-  currency?: string;
-  amount: number;
+    source_account: string;
+    destination_account: string;
+    amount: number;
 }
-
 export interface ITransferResponse {
   source_account: Partial<IAccount>;
   destination_account: Partial<IAccount>;
 }
+
+   

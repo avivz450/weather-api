@@ -13,12 +13,12 @@ class IndividualAccountService {
         return individual_account;
     }
 
-    async getIndividualAccountByIndividualId(individual_ids: string[]): Promise<IIndividualAccount> {
-        const individual_account =await individualAccountRepository.getIndividualAccountsByIndividualIds(individual_ids);
+    async getIndividualAccountsByIndividualIds(individual_ids: string[]): Promise<IIndividualAccount[]> {
+        const individual_account = await individualAccountRepository.getIndividualAccountsByIndividualIds(individual_ids);
         return individual_account;
     }
     async getIndividualAccountsByAccountIds(account_ids : string[]) : Promise<IIndividualAccount[]>{
-        const individual_accounts =await individualAccountRepository.getIndividualsAccountsByAccountIds(account_ids);
+        const individual_accounts =await individualAccountRepository.getIndividualAccountsByAccountIds(account_ids);
         return individual_accounts;
     }
 
