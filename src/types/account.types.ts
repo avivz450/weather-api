@@ -1,5 +1,5 @@
 export interface IAccount {
-  account_id: number;
+  account_id: string;
   currency: string;
   balance?: number;
   status?: AccountStatuses;
@@ -11,8 +11,7 @@ export enum AccountStatuses {
 }
 
 export interface IIndividualAccount extends IAccount {
-  account_id: number;
-  individual_id: number;
+  individual_id: string;
   first_name: string;
   last_name: string;
   email?: string;
@@ -20,20 +19,24 @@ export interface IIndividualAccount extends IAccount {
 }
 
 export interface IBusinessAccount extends IAccount {
-  account_id: number;
   company_id: string;
   company_name: string;
   context?: string;
   address?: Partial<IAddress>;
 }
 
-export type AccountDetails = [string, number];
+export type IndividualTransferDetails = [string, number];
+
 export interface IFamilyAccount extends IAccount {
-  individualAccountsDetails: AccountDetails[];
+  context: string,
+  owners: string[] | IIndividualAccount[]
+}
+export interface IFamilyAccountCreationInput extends IFamilyAccount {
+  individual_accounts_details: IndividualTransferDetails[];
 }
 
 export interface IAddress {
-  address_id: number;
+  address_id: string;
   country_name: string;
   country_code: number;
   postal_code: number;

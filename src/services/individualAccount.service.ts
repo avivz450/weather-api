@@ -1,5 +1,6 @@
 import individualAccountRepository from '../repositories/individualAccount.repository.js';
-import { IIndividualAccount } from '../types/account.types.js';
+import { IIndividualAccount, AccountDetails } from '../types/account.types.js';
+import { IGeneralObj } from '../types/general.types.js';
 
 class IndividualAccountService {
   async createIndividualAccount(
@@ -26,6 +27,23 @@ class IndividualAccountService {
       individual_id,
     );
     return individual_account;
+  }
+
+  getIndividualAccountsRemainingBalance(individual_accounts: IIndividualAccount[], individual_accounts_details:AccountDetails[]){
+    const individual_accounts_remaining_balance: IGeneralObj = individual_accounts.reduce(
+      (obj, account) => {
+        obj[account.account_id] = account.balance;
+        return obj;
+      },
+      {} as IGeneralObj,
+    );
+
+    individual_accounts_details.forEach(account_details => {
+      individual_accounts_remaining_balance[account_details[0]] =
+        individual_accounts_remaining_balance[account_details[0]] - account_details[1];
+    });
+
+    return individual_accounts_remaining_balance;
   }
 
   // async transferToFamily(accountID: string): Promise<IIndividualAccount> {
