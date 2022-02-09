@@ -1,42 +1,22 @@
-import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import individualAccountService from '../services/individualAccount.service.js';
 import { IGeneralObj } from '../types/general.types.js';
-import AccountValidator from './account.validation.js';
+import validator from '../utils/validator.js';
+import accountValidator from '../utils/account.validator.js';
 
-class IndividualAccountValidator {
-  private readonly individual_id_length = 7;
+export class IndividualAccountValidator {
+  static readonly individual_id_length = 7;
 
-  static checkIndividualMandatoryFieldsExist = (payload: IGeneralObj): void => {
-    AccountValidator.validateAccountMandatoryFields(payload);
+  async creation(payload: IGeneralObj) {
+    const individualRequiredFields = ['individual_id', 'first_name', 'last_name', 'currency'];
 
-    if (payload.individual_id === undefined) {
-      throw new InvalidArgumentsError('individualId is undefined');
-    }
-    if (!/^[a-zA-Z]+$/.test(payload.first_name)) {
-      throw new InvalidArgumentsError('firstName supposed to consist only letters');
-    }
-    if (!/^[a-zA-Z]+$/.test(payload.last_name)) {
-      throw new InvalidArgumentsError('lastName supposed to consist only letters');
-    }
-  };
-
-  static async checkIndividualIdInDb(individual_id: string) {
-    const individualAccount = await individualAccountService.getIndividualAccountByIndividualId(
-      individual_id,
-    );
-
-    if (!individualAccount) {
-      throw new InvalidArgumentsError('individualId must be at most in one account');
-    }
-  }
-
-  async validateIndividualAccountCreation(payload: IGeneralObj) {
-    IndividualAccountValidator.checkIndividualMandatoryFieldsExist(payload);
-    AccountValidator.checkIfPrimaryIdProvided(payload);
-    AccountValidator.checkIdIsValid(payload.individual_id, this.individual_id_length);
-    await IndividualAccountValidator.checkIndividualIdInDb(payload.individual_id);
+    validator.checkRequiredFieldsExist(payload, individualRequiredFields);
+    validator.checkFieldsNotExist(payload, ['account_id']);
+    accountValidator.isValidId(payload.account_id, IndividualAccountValidator.individual_id_length);
+    const individualAccount = await individualAccountService.getIndividualAccountsByIndividualId([
+      payload.individual_id,
+    ]);
+    accountValidator.isExist(individualAccount, 0);
   }
 }
 
-const individualAccountValidator = new IndividualAccountValidator();
-export default individualAccountValidator;
+export const individualAccountValidator = new IndividualAccountValidator();
