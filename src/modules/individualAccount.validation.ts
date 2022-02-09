@@ -12,7 +12,7 @@ export class IndividualAccountValidator {
     validator.checkRequiredFieldsExist(payload, individualRequiredFields);
     validator.checkFieldsNotExist(payload, ['account_id']);
     accountValidator.isValidId(payload.account_id, IndividualAccountValidator.individual_id_length);
-    const individualAccount = await individualAccountService.getIndividualAccountsByIndividualId([
+    const individualAccount = await individualAccountService.getIndividualAccountsByIndividualIds([
       payload.individual_id,
     ]);
     accountValidator.isExist(individualAccount, 0);
