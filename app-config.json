@@ -3,6 +3,7 @@
     "HOST" : "localhost",
     "NODE_ENV": "development",
     "DB_NAME": "bank_db",
+    "SQL_HOST": "localhost",
     "SQL_PORT": "3306",
     "SQL_USER": "root",
     "SQL_PASSWORD": "qwerty",
