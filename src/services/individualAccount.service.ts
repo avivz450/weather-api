@@ -1,5 +1,7 @@
+import logicError from '../exceptions/logic.exception.js';
 import individualAccountRepository from '../repositories/individualAccount.repository.js';
-import { IIndividualAccount, IndividualTransferDetails, ITransferRequest\ } from '../types/account.types.js';
+import transferRepository from '../repositories/Transfer.Repository.js';
+import { IIndividualAccount, IndividualTransferDetails, ITransferRequest } from '../types/account.types.js';
 import { IGeneralObj } from '../types/general.types.js';
 
 class IndividualAccountService {
@@ -31,10 +33,11 @@ class IndividualAccountService {
     return individual_accounts;
   }
 
-  async transferIndividualToFamily(payload: ITransferRequest): Promise<IIndividualAccount> {
-    const playlists = await individualAccountRepository.transferBusinessToIndividual(payload);
-    return playlists;
-  }
+  // async transferIndividualToFamily(payload: ITransferRequest): Promise<IIndividualAccount> {
+  //   const transaction = await transferRepository.transfer(payload,1);
+  //   if(!transaction) throw new logicError("transfer faild");
+  //   return transaction;
+  // }
 
   getIndividualAccountsRemainingBalance(
     individual_accounts: IIndividualAccount[],

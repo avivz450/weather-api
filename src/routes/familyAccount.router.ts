@@ -1,5 +1,5 @@
 import express from 'express';
-import {FamiAccountController} from "../controllers/familyAccount.controller.js";
+import familyAccountController from "../controllers/familyAccount.controller.js";
 import raw from "../middlewares/route.async.wrapper.js";
 
 class FamilyAccountRouter {
@@ -8,27 +8,27 @@ class FamilyAccountRouter {
   constructor() {
       this.familyAccountRouter.post(
           "/",
-          raw(FamiAccountController.createFamilyAccount)
+          raw(familyAccountController.createFamilyAccount)
           );
       this.familyAccountRouter.get(
           ":account_id/:details_level",
-          raw(FamiAccountController.getFamilyAccount)
+          raw(familyAccountController.getFamilyAccount)
         );
       this.familyAccountRouter.post(
         "/add-accounts/:account_id/:details_level",
-        raw(FamiAccountController.addAccountsToFamilyAccount)
+        raw(familyAccountController.addAccountsToFamilyAccount)
       );
       this.familyAccountRouter.patch(
         "/remove-accounts/:account_id/:details_level",
-        raw(FamiAccountController.removeAccountsFromFamilyAccount)
+        raw(familyAccountController.removeAccountsFromFamilyAccount)
       );
       this.familyAccountRouter.patch(
         "/close/:account_id",
-        raw(FamiAccountController.closeFamilyAccount)
+        raw(familyAccountController.closeFamilyAccount)
       );
       this.familyAccountRouter.post(
         "/family/transfer/bussines",
-        raw(FamiAccountController.transferFamilyToBusiness)
+        raw(familyAccountController.transferFamilyToBusiness)
       );
       
   }

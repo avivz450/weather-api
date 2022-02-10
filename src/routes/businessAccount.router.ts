@@ -5,11 +5,6 @@ import raw from "../middlewares/route.async.wrapper.js";
 class BusinessAccountRouter {
     private readonly businessAccountRouter = express.Router();
 
-<<<<<<< HEAD
-  constructor() {
-    this.businessAccountRouter.post('/', );
-  }
-=======
     constructor() {
         this.businessAccountRouter.post(
             "/",
@@ -23,7 +18,6 @@ class BusinessAccountRouter {
             "/business/transfer/business",
             raw(BusinessController.transferBusinessToBusiness)
         );
->>>>>>> Updated services
 
         this.businessAccountRouter.post(
             "/business/transfer/individual",
