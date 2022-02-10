@@ -2,8 +2,8 @@ import { OkPacket, RowDataPacket } from "mysql2";
 import { sql_con } from "../db/sql/sql.connection.js";
 import { IFamilyAccount } from "../types/account.types.js";
 
-export class FamilyAccountRepository {
-    static async createBusinessAccount(
+class FamilyAccountRepository {
+    async createBusinessAccount(
         payload: Omit<IFamilyAccount, "accountID">
     ) {
         // // get currencyID with currency name
@@ -90,4 +90,5 @@ export class FamilyAccountRepository {
 }
 
 const familyAccountRepository = new FamilyAccountRepository();
+
 export default familyAccountRepository;
