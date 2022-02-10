@@ -37,5 +37,6 @@
         // }
     }
 
-    const bussinessAccountRepository = new BussinessAccountRepository();
-    export default bussinessAccountRepository;
+const familyAccountRepository = new FamilyAccountRepository();
+
+export default familyAccountRepository;

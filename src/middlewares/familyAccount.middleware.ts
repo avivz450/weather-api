@@ -6,8 +6,3 @@ export const verifyFamilyAccountCreation: RequestHandler = (req, res, next) => {
   familyAccountValidator.creation(req.body as IGeneralObj);
   next();
 };
-
-export const verifyGetFamilyAccount: RequestHandler = (req, res, next) => {
-  familyAccountValidator.get(req.params);
-  next();
-};
