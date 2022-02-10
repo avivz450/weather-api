@@ -25,8 +25,8 @@ export interface IBusinessAccount extends IAccount {
 export type IndividualTransferDetails = [string, number];
 
 export interface IFamilyAccount extends IAccount {
-  context: string,
-  owners: string[] | IIndividualAccount[]
+  context: string;
+  owners: string[] | IIndividualAccount[];
 }
 export interface IFamilyAccountCreationInput extends IFamilyAccount {
   individual_accounts_details: IndividualTransferDetails[];
@@ -43,13 +43,16 @@ export interface IAddress {
   street_number: number;
 }
 export interface ITransferRequest {
-    source_account: string;
-    destination_account: string;
-    amount: number;
+  source_account: string;
+  destination_account: string;
+  amount: number;
 }
 export interface ITransferResponse {
   source_account: Partial<IAccount>;
   destination_account: Partial<IAccount>;
 }
 
-   
+export enum DetailsLevel {
+  full = 'full',
+  short = 'short',
+}

@@ -1,18 +1,27 @@
-import { IAccount, AccountStatuses } from '../types/account.types.js';
+import {
+  IAccount,
+  AccountStatuses,
+  IIndividualAccount,
+  DetailsLevel,
+} from '../types/account.types.js';
 
 class AccountValidator {
+  isDetailsLevelValid = (details_level: string) => Object.values(DetailsLevel).includes(details_level);
+
+  isAllIdsValid = (idsArr: string[]) => idsArr.every(id => this.isValidId(id));
+
   isValidId = (id: string, id_length?: number) => {
-    if(id === undefined){
+    if (id === undefined) {
       return false;
     }
     return id_length ? id.length === id_length && /^\d+$/.test(id) : /^\d+$/.test(id);
-  }
+  };
 
-  isActive = (accounts: IAccount[]) =>
+  isAllAccountsActive = (accounts: IAccount[]) =>
     accounts.every(account => (account.status === AccountStatuses.active ? true : false));
 
   isAllWithSameCurrency = (currency: string, accounts: IAccount[]) =>
-    accounts.every(account => (account.currency === currency ? true : false));
+    accounts.every(account => account.currency === currency);
 
   isExist = (accounts: IAccount[], amount: number) => {
     const numberOfExistAccounts: number = accounts.reduce((acc, account) => {
