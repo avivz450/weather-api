@@ -35,12 +35,12 @@ export interface IFamilyAccountCreationInput extends IFamilyAccount {
 export interface IAddress {
   address_id: string;
   country_name: string;
-  country_code: number;
-  postal_code: number;
+  country_code: string;
+  postal_code: string;
   city: string;
   region: string;
   street_name: string;
-  street_number: number;
+  street_number: string;
 }
 export interface ITransferRequest {
     source_account: string;
@@ -53,3 +53,39 @@ export interface ITransferResponse {
 }
 
    
+export interface IIndividualAccountDB {
+  accountID: number,
+  currencyCode: string,
+  balance: number,
+  statusName: string,
+  individualID: number,
+  firstName: string,
+  lastName: number,
+  email: string,
+  addressID: number,
+  countryName: string,
+  countryCode: string,
+  postalCode: number,
+  city: string,
+  region: string,
+  streetName: string,
+  streetNumber: string
+}
+
+export interface IBusinessAccountDB {
+  accountID: number,
+  currencyCode: string,
+  balance: number,
+  statusName: string,
+  companyID: number;
+  companyName: string;
+  context?: string;
+  addressID: number,
+  countryName: string,
+  countryCode: string,
+  postalCode: number,
+  city: string,
+  region: string,
+  streetName: string,
+  streetNumber: string
+}
