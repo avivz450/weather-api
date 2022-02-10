@@ -1,3 +1,3 @@
-type ValidationTuple = [boolean, string];
+type ValidationDetails = [isValid: boolean, exception: Error];
 
-export default ValidationTuple;
+export default ValidationDetails;
