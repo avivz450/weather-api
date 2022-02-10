@@ -3,9 +3,16 @@ import {
   AccountStatuses,
   IIndividualAccount,
   DetailsLevel,
+  AccountTypes,
 } from '../types/account.types.js';
 
-class AccountValidator {
+class AccountValidationUtils {
+  isActionOppositeForAll = (accounts: IAccount[], action: string) =>
+    accounts.every(account => account.status !== action);
+
+  isSomeIsType = (accounts: IAccount[], accountType: AccountTypes) =>
+    accounts.every(account => account.type === accountType);
+
   isDetailsLevelValid = (details_level: string) => details_level in DetailsLevel;
 
   isAllIdsValid = (idsArr: string[]) => idsArr.every(id => this.isValidId(id));
@@ -32,6 +39,6 @@ class AccountValidator {
   };
 }
 
-const accountValidator = new AccountValidator();
+const accountValidationUtils = new AccountValidationUtils();
 
-export default accountValidator;
+export default accountValidationUtils;
