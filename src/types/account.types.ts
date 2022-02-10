@@ -5,7 +5,7 @@ export interface IAccount {
   status?: AccountStatuses;
 }
 export enum AccountStatuses {
-  notActive,
+  not_active,
   active,
 }
 export interface IIndividualAccount extends IAccount {
@@ -28,7 +28,7 @@ export interface IFamilyAccount extends IAccount {
   context: string,
   owners: string[] | IIndividualAccount[]
 }
-export interface IFamilyAccountCreationInput extends IFamilyAccount {
+export interface IFamilyAccountCreationInput extends Omi<IFamilyAccount, "owners"> {
   individual_accounts_details: IndividualTransferDetails[];
 }
 
