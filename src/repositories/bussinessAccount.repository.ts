@@ -3,8 +3,8 @@ import { sql_con } from '../db/sql/sql.connection.js';
 import { IBusinessAccount } from '../types/account.types.js';
 import { parseBusinessAccountQueryResult } from '../utils/db.parser.js';
 
-class BusinessAccountRepository {
-   async createBusinessAccount(payload: Omit<IBusinessAccount, 'accountID'>) {
+export class BussinessAccountRepository {
+  static async createBusinessAccount(payload: Omit<IBusinessAccount, 'account_id'>) {
     // get currencyID with currency name
     let query = 'SELECT currencyID FROM currency WHERE currencyCode = ?'
     const [currency_query_result] = (await sql_con.query(
@@ -84,5 +84,5 @@ class BusinessAccountRepository {
   }
 }
 
-const businessAccountRepository = new BusinessAccountRepository();
+const businessAccountRepository = new BussinessAccountRepository();
 export default businessAccountRepository;
