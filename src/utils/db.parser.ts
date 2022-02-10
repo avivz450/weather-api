@@ -1,4 +1,4 @@
-import { IAddress, IBusinessAccount, IBusinessAccountDB, IIndividualAccount, IIndividualAccountDB } from "../types/account.types";
+import { IAddress, IBusinessAccount, IBusinessAccountDB, IFamilyAccount, IIndividualAccount, IIndividualAccountDB } from "../types/account.types";
 import { IGeneralObj } from "../types/general.types";
 
 export function parseIndividualAccountQueryResult(query_result_obj: IIndividualAccountDB) {
@@ -81,4 +81,15 @@ export function parseBusinessAccountQueryResult(query_result_obj: IBusinessAccou
             street_number: streetNumber
         }
     } as unknown as IBusinessAccount
+}
+
+export function createAddressPayload(payload: Omit<IBusinessAccount, "account_id"> | Omit<IIndividualAccount, "account_id"> ) {
+    return {
+        countryCode: payload.address?.country_code || null,
+        postalCode: payload.address?.postal_code || null,
+        city: payload.address?.city || null,
+        region: payload.address?.region || null,
+        streetName: payload.address?.street_name || null,
+        streetNumber: payload.address?.street_number || null,
+      };
 }
