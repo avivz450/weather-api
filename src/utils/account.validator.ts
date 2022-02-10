@@ -1,63 +1,26 @@
-import { AccountTypes, IAccount, AccountStatuses } from '../types/account.types.js';
-import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
+import { IAccount, AccountStatuses } from '../types/account.types.js';
 
 class AccountValidator {
-  isValidId(id: string, id_length: number): void {
-    if (!(id.length === id_length && /^\d+$/.test(id))) {
-      throw new InvalidArgumentsError(`id must be made of ${id_length} numbers`);
+  isValidId = (id: string, id_length?: number) => {
+    if(id === undefined){
+      return false;
     }
+    return id_length ? id.length === id_length && /^\d+$/.test(id) : /^\d+$/.test(id);
   }
 
-  isActive(accounts: IAccount[]) {
-    let not_active_account_id: string = '';
-    const isAllActive = accounts.every(account => {
-      if (account.status !== AccountStatuses.active) {
-        not_active_account_id = account.account_id;
-        return false;
-      }
-      return true;
-    });
+  isActive = (accounts: IAccount[]) =>
+    accounts.every(account => (account.status === AccountStatuses.active ? true : false));
 
-    if (!isAllActive) {
-      throw new InvalidArgumentsError(`account with the id ${not_active_account_id} is not active`);
-    }
-    return true;
-  }
+  isAllWithSameCurrency = (currency: string, accounts: IAccount[]) =>
+    accounts.every(account => (account.currency === currency ? true : false));
 
-  //   isTypeOf(types: AccountTypes[], accounts: IAccount[]) {
-  //     const result = accounts.every(account => types.some(type => type === account.type));
-  //     if (result) {
-  //       return true;
-  //     }
-  //     throw new InvalidArgumentsError(`is not type of ${types[0]}`);
-  //   }
-
-  isAllWithSameCurrency(currency: string, accounts: IAccount[]) {
-    let different_currency_account_id: string = '';
-    const isSameCurrency = accounts.every(account => {
-      if (account.currency !== currency) {
-        different_currency_account_id = account.account_id;
-        return false;
-      }
-      return true;
-    });
-    if (!isSameCurrency) {
-      throw new InvalidArgumentsError(`account with the id ${different_currency_account_id} has different currency`);
-    }
-    return true;
-  }
-
-  isExist(accounts: IAccount[], amount: number) {
+  isExist = (accounts: IAccount[], amount: number) => {
     const numberOfExistAccounts: number = accounts.reduce((acc, account) => {
       return account !== null ? acc + 1 : acc;
     }, 0);
 
-    if (numberOfExistAccounts === amount) {
-      return true;
-    }
-
-    throw new InvalidArgumentsError(`expected ${amount} of accounts to be exist`);
-  }
+    return numberOfExistAccounts === amount;
+  };
 }
 
 const accountValidator = new AccountValidator();
