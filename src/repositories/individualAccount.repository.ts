@@ -1,32 +1,30 @@
 import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
-import { IIndividualAccount } from '../types/account.types';
+import { IIndividualAccount, IIndividualAccountDB } from '../types/account.types';
 import { IGeneralObj } from '../types/general.types.js';
+import { parseIndividualAccountQueryResult } from '../utils/db.parser.js';
 
 
 class IndividualAccountRepository {
   async createIndividualAccount(payload: Partial<IIndividualAccount>) {
+    let query = 'SELECT currencyID FROM currency WHERE currencyCode = ?';
     //get currencyID with currency code
-    const [currency_query] = (await sql_con.query(
-      'SELECT currencyID FROM currency WHERE currencyCode = ?',
-      [payload.currency],
-    )) as unknown as RowDataPacket[];
+    const [currency_query_result] = (await sql_con.query(query,[payload.currency])) as unknown as RowDataPacket[];
 
     // get statusID from statuses
-    const [status_query] = (await sql_con.query(
-      'SELECT statusID FROM statusAccount WHERE statusName = ?',
-      ['active'],
-    )) as unknown as RowDataPacket[];
+    query = 'SELECT statusID FROM statusAccount WHERE statusName = ?'; 
+    const [status_query_result] = (await sql_con.query(query, ['active'])) as unknown as RowDataPacket[];
 
     //create row in account table
     const account_payload = {
-      currencyID: (currency_query[0] as IGeneralObj).currencyID,
+      currencyID: (currency_query_result[0] as IGeneralObj).currencyID,
       balance: payload.balance || 0,
-      statusID: (status_query[0] as IGeneralObj).statusID,
+      statusID: (status_query_result[0] as IGeneralObj).statusID,
     };
 
-    const [account_insertion] = (await sql_con.query(
-      'INSERT INTO account SET ?',
+    let insert_query = 'INSERT INTO account SET ?';
+    const [account_insertion_result] = (await sql_con.query(
+      insert_query,
       account_payload,
     )) as unknown as OkPacket[];
 
@@ -40,14 +38,15 @@ class IndividualAccountRepository {
       streetNumber: payload.address?.street_number || null,
     };
 
+    insert_query = 'INSERT INTO address SET ?';
     const [address_insertion] = (await sql_con.query(
-      'INSERT INTO address SET ?',
+      insert_query,
       address_payload,
     )) as unknown as OkPacket[];
 
     //create row in individualAccount table
     const individual_payload = {
-      accountID: account_insertion.insertId,
+      accountID: account_insertion_result.insertId,
       individualID: payload.individual_id,
       firstName: payload.first_name,
       lastName: payload.last_name,
@@ -55,94 +54,68 @@ class IndividualAccountRepository {
       addressID: address_insertion.insertId,
     };
 
-        await sql_con.query(
-            "INSERT INTO individualAccount SET ?",
-            individual_payload
-        );
-        
-        
-        return this.getIndividualAccountByAccountId(account_insertion.insertId.toString());
+    insert_query = "INSERT INTO individualAccount SET ?";
+    await sql_con.query(
+      insert_query,
+        individual_payload
+    );
+      return account_insertion_result.insertId.toString();
     }
 
     async getIndividualAccountByAccountId(account_id: string) {
-        const [account_model] = (await sql_con.query(
-            `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email
-            FROM account as a 
-            join individualAccount as ia on a.accountID= ia.accountID 
-            join statusAccount as s on s.statusID=a.statusID
-            join currency as c on c.currencyID=a.currencyID
-            WHERE a.accountID = ?`,
-            account_id
+      let  query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName ,ad.*
+                    FROM account AS a 
+                    JOIN individualAccount AS ia ON a.accountID= ia.accountID 
+                    JOIN statusAccount AS s ON s.statusID=a.statusID
+                    JOIN currency AS c ON c.currencyID=a.currencyID
+                    JOIN address AS ad ON ad.addressID=ia.addressID
+                    JOIN country as co ON co.countryCode=ad.countryCode
+                    WHERE a.accountID = ?`
+        const [account_query_result] = (await sql_con.query(
+            query,
+            [account_id]
         )) as unknown as RowDataPacket[];
 
-        const [address_model] = (await sql_con.query(
-            `SELECT ad.*
-            FROM account as a 
-            join individualAccount as ia 
-            join address as ad 
-            on a.accountID=ia.accountID and ad.addressID=ia.addressID
-            WHERE a.accountID = ?`,
-            account_id
-        )) as unknown as RowDataPacket[];
-
-        const resultModel = { ...account_model[0], address: address_model[0] };
-        return resultModel as IIndividualAccount;
+        return parseIndividualAccountQueryResult(account_query_result[0]);
     }
 
     async getIndividualAccountsByAccountIds(account_ids: string[]) {
-        const individuals_accounts: IIndividualAccount[] = [];
-        account_ids.forEach(async account_id => {
-            const [account_model] = (await sql_con.query(
-                `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email
-                FROM account AS a 
-                JOIN individualAccount AS ia ON a.accountID= ia.accountID 
-                JOIN statusAccount AS s ON s.statusID=a.statusID
-                JOIN currency AS c ON c.currencyID=a.currencyID
-                WHERE ia.individualID = ?`,
-                account_id
-            )) as unknown as RowDataPacket[];
-    
-            const [address_model] = (await sql_con.query(
-                `SELECT ad.*
-                FROM account AS a 
-                JOIN individualAccount as ia 
-                JOIN address AS ad 
-                ON a.accountID=ia.accountID AND ad.addressID=ia.addressID
-                WHERE a.accountID = ?`,
-                account_model[0].accountID
-            )) as unknown as RowDataPacket[];
-    
-            individuals_accounts.push({ ...account_model[0], address: address_model[0] });
-        })
-        return individuals_accounts;
+      const query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName ,ad.*
+                      FROM account AS a 
+                      JOIN individualAccount AS ia ON a.accountID= ia.accountID 
+                      JOIN statusAccount AS s ON s.statusID=a.statusID
+                      JOIN currency AS c ON c.currencyID=a.currencyID
+                      JOIN address AS ad ON ad.addressID=ia.addressID
+                      JOIN country as co ON co.countryCode=ad.countryCode
+                      WHERE a.accountID IN (${'?,'.repeat(account_ids.length).slice(0,-1)})`
+      
+      const [individual_accounts_result_query] = (await sql_con.query(query, [...account_ids])) as unknown as RowDataPacket[];
+      const IndividualAccounts: IIndividualAccount[] = [];
+      (individual_accounts_result_query as IIndividualAccountDB[]).forEach(individualAccount => {
+        IndividualAccounts.push(parseIndividualAccountQueryResult(individualAccount))
+      })
+      return IndividualAccounts;
     }
 
     async getIndividualAccountsByIndividualIds(individual_ids: string[]) {
-        const individuals_accounts: IIndividualAccount[] = [];
-        individual_ids.forEach(async individual_id => {
-            const [account_model] = (await sql_con.query(
-                `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email
-                FROM account AS a 
-                JOIN individualAccount AS ia ON a.accountID= ia.accountID 
-                JOIN statusAccount AS s ON s.statusID=a.statusID
-                JOIN currency AS c ON c.currencyID=a.currencyID
-                WHERE ia.individualID = ?`,
-                individual_id
-            )) as unknown as RowDataPacket[];
-    
-            const [address_model] = (await sql_con.query(
-                `SELECT ad.*
-                FROM account AS a 
-                JOIN individualAccount as ia 
-                JOIN address AS ad 
-                ON a.accountID=ia.accountID AND ad.addressID=ia.addressID
-                WHERE a.accountID = ?`,
-                account_model[0].accountID
-            )) as unknown as RowDataPacket[];
-    
-            individuals_accounts.push({ ...account_model[0], address: address_model[0] });
-        })
-        return individuals_accounts;
+      const query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName, ad.*
+                    FROM account AS a 
+                    JOIN individualAccount AS ia ON a.accountID= ia.accountID 
+                    JOIN statusAccount AS s ON s.statusID=a.statusID
+                    JOIN currency AS c ON c.currencyID=a.currencyID
+                    JOIN address AS ad ON ad.addressID=ia.addressID
+                    JOIN country as co ON co.countryCode=ad.countryCode
+                    WHERE ia.individualID IN (${'?,'.repeat(individual_ids.length).slice(0,-1)})`
+
+      const [individual_accounts_result_query] = (await sql_con.query(query, [...individual_ids])) as unknown as RowDataPacket[];
+      
+      const IndividualAccounts: IIndividualAccount[] = [];
+      
+      (individual_accounts_result_query as IIndividualAccountDB[]).forEach(individualAccount => {
+        IndividualAccounts.push(parseIndividualAccountQueryResult(individualAccount))
+      })
+      
+      return IndividualAccounts;
     }
 }
 

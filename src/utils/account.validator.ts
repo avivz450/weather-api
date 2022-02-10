@@ -1,4 +1,5 @@
 import { IAccount, AccountStatuses } from '../types/account.types.js';
+import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 
 class AccountValidator {
   isValidId = (id: string, id_length?: number) => {

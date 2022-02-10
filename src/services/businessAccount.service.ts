@@ -1,16 +1,16 @@
 import { IBusinessAccount,ITransferRequest,ITransferResponse} from "../types/account.types.js";
-import { BussinessAccountRepository } from "../repositories/bussinessAccount.repository.js";
-import  transferError  from "../exceptions/transfer.exeception.js"
+import businessAccountRepository from "../repositories/bussinessAccount.repository.js";
+import  transferError  from "../exceptions/transfer.exeception.js";
 export class BusinessAccountService {
     static async createBusinessAccount(
         payload: Omit<IBusinessAccount, "accountID">
     ):Promise<IBusinessAccount>{
-        const businessAccount = await BussinessAccountRepository.createBusinessAccount(payload);
+        const businessAccount = await businessAccountRepository.createBusinessAccount(payload);
         return businessAccount;
     }
 
     static async getBusinessAccount(account_id: string): Promise<IBusinessAccount> {
-            const businessAccount:IBusinessAccount= await BussinessAccountRepository.getBusinessAccountByAccountId(account_id);
+            const businessAccount:IBusinessAccount= await businessAccountRepository.getBusinessAccountByAccountID(account_id);
             return businessAccount;
         }
 

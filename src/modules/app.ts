@@ -2,12 +2,7 @@ import path from "path";
 import express, { Application } from "express";
 import cors from "cors";
 import log from "@ajar/marker";
-import {
-    errorLogger,
-    errorResponse,
-    printError,
-    urlNotFound,
-} from "../middlewares/error.handler.js";
+import { errorLogger, errorResponse, printError, urlNotFound } from "../middlewares/error.handler.js";
 import logger from "../middlewares/logger.middleware.js";
 import attachRequestId from "../middlewares/attachRequestId.middleware.js";
 import accountRouter from "../routes/account.router.js";
@@ -16,7 +11,7 @@ import businessAccountRouter from "../routes/businessAccount.router.js";
 import familyAccountRouter from "../routes/familyAccount.router.js";
 import fs from 'fs';
 
-const { PORT, HOST } = process.env;
+const { PORT=8080, HOST='localhost' } = process.env;
 
 class App {
   private readonly app: Application;
@@ -64,7 +59,7 @@ class App {
         this.app.listen(Number(PORT), HOST as string, () => {
             log.magenta(
                 "api is live on",
-                ` ✨ ⚡  http://${HOST}:${PORT} ✨ ⚡`
+                ` ✨⚡  http://${HOST}:${PORT} ✨⚡`
             );
         });
     }

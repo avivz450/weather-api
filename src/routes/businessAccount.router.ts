@@ -6,7 +6,7 @@ class BusinessAccountRouter {
   private readonly businessAccountRouter = express.Router();
 
   constructor() {
-    this.businessAccountRouter.post('/', raw(BusinessController.createAccount));
+    this.businessAccountRouter.post('/', );
   }
 
   get router() {

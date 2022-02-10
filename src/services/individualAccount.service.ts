@@ -1,9 +1,9 @@
 import individualAccountRepository from '../repositories/individualAccount.repository.js';
-import { IIndividualAccount } from '../types/account.types.js';
+import { IIndividualAccount } from '../types/account.types.js';``
 import { IGeneralObj } from '../types/general.types.js';
 
 class IndividualAccountService {
-  async createIndividualAccount(payload: Omit<IIndividualAccount, "accountID">): Promise<IIndividualAccount> {
+  async createIndividualAccount(payload: Omit<IIndividualAccount, "account_id">): Promise<IIndividualAccount> {
         const individual_account =await individualAccountRepository.createIndividualAccount(payload);
         return individual_account;
     }
@@ -18,7 +18,7 @@ class IndividualAccountService {
         return individual_account;
     }
     async getIndividualAccountsByAccountIds(account_ids : string[]) : Promise<IIndividualAccount[]>{
-        const individual_accounts =await individualAccountRepository.getIndividualAccountsByAccountIds(account_ids);
+        const individual_accounts = await individualAccountRepository.getIndividualAccountsByAccountIds(account_ids);
         return individual_accounts;
     }
 
