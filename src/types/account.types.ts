@@ -31,7 +31,6 @@ export interface IFamilyAccount extends IAccount {
 export interface IFamilyAccountCreationInput extends Omit<IFamilyAccount, 'owners'> {
   individual_accounts_details: IndividualTransferDetails[];
 }
-
 export interface IAddress {
   address_id: string;
   country_name: string;
