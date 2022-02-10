@@ -1,35 +1,39 @@
 import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
 import { IBusinessAccount } from '../types/account.types.js';
+import { parseBusinessAccountQueryResult } from '../utils/db.parser.js';
 
 export class BussinessAccountRepository {
-  static async createBusinessAccount(payload: Omit<IBusinessAccount, 'accountID'>) {
+  static async createBusinessAccount(payload: Omit<IBusinessAccount, 'account_id'>) {
     // get currencyID with currency name
-    const [currencyQuery] = (await sql_con.query(
-      'SELECT currencyID FROM currency WHERE currencyCode = ?',
+    let query = 'SELECT currencyID FROM currency WHERE currencyCode = ?'
+    const [currency_query_result] = (await sql_con.query(
+      query,
       [payload.currency],
     )) as unknown as RowDataPacket[];
 
     // get statusID from statuses
-    const [statusQuery] = (await sql_con.query(
-      'SELECT statusID FROM statusAccount WHERE statusName = ?',
+    query = 'SELECT statusID FROM statusAccount WHERE statusName = ?';
+    const [status_query_result] = (await sql_con.query(
+      query,
       ['active'],
     )) as unknown as RowDataPacket[];
 
     // create row in account table
-    const accountPayload = {
-      currencyID: currencyQuery[0].currencyID,
+    const account_payload = {
+      currencyID: currency_query_result[0].currencyID,
       balance: payload.balance || 0,
-      statusID: statusQuery[0].statusID,
+      statusID: status_query_result[0].statusID,
     };
 
-    const [accountInsertion] = (await sql_con.query(
-      'INSERT INTO account SET ?',
-      accountPayload,
+    let insert_query = 'INSERT INTO account SET ?';
+    const [account_insertion] = (await sql_con.query(
+      insert_query,
+      account_payload,
     )) as unknown as [OkPacket];
 
     // create row in address table
-    const addressPayload = {
+    const address_payload = {
       countryCode: payload.address?.country_code || null,
       postalCode: payload.address?.postal_code || null,
       city: payload.address?.city || null,
@@ -38,53 +42,47 @@ export class BussinessAccountRepository {
       streetNumber: payload.address?.street_number || null,
     };
 
-    const [addressInsertion] = (await sql_con.query(
-      'INSERT INTO address SET ?',
-      addressPayload,
+    insert_query = 'INSERT INTO address SET ?';
+    const [address_insertion] = (await sql_con.query(
+      insert_query,
+      address_payload,
     )) as unknown as OkPacket[];
 
     // create row in bussinessAccount table
-    const bussinessPayload = {
-      accountID: accountInsertion.insertId,
+    const business_payload = {
+      accountID: account_insertion.insertId,
       companyID: payload.company_id,
       companyName: payload.company_name,
       context: payload.context || null,
-      addressID: addressInsertion.insertId,
+      addressID: address_insertion.insertId,
     };
 
-    const [bussinessInsertion] = (await sql_con.query(
+    const [bussiness_insertion] = (await sql_con.query(
       'INSERT INTO businessAccount SET ?',
-      bussinessPayload,
+      business_payload,
     )) as unknown as OkPacket[];
 
-    const businessAccount = await BussinessAccountRepository.getBusinessAccountByAccountID(
-      bussinessInsertion.insertId.toString(),
-    );
-    return businessAccount as IBusinessAccount;
+    return bussiness_insertion.insertId.toString();
   }
 
-  static async getBusinessAccountByAccountID(account_id: string) {
-    const [accountModel] = (await sql_con.query(
-      `SELECT a.accountID, ba.companyID,ba.companyName,ba.context ,a.balance,s.statusName as status,c.currencyCode
-        FROM account as a join businessAccount as ba on a.accountID= ba.accountID 
-        join statusAccount as s on s.statusID=a.statusID
-        join currency as c on c.currencyID=a.currencyID
-        WHERE a.accountID = ?`,
-      account_id,
+  async getBusinessAccountByAccountID(account_id: string) {
+    let query = `SELECT a.accountID, ba.companyID,ba.companyName,ba.context ,a.balance,s.statusName as status,c.currencyCode, co.countryName, ad.*
+                FROM account AS a 
+                JOIN businessAccount AS ba 
+                JOIN statusAccount AS s 
+                JOIN currency AS c 
+                JOIN address AS ad
+                JOIN country AS co
+                ON c.currencyID=a.currencyID AND s.statusID=a.statusID AND a.accountID= ba.accountID AND ad.addressID=ba.addressID AND co.countryCode=ad.countryCode
+                WHERE a.accountID = ?`
+    const [account_query_result] = (await sql_con.query(
+      query,
+      [account_id]
     )) as unknown as RowDataPacket[];
-
-    const [addressModel] = (await sql_con.query(
-      `SELECT ad.*
-        FROM account as a join businessAccount as ba on a.accountID= ba.accountID 
-        join address as ad on ad.addressID= ba.addressID
-        WHERE a.accountID = ?`,
-      account_id,
-    )) as unknown as RowDataPacket[];
-
-    const resultModel = { ...accountModel[0], address: addressModel[0] };
-    return resultModel as IBusinessAccount;
+    
+    return parseBusinessAccountQueryResult(account_query_result[0]);
   }
 }
 
-const bussinessAccountRepository = new BussinessAccountRepository();
-export default bussinessAccountRepository;
+const businessAccountRepository = new BussinessAccountRepository();
+export default businessAccountRepository;

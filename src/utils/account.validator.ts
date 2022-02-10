@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 import {
   IAccount,
   AccountStatuses,
   IIndividualAccount,
   DetailsLevel,
 } from '../types/account.types.js';
+=======
+import { IAccount, AccountStatuses } from '../types/account.types.js';
+import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
+>>>>>>> 9c54de82be684c759c1ddd983a858aec7e500a7a
 
 class AccountValidator {
   isDetailsLevelValid = (details_level: string) => Object.values(DetailsLevel).includes(details_level);

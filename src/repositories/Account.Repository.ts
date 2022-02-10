@@ -5,8 +5,9 @@ import bussinessAccountRepository from "./bussinessAccount.repository.js";
 
 export class AccountRepository {
     async getAccountByAccountId(account_id: string) {
+        const query = "SELECT * FROM account WHERE accountID = ?"
         const [account_query] = (await sql_con.query(
-            "SELECT * FROM account WHERE accountID = ?",
+            query,
             [account_id]
         )) as unknown as RowDataPacket[];
 
