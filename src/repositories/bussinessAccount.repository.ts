@@ -7,7 +7,7 @@ import { createAddressPayload } from '../utils/db.parser.js';
 import DatabaseException from '../exceptions/db.exception.js';
 class BusinessAccountRepository {
    
-  async createBusinessAccount(payload: Omit<IBusinessAccount, 'accountID'>) {
+  async createBusinessAccount(payload: Omit<IBusinessAccount, 'account_id'>) {
     try {
       const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
     

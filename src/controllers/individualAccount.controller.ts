@@ -17,7 +17,6 @@ export class IndividualController {
     static getIndividualAccount: RequestHandler = async (req, res) => {
       const { account_id } = req.params;
       const business_account = await IndividualAccountService.getIndividualAccountByAccountId(account_id);
-    //   if (!businessAccount) throw new UrlNotFoundException(req.originalUrl);
       const response: ResponseMessage = {
       status: 200,
       message: 'success',
@@ -26,6 +25,15 @@ export class IndividualController {
     res.status(response.status).json(response);
     };
 
-}`
+    static transferIndividualToFamily: RequestHandler = async (req, res) => {
+      const transaction = await IndividualAccountService.transferIndividualToFamily(req.body as ITransferRequest);
+      const response: ResponseMessage = {
+      status: 200,
+      message: 'success',
+      data: { transaction }
+    };
+    res.status(response.status).json(transaction);
+    };
+ }
 const businessController = new IndividualController();
 export default businessController;

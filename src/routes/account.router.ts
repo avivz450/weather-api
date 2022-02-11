@@ -4,12 +4,12 @@ import accountController from "../controllers/account.controller.js"
 class AccountRouter {
   private readonly accountRouter = express.Router();
 
-     constructor() {
-      this.accountRouter.patch(
-        "/status/:action",
-        raw(accountController.activeOrDiactiveAccounts)
-      );
-     }
+    //  constructor() {
+    //   this.accountRouter.patch(
+    //     "/status/:action",
+    //     raw(accountController.activeOrDiactiveAccounts)
+    //   );
+    //  }
 
      get router() {
     return this.accountRouter;

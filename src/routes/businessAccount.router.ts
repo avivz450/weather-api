@@ -1,5 +1,6 @@
 import express from "express";
 import { BusinessController } from "../controllers/businessAccount.controller.js";
+import { verifyBusinessAccountCreation, verifyGetBusinessAccount } from "../middlewares/businessAccount.middleware.js";
 import raw from "../middlewares/route.async.wrapper.js";
 
 class BusinessAccountRouter {
@@ -8,10 +9,12 @@ class BusinessAccountRouter {
     constructor() {
         this.businessAccountRouter.post(
             "/",
+            // raw(verifyBusinessAccountCreation),
             raw(BusinessController.createBusinessAccount)
         );
         this.businessAccountRouter.get(
             "/:account_id",
+            // raw(verifyGetBusinessAccount),
             raw(BusinessController.getBusinessAccount)
         );
         this.businessAccountRouter.post(

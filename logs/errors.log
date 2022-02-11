@@ -300,3 +300,106 @@ a3bfd21f-5c86-4556-b96a-769208ed1ac0 - undefined :: Unknown table 'ad' >> Error:
     at async BusinessAccountService.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:4:33)
     at async BusinessController.createAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:8:27)
     at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+3dda6fa6-80e1-402a-98b7-0e24d90a486e - 500 :: Database Error: Failed to create business account >> Error: Database Error: Failed to create business account
+    at BusinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:25:19)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async Function.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:7:28)
+    at async BusinessController.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:5:30)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+a29ecf1a-d06c-4759-bc86-3ffb91fe6f13 - 500 :: Database Error: Failed to create business account >> Error: Database Error: Failed to create business account
+    at BusinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:25:19)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async Function.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:7:28)
+    at async BusinessController.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:5:30)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+c8e96bb6-98ab-4913-8b33-1a416f8b13f1 - 404 :: Invalid arguments : account_id should not be inserted >> Error: Invalid arguments : account_id should not be inserted
+    at BusinessAccountValidator.creation (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/modules/businessAccount.validation.js:22:13)
+    at verifyBusinessAccountCreation (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/businessAccount.middleware.js:3:30)
+    at file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:19
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:281:22
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+0ab1e4f2-ff27-44eb-827a-08ff7586cad2 - 404 :: Invalid arguments : id must be made of 7 numbers >> Error: Invalid arguments : id must be made of 7 numbers
+    at BusinessAccountValidator.creation (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/modules/businessAccount.validation.js:26:13)
+    at verifyBusinessAccountCreation (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/businessAccount.middleware.js:3:30)
+    at file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:19
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:281:22
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+165a2abf-4225-4f3e-b806-e01eaa3d297e - 404 :: Invalid arguments : id must be made of 7 numbers >> Error: Invalid arguments : id must be made of 7 numbers
+    at BusinessAccountValidator.creation (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/modules/businessAccount.validation.js:26:13)
+    at verifyBusinessAccountCreation (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/businessAccount.middleware.js:3:30)
+    at file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:19
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:281:22
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+c55bc76b-358e-4aca-9956-ef6d8b15a529 - 404 :: Url with path /api/account/bussines/1234 not found >> Error: Url with path /api/account/bussines/1234 not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+4fcea2c3-3b6a-4f2d-aa46-a7c9d57da7e5 - 404 :: Url with path /api/account/bussiness/1234 not found >> Error: Url with path /api/account/bussiness/1234 not found
+    at urlNotFound (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/error.handler.js:6:10)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:323:13)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:284:7
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at Immediate.next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+    at Immediate._onImmediate (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:641:15)
+    at processImmediate (node:internal/timers:465:21)
+5fabdd49-b0bb-4072-9736-a6702dd0fa09 - 404 :: Invalid arguments : primary_id must be inserted with numeric characters. >> Error: Invalid arguments : primary_id must be inserted with numeric characters.
+    at BusinessAccountValidator.get (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/modules/businessAccount.validation.js:34:13)
+    at verifyGetBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/businessAccount.middleware.js:7:30)
+    at file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:19
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:281:22
+    at param (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:360:14)
+    at param (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:371:14)
+81640554-77a2-4f6a-83c0-6629e5352acc - 500 :: Database Error: Failed to get business account details >> Error: Database Error: Failed to get business account details
+    at BusinessAccountRepository.getBusinessAccountByAccountID (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:44:19)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async Function.getBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:12:33)
+    at async BusinessController.getBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:17:30)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+9a7fd350-9b2c-4d39-9f4c-5f4496342531 - 500 :: Database Error: Failed to create business account >> Error: Database Error: Failed to create business account
+    at BusinessAccountRepository.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/bussinessAccount.repository.js:25:19)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async Function.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/businessAccount.service.js:7:28)
+    at async BusinessController.createBusinessAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/businessAccount.controller.js:5:30)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
+817811d5-0877-468f-9047-c2e1812de12c - 404 :: Invalid arguments : id must be made of 7 numbers >> Error: Invalid arguments : id must be made of 7 numbers
+    at IndividualAccountValidator.creation (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/modules/individualAccount.validation.js:27:13)
+    at verifyIndividualAccountCreation (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/individualAccount.middleware.js:3:38)
+    at file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:19
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:281:22
+    at Function.process_params (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:341:12)
+    at next (/Users/renanaarfi/Desktop/bank-project/final-project/node_modules/express/lib/router/index.js:275:10)
+85d1b49a-2a09-4395-86c1-d270fcd59e5c - 500 :: Database Error: Failed to get individual account details >> Error: Database Error: Failed to get individual account details
+    at IndividualAccountRepository.getIndividualAccountByAccountId (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/repositories/individualAccount.repository.js:46:19)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async IndividualAccountService.getIndividualAccountByAccountId (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/services/individualAccount.service.js:9:36)
+    at async IndividualController.getIndividualAccount (file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/controllers/individualAccount.controller.js:17:30)
+    at async file:///Users/renanaarfi/Desktop/bank-project/final-project/dist/middlewares/route.async.wrapper.js:3:13
