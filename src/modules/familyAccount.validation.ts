@@ -4,7 +4,6 @@ import { IGeneralObj } from '../types/general.types.js';
 import {
   IIndividualAccount,
   IndividualTransferDetails,
-  IFamilyAccount,
   DetailsLevel,
   AccountStatuses,
 } from '../types/account.types.js';
@@ -58,7 +57,7 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllWithSameCurrency(payload.currency, individual_accounts),
+      accountValidationUtils.isAllWithSameCurrency(String(payload.currency), individual_accounts),
       new InvalidArgumentsError(`Some of the accounts have different currencies`),
     ]);
 
@@ -75,7 +74,7 @@ class FamilyAccountValidator {
     validation_queue.push([
       validator.isEachAboveMinAmount(
         this.min_amount_of_individual_transaction,
-        Object.values(individual_accounts_balance_after_transfer),
+        Object.values(individual_accounts_balance_after_transfer) as number[],
       ),
       new InvalidArgumentsError(
         `the sum of the amounts didn't pass the minimum of ${this.min_amount_of_individual_transaction}`,
@@ -96,7 +95,7 @@ class FamilyAccountValidator {
     const individual_accounts: IIndividualAccount[] =
       await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids);
     const [family_account] = await familyAccountService.getFamilyAccountsByAccountIds(
-      payload.account_id,
+      String(payload.account_id),
       DetailsLevel.full,
     );
 
@@ -110,17 +109,17 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isDetailsLevelValid(payload.details_level),
+      accountValidationUtils.isDetailsLevelValid(String(payload.details_level)),
       new InvalidArgumentsError('details_level is not valid'),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isValidId(payload.account_id),
+      accountValidationUtils.isValidId(String(payload.account_id )),
       new InvalidArgumentsError('account_id must be numeric'),
     ]);
 
     validation_queue.push([
-      validator.isEmptyArray(payload.individual_accounts),
+      validator.isEmptyArray(payload.individual_accounts as any[]),
       new InvalidArgumentsError('individual_accounts list should not be empty'),
     ]);
 
@@ -135,7 +134,10 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllWithSameCurrency(family_account.currency, individual_accounts),
+      accountValidationUtils.isAllWithSameCurrency(
+        String(family_account.currency),
+        individual_accounts,
+      ),
       new InvalidArgumentsError(
         `some of the accounts don't have the same currency as the currency in the family account`,
       ),
@@ -170,12 +172,12 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isValidId(payload.account_id),
+      accountValidationUtils.isValidId(String(payload.account_id)),
       new InvalidArgumentsError('account_id must be numeric'),
     ]);
 
     validation_queue.push([
-      validator.isEmptyArray(payload.individual_accounts),
+      validator.isEmptyArray(payload.individual_accounts as any[]),
       new InvalidArgumentsError('individual_accounts list should not be empty'),
     ]);
 
@@ -190,8 +192,8 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      individual_accounts_ids.every(individual_id =>
-        connected_individuals_to_family.includes(individual_id),
+      (individual_accounts_ids).every(individual_id =>
+        (connected_individuals_to_family as string[]).includes(individual_id),
       ),
       new InvalidArgumentsError(
         'there is an individual account id that is not connected to family id',
@@ -205,7 +207,7 @@ class FamilyAccountValidator {
     const validation_queue: ValidationDetails[] = [];
 
     validation_queue.push([
-      accountValidationUtils.isValidId(payload.id),
+      accountValidationUtils.isValidId(String(payload.id)),
       new InvalidArgumentsError(`primary_id must be inserted with numeric characters.`),
     ]);
 
@@ -213,7 +215,7 @@ class FamilyAccountValidator {
   }
 
   async transferToBusiness(payload: IGeneralObj) {
-    accountValidator.transfer(payload);
+   await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
     const connected_individuals_to_family = await familyAccountRepository.getOwnersByAccountId(
@@ -221,27 +223,29 @@ class FamilyAccountValidator {
     );
     const individual_accounts: IIndividualAccount[] =
       await individualAccountService.getIndividualAccountsByAccountIds(
-        connected_individuals_to_family,
+        connected_individuals_to_family as string[],
       );
 
-      validation_queue.push([
-        accountValidationUtils.isExist(individual_accounts, individual_accounts.length),
-        new InvalidArgumentsError(`Some of the individual accounts are not exist`),
-      ]);
+    validation_queue.push([
+      accountValidationUtils.isExist(individual_accounts, individual_accounts.length),
+      new InvalidArgumentsError(`Some of the individual accounts are not exist`),
+    ]);
 
-      validation_queue.push([
-        accountValidationUtils.isAllAccountsWithSameStatus(
-          individual_accounts,
-          AccountStatuses.active,
-        ),
-        new InvalidArgumentsError(`Some of the individual accounts are not active`),
-      ]);
+    validation_queue.push([
+      accountValidationUtils.isAllAccountsWithSameStatus(
+        individual_accounts,
+        AccountStatuses.active,
+      ),
+      new InvalidArgumentsError(`Some of the individual accounts are not active`),
+    ]);
 
-      validation_queue.push([
-        accountValidationUtils.isAllWithSameCurrency(individual_accounts[0].currency, individual_accounts),
-        new InvalidArgumentsError(`Some of the accounts have different currencies`),
-      ]);
-  
+    validation_queue.push([
+      accountValidationUtils.isAllWithSameCurrency(
+        individual_accounts[0].currency,
+        individual_accounts,
+      ),
+      new InvalidArgumentsError(`Some of the accounts have different currencies`),
+    ]);
 
     validationCheck(validation_queue);
   }

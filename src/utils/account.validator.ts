@@ -1,7 +1,6 @@
 import {
   IAccount,
   AccountStatuses,
-  IIndividualAccount,
   DetailsLevel,
   AccountTypes,
   TransferTypes,

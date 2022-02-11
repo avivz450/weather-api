@@ -1,7 +1,10 @@
 import express from 'express';
 import { IndividualController } from '../controllers/individualAccount.controller.js';
 import raw from '../middlewares/route.async.wrapper.js';
-import {verifyIndividualAccountCreation , verifyGetIndividualAccount} from "../middlewares/individualAccount.middleware.js";
+import {
+  verifyIndividualAccountCreation,
+  verifyGetIndividualAccount,
+} from '../middlewares/individualAccount.middleware.js';
 
 class IndividualAccountRouter {
   private readonly individualAccountRouter = express.Router();

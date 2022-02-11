@@ -5,20 +5,14 @@ import validator from '../utils/validator.js';
 import accountValidationUtils from '../utils/account.validator.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception';
 import validationCheck from '../utils/validation.utils';
-import {
-  IIndividualAccount,
-  IAccount,
-  AccountTypes,
-  AccountStatuses,
-  TransferTypes,
-} from '../types/account.types.js';
+import { IAccount, AccountTypes, AccountStatuses, TransferTypes } from '../types/account.types.js';
 
 class AccountValidator {
   get(payload: IGeneralObj) {
     const validation_queue: ValidationDetails[] = [];
 
     validation_queue.push([
-      accountValidationUtils.isValidId(payload.id),
+      accountValidationUtils.isValidId(String(payload.id)),
       new InvalidArgumentsError(`primary_id must be inserted with numeric characters.`),
     ]);
 
@@ -37,12 +31,12 @@ class AccountValidator {
     ]);
 
     validation_queue.push([
-      validator.isEmptyArray(payload.accounts_ids),
+      validator.isEmptyArray(String(payload.accounts_ids)),
       new InvalidArgumentsError('accounts_ids list should not be empty'),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isValidIds(payload.accounts_ids),
+      accountValidationUtils.isValidIds(String(payload.accounts_ids)),
       new InvalidArgumentsError('there is an individual account_id that is not numeric'),
     ]);
 
@@ -57,7 +51,7 @@ class AccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isActionOppositeForAll(accounts, payload.action),
+      accountValidationUtils.isActionOppositeForAll(accounts, String(payload.action)),
       new InvalidArgumentsError('Some of the required values are not inserted'),
     ]);
 
@@ -105,7 +99,7 @@ class AccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isTransferOptionValid(payload.transfer),
+      accountValidationUtils.isTransferOptionValid(String(payload.transfer)),
       new InvalidArgumentsError(`Chosen transfer type is invalid`),
     ]);
 
@@ -116,30 +110,30 @@ class AccountValidator {
     ]);
 
     validation_queue.push([
-      validator.isNumberPositive(payload.amount),
+      validator.isNumberPositive(Number(payload.amount)),
       new InvalidArgumentsError(`Transfer amount is not a positive number`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllIsType([accounts[0]], payload.source_account_type),
-      new InvalidArgumentsError(`Source account is not a ${payload.source_account_type} account`),
+      accountValidationUtils.isAllIsType([accounts[0]], payload.source_account_type as AccountTypes),
+      new InvalidArgumentsError(`Source account is not a ${payload.source_account_type as AccountTypes} account`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllIsType([accounts[1]], payload.destination_account_type),
+      accountValidationUtils.isAllIsType([accounts[1]], payload.destination_account_type as AccountTypes),
       new InvalidArgumentsError(
-        `Destionation account is not a ${payload.destination_account_type} account`,
+        `Destionation account is not a ${payload.destination_account_type as AccountTypes} account`,
       ),
     ]);
 
     validation_queue.push([
       accountValidationUtils.isBalanceAllowsTransfer(
         accounts[0],
-        payload.amount,
-        payload.source_account_type,
+        Number(payload.amount),
+        payload.source_account_type as AccountTypes,
       ),
       new InvalidArgumentsError(
-        `Balance after transaction will be below the minimal remiaining balance of ${payload.source_account_type}`,
+        `Balance after transaction will be below the minimal remiaining balance of ${payload.source_account_type as AccountTypes}`,
       ),
     ]);
 

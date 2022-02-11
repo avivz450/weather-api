@@ -1,6 +1,6 @@
 import express from 'express';
-import familyAccountController from "../controllers/familyAccount.controller.js";
-import raw from "../middlewares/route.async.wrapper.js";
+import familyAccountController from '../controllers/familyAccount.controller.js';
+import raw from '../middlewares/route.async.wrapper.js';
 
 class FamilyAccountRouter {
   private readonly familyAccountRouter = express.Router();
@@ -30,7 +30,7 @@ class FamilyAccountRouter {
   //       "/family/transfer/bussines",
   //       raw(familyAccountController.transferFamilyToBusiness)
   //     );
-      
+
   // }
 
   get router() {

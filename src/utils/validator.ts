@@ -2,10 +2,10 @@ import { IGeneralObj } from '../types/general.types.js';
 
 class Validator {
   checkRequiredFieldsExist = (obj: IGeneralObj, mandatory_keys: string[]) =>
-    mandatory_keys.every(key => (key in obj));
+    mandatory_keys.every(key => key in obj);
 
   checkFieldsNotExist = (obj: IGeneralObj, mandatory_keys: string[]) =>
-    mandatory_keys.every(key => (!(key in obj)));
+    mandatory_keys.every(key => !(key in obj));
 
   isNumeric = (value: unknown) => /^[0-9]+$/.test(String(value));
 

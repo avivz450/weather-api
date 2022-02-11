@@ -5,9 +5,8 @@ import validationCheck from '../utils/validation.utils.js';
 import ValidationDetails from '../types/validation.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import individualAccountValidator from './individualAccount.validation.js';
-import accountValidator from "./account.valdation";
+import accountValidator from './account.valdation';
 class BusinessAccountValidator {
-
   private readonly company_id_length = 8;
   private readonly min_amount_of_balance = 10000;
 
@@ -26,7 +25,7 @@ class BusinessAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isValidId(payload.account_id, this.company_id_length),
+      accountValidationUtils.isValidId(String(payload.account_id), this.company_id_length),
       new InvalidArgumentsError(
         `id must be made of ${individualAccountValidator.individualIdLength} numbers`,
       ),
@@ -35,12 +34,12 @@ class BusinessAccountValidator {
     validationCheck(validation_queue);
   }
 
-  transferToBusiness(payload: IGeneralObj) {
-    accountValidator.transfer(payload);
+  async transferToBusiness(payload: IGeneralObj) {
+    await accountValidator.transfer(payload);
   }
 
-  transferToIndividual(payload: IGeneralObj) {
-    accountValidator.transfer(payload);
+  async transferToIndividual(payload: IGeneralObj) {
+    await accountValidator.transfer(payload);
   }
 
   get minAmountOfBalance() {
