@@ -7,6 +7,7 @@ import InvalidArgumentsError from '../exceptions/InvalidArguments.exception';
 import validationCheck from '../utils/validation.utils';
 export class IndividualAccountValidator {
   static readonly individual_id_length = 7;
+  readonly min_amount_of_balance = 1000;
 
   async creation(payload: IGeneralObj) {
     const individual_required_fields = ['individual_id', 'first_name', 'last_name', 'currency'];
@@ -42,6 +43,10 @@ export class IndividualAccountValidator {
     ]);
 
     validationCheck(validation_queue);
+  }
+
+  get minAmountOfBalance() {
+    return this.min_amount_of_balance;
   }
 }
 

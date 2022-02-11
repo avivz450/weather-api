@@ -7,6 +7,7 @@ import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import { IndividualAccountValidator } from './individualAccount.validation.js';
 class BusinessAccountValidator {
   private readonly company_id_length = 8;
+  readonly min_amount_of_balance = 10000;
 
   creation(payload: IGeneralObj) {
     const businessRequiredFields = ['company_id', 'company_name', 'currency'];
@@ -30,6 +31,10 @@ class BusinessAccountValidator {
     ]);
 
     validationCheck(validation_queue);
+  }
+
+  get minAmountOfBalance() {
+    return this.min_amount_of_balance;
   }
 }
 

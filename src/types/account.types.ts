@@ -16,6 +16,11 @@ export enum AccountStatuses {
   active = 'active',
   inactive = 'inactive',
 }
+
+export enum TransferTypes{
+  same_currency = 'transfer',
+  different_currency = 'different-currency-transfer'
+}
 export interface IIndividualAccount extends IAccount {
   individual_id: string;
   first_name: string;

@@ -6,6 +6,7 @@ import {
   IndividualTransferDetails,
   IFamilyAccount,
   DetailsLevel,
+  AccountStatuses,
 } from '../types/account.types.js';
 import validator from '../utils/validator.js';
 import accountValidationUtils from '../utils/account.validator.js';
@@ -15,8 +16,8 @@ import validationCheck from '../utils/validation.utils';
 import familyAccountRepository from '../repositories/familyAccount.repository';
 
 class FamilyAccountValidator {
-  readonly minAmountOfFamilyAccount = 5000;
-  readonly minAmountOfIndividualTransaction = 1000;
+  readonly min_amount_of_balance = 5000;
+  readonly min_amount_of_individual_transaction = 1000;
 
   async creation(payload: IGeneralObj) {
     const familyRequiredFields = ['currency', 'individual_accounts_details'];
@@ -49,7 +50,7 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllAccountsActive(individual_accounts),
+      accountValidationUtils.isAllAccountsWithSameStatus(individual_accounts,AccountStatuses.active),
       new InvalidArgumentsError(`Some of the individual accounts are not active`),
     ]);
 
@@ -60,21 +61,21 @@ class FamilyAccountValidator {
 
     validation_queue.push([
       validator.isSumAboveMinAmount(
-        this.minAmountOfFamilyAccount,
+        this.min_amount_of_balance,
         individual_accounts_details.map(individual_account => individual_account[1]),
       ),
       new InvalidArgumentsError(
-        `the sum of the amounts didn't pass the minimum of ${this.minAmountOfFamilyAccount}`,
+        `the sum of the amounts didn't pass the minimum of ${this.min_amount_of_balance}`,
       ),
     ]);
 
     validation_queue.push([
       validator.isEachAboveMinAmount(
-        this.minAmountOfIndividualTransaction,
+        this.min_amount_of_individual_transaction,
         Object.values(individual_accounts_balance_after_transfer),
       ),
       new InvalidArgumentsError(
-        `the sum of the amounts didn't pass the minimum of ${this.minAmountOfIndividualTransaction}`,
+        `the sum of the amounts didn't pass the minimum of ${this.min_amount_of_individual_transaction}`,
       ),
     ]);
 
@@ -127,7 +128,7 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllIdsValid(individual_accounts_ids),
+      accountValidationUtils.isValidIds(individual_accounts_ids),
       new InvalidArgumentsError('there is an individual account_id that is not numeric'),
     ]);
 
@@ -139,7 +140,7 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllAccountsActive(individual_accounts),
+      accountValidationUtils.isAllAccountsWithSameStatus(individual_accounts, AccountStatuses.active),
       new InvalidArgumentsError(`Some of the individual accounts are not active`),
     ]);
 
@@ -179,7 +180,7 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllIdsValid(individual_accounts_ids),
+      accountValidationUtils.isValidIds(individual_accounts_ids),
       new InvalidArgumentsError('there is an individual account_id that is not numeric'),
     ]);
 
@@ -204,6 +205,10 @@ class FamilyAccountValidator {
     ]);
 
     validationCheck(validation_queue);
+  }
+
+  get minAmountOfBalance() {
+    return this.min_amount_of_balance;
   }
 }
 
