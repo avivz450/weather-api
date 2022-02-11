@@ -2,12 +2,12 @@ import individualAccountService from '../services/individualAccount.service.js';
 import { IGeneralObj } from '../types/general.types.js';
 import ValidationDetails from '../types/validation.types.js';
 import validator from '../utils/validator.js';
-import accountValidator from '../utils/account.validator.js';
+import accountValidationUtils from '../utils/account.validator.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import validationCheck from '../utils/validation.utils.js';
-export class IndividualAccountValidator {
-  static readonly individual_id_length = 7;
-  readonly min_amount_of_balance = 1000;
+class IndividualAccountValidator {
+  private readonly individual_id_length = 7;
+  private readonly min_amount_of_balance = 1000;
 
   async creation(payload: IGeneralObj) {
     const individual_required_fields = ['individual_id', 'first_name', 'last_name', 'currency'];
@@ -26,10 +26,10 @@ export class IndividualAccountValidator {
     validation_queue.push([
       accountValidationUtils.isValidId(
         payload.account_id,
-        IndividualAccountValidator.individual_id_length,
+        this.individual_id_length,
       ),
       new InvalidArgumentsError(
-        `id must be made of ${IndividualAccountValidator.individual_id_length} numbers`,
+        `id must be made of ${this.individual_id_length} numbers`,
       ),
     ]);
 
@@ -48,6 +48,10 @@ export class IndividualAccountValidator {
   get minAmountOfBalance() {
     return this.min_amount_of_balance;
   }
+  get individualIdLength() {
+    return this.individual_id_length;
+  }
 }
 
-export const individualAccountValidator = new IndividualAccountValidator();
+const individualAccountValidator = new IndividualAccountValidator();
+export default individualAccountValidator;

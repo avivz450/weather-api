@@ -7,8 +7,8 @@ import {
   TransferTypes,
 } from '../types/account.types.js';
 import familyAccountValidator from '../modules/familyAccount.validation.js';
-import { individualAccountValidator } from '../modules/individualAccount.validation.js';
-import  businessAccountValidator  from '../modules/businessAccount.validation.js';
+import individualAccountValidator from '../modules/individualAccount.validation.js';
+import businessAccountValidator from '../modules/businessAccount.validation.js';
 
 class AccountValidationUtils {
   isBalanceAllowsTransfer(
@@ -64,7 +64,6 @@ class AccountValidationUtils {
 
     return numberOfExistAccounts === amount;
   };
-  
 }
 
 const accountValidationUtils = new AccountValidationUtils();

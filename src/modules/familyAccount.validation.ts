@@ -16,8 +16,8 @@ import validationCheck from '../utils/validation.utils.js';
 import FamilyAccountRepository from "../repositories/familyAccount.repository.js";
 
 class FamilyAccountValidator {
-  readonly min_amount_of_balance = 5000;
-  readonly min_amount_of_individual_transaction = 1000;
+  private readonly min_amount_of_balance = 5000;
+  private readonly min_amount_of_individual_transaction = 1000;
 
   async creation(payload: IGeneralObj) {
     const familyRequiredFields = ['currency', 'individual_accounts_details'];
