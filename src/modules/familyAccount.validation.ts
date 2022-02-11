@@ -13,8 +13,8 @@ import accountValidationUtils from '../utils/account.validator.js';
 import ValidationDetails from '../types/validation.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import validationCheck from '../utils/validation.utils.js';
-import FamilyAccountRepository from "../repositories/familyAccount.repository.js";
-
+import accountValidator from './account.valdation.js';
+import familyAccountRepository from '../repositories/familyAccount.repository.js';
 class FamilyAccountValidator {
   private readonly min_amount_of_balance = 5000;
   private readonly min_amount_of_individual_transaction = 1000;
@@ -50,7 +50,10 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllAccountsWithSameStatus(individual_accounts,AccountStatuses.active),
+      accountValidationUtils.isAllAccountsWithSameStatus(
+        individual_accounts,
+        AccountStatuses.active,
+      ),
       new InvalidArgumentsError(`Some of the individual accounts are not active`),
     ]);
 
@@ -81,7 +84,6 @@ class FamilyAccountValidator {
 
     validationCheck(validation_queue);
   }
-
 
   async addIndividualAccount(payload: IGeneralObj) {
     const validation_queue: ValidationDetails[] = [];
@@ -140,7 +142,10 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllAccountsWithSameStatus(individual_accounts, AccountStatuses.active),
+      accountValidationUtils.isAllAccountsWithSameStatus(
+        individual_accounts,
+        AccountStatuses.active,
+      ),
       new InvalidArgumentsError(`Some of the individual accounts are not active`),
     ]);
 
@@ -203,6 +208,40 @@ class FamilyAccountValidator {
       accountValidationUtils.isValidId(payload.id),
       new InvalidArgumentsError(`primary_id must be inserted with numeric characters.`),
     ]);
+
+    validationCheck(validation_queue);
+  }
+
+  async transferToBusiness(payload: IGeneralObj) {
+    accountValidator.transfer(payload);
+
+    const validation_queue: ValidationDetails[] = [];
+    const connected_individuals_to_family = await familyAccountRepository.getOwnersByAccountId(
+      payload.source_account_id,
+    );
+    const individual_accounts: IIndividualAccount[] =
+      await individualAccountService.getIndividualAccountsByAccountIds(
+        connected_individuals_to_family,
+      );
+
+      validation_queue.push([
+        accountValidationUtils.isExist(individual_accounts, individual_accounts.length),
+        new InvalidArgumentsError(`Some of the individual accounts are not exist`),
+      ]);
+
+      validation_queue.push([
+        accountValidationUtils.isAllAccountsWithSameStatus(
+          individual_accounts,
+          AccountStatuses.active,
+        ),
+        new InvalidArgumentsError(`Some of the individual accounts are not active`),
+      ]);
+
+      validation_queue.push([
+        accountValidationUtils.isAllWithSameCurrency(individual_accounts[0].currency, individual_accounts),
+        new InvalidArgumentsError(`Some of the accounts have different currencies`),
+      ]);
+  
 
     validationCheck(validation_queue);
   }

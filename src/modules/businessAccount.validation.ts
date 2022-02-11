@@ -5,7 +5,9 @@ import validationCheck from '../utils/validation.utils.js';
 import ValidationDetails from '../types/validation.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import individualAccountValidator from './individualAccount.validation.js';
+import accountValidator from "./account.valdation";
 class BusinessAccountValidator {
+
   private readonly company_id_length = 8;
   private readonly min_amount_of_balance = 10000;
 
@@ -31,6 +33,14 @@ class BusinessAccountValidator {
     ]);
 
     validationCheck(validation_queue);
+  }
+
+  transferToBusiness(payload: IGeneralObj) {
+    accountValidator.transfer(payload);
+  }
+
+  transferToIndividual(payload: IGeneralObj) {
+    accountValidator.transfer(payload);
   }
 
   get minAmountOfBalance() {
