@@ -7,7 +7,7 @@ import { createAddressPayload, parseIndividualAccountQueryResult } from '../util
 import AccountRepository from './Account.Repository.js';
 
 class IndividualAccountRepository {
-  async createIndividualAccount(payload: Omit<IIndividualAccount, "account_id">) {
+  async createIndividualAccount(payload: Omit<IIndividualAccount, 'account_id'>) {
     try {
       const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
 
@@ -16,47 +16,46 @@ class IndividualAccountRepository {
 
       let insert_query = 'INSERT INTO address SET ?';
       const [address_insertion] = (await sql_con.query(
-      insert_query,
-      address_payload,
+        insert_query,
+        address_payload,
       )) as unknown as OkPacket[];
 
       //create row in individualAccount table
       const individual_payload = {
-      accountID: new_account_id,
-      individualID: payload.individual_id,
-      firstName: payload.first_name,
-      lastName: payload.last_name,
-      email: payload.email || null,
-      addressID: address_insertion.insertId,
+        accountID: new_account_id,
+        individualID: payload.individual_id,
+        firstName: payload.first_name,
+        lastName: payload.last_name,
+        email: payload.email || null,
+        addressID: address_insertion.insertId,
       };
 
-      insert_query = "INSERT INTO individualAccount SET ?";
+      insert_query = 'INSERT INTO individualAccount SET ?';
       await sql_con.query(insert_query, [individual_payload]);
 
       return new_account_id;
     } catch (err) {
-        throw new DatabaseException("Failed to create individual account")
-    } 
+      throw new DatabaseException('Failed to create individual account');
+    }
   }
 
   async getIndividualAccountByAccountId(account_id: string) {
     try {
-        let  query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName ,ad.*
+      let query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName ,ad.*
                       FROM account AS a 
                       JOIN individualAccount AS ia ON a.accountID= ia.accountID 
                       JOIN statusAccount AS s ON s.statusID=a.statusID
                       JOIN currency AS c ON c.currencyID=a.currencyID
                       JOIN address AS ad ON ad.addressID=ia.addressID
                       JOIN country as co ON co.countryCode=ad.countryCode
-                      WHERE a.accountID = ?`
-        const [account_query_result] = (await sql_con.query(
-        query,
-        [account_id]
-        )) as unknown as RowDataPacket[];
+                      WHERE a.accountID = ?`;
+      const [account_query_result] = (await sql_con.query(query, [
+        account_id,
+      ])) as unknown as RowDataPacket[];
 
-        return parseIndividualAccountQueryResult(account_query_result[0]);
+      return parseIndividualAccountQueryResult(account_query_result[0]);
     } catch (err) {
-      throw new DatabaseException("Failed to get individual account details")
+      throw new DatabaseException('Failed to get individual account details');
     }
   }
 
@@ -69,18 +68,20 @@ class IndividualAccountRepository {
                       JOIN currency AS c ON c.currencyID=a.currencyID
                       JOIN address AS ad ON ad.addressID=ia.addressID
                       JOIN country as co ON co.countryCode=ad.countryCode
-                      WHERE a.accountID IN (${'?,'.repeat(account_ids.length).slice(0,-1)})`
+                      WHERE a.accountID IN (${'?,'.repeat(account_ids.length).slice(0, -1)})`;
 
-      const [individual_accounts_result_query] = (await sql_con.query(query, [...account_ids])) as unknown as RowDataPacket[];
+      const [individual_accounts_result_query] = (await sql_con.query(query, [
+        ...account_ids,
+      ])) as unknown as RowDataPacket[];
       const IndividualAccounts: IIndividualAccount[] = [];
-      
+
       (individual_accounts_result_query as IIndividualAccountDB[]).forEach(individualAccount => {
-      IndividualAccounts.push(parseIndividualAccountQueryResult(individualAccount))
-      })
+        IndividualAccounts.push(parseIndividualAccountQueryResult(individualAccount));
+      });
 
       return IndividualAccounts;
-    } catch(err) {
-      throw new DatabaseException("Failed to get individual accounts details")
+    } catch (err) {
+      throw new DatabaseException('Failed to get individual accounts details');
     }
   }
 
@@ -93,19 +94,23 @@ class IndividualAccountRepository {
                       JOIN currency AS c ON c.currencyID=a.currencyID
                       JOIN address AS ad ON ad.addressID=ia.addressID
                       JOIN country as co ON co.countryCode=ad.countryCode
-                      WHERE ia.individualID IN (${'?,'.repeat(individual_ids.length).slice(0,-1)})`
+                      WHERE ia.individualID IN (${'?,'
+                        .repeat(individual_ids.length)
+                        .slice(0, -1)})`;
 
-      const [individual_accounts_result_query] = (await sql_con.query(query, [...individual_ids])) as unknown as RowDataPacket[];
+      const [individual_accounts_result_query] = (await sql_con.query(query, [
+        ...individual_ids,
+      ])) as unknown as RowDataPacket[];
 
       const IndividualAccounts: IIndividualAccount[] = [];
 
       (individual_accounts_result_query as IIndividualAccountDB[]).forEach(individualAccount => {
-      IndividualAccounts.push(parseIndividualAccountQueryResult(individualAccount))
-      })
+        IndividualAccounts.push(parseIndividualAccountQueryResult(individualAccount));
+      });
 
       return IndividualAccounts;
-    } catch (err){
-      throw new DatabaseException("Failed to get individual accounts details")
+    } catch (err) {
+      throw new DatabaseException('Failed to get individual accounts details');
     }
   }
 }

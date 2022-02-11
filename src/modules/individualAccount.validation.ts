@@ -24,13 +24,13 @@ class IndividualAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isValidId(payload.account_id, this.individual_id_length),
+      accountValidationUtils.isValidId(String(payload.account_id), this.individual_id_length),
       new InvalidArgumentsError(`id must be made of ${this.individual_id_length} numbers`),
     ]);
 
     const individualAccount = await individualAccountService.getIndividualAccountsByIndividualIds([
       payload.individual_id,
-    ]);
+    ] as string[]);
 
     validation_queue.push([
       accountValidationUtils.isExist(individualAccount, 0),
@@ -43,7 +43,7 @@ class IndividualAccountValidator {
   get minAmountOfBalance() {
     return this.min_amount_of_balance;
   }
-  
+
   get individualIdLength() {
     return this.individual_id_length;
   }

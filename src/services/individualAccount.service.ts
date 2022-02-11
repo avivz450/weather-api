@@ -1,10 +1,17 @@
 import { d } from '@ajar/marker';
 import logicError from '../exceptions/logic.exception.js';
 import transferError from '../exceptions/transfer.exception.js';
-import familyAccountRepository, { FamilyAccountRepository } from '../repositories/familyAccount.repository.js';
+import familyAccountRepository, {
+  FamilyAccountRepository,
+} from '../repositories/familyAccount.repository.js';
 import individualAccountRepository from '../repositories/individualAccount.repository.js';
 import transferRepository from '../repositories/Transfer.Repository.js';
-import { IIndividualAccount, IndividualTransferDetails, ITransferRequest, ITransferResponse } from '../types/account.types.js';
+import {
+  IIndividualAccount,
+  IndividualTransferDetails,
+  ITransferRequest,
+  ITransferResponse,
+} from '../types/account.types.js';
 import { IGeneralObj } from '../types/general.types.js';
 
 class IndividualAccountService {
@@ -32,17 +39,19 @@ class IndividualAccountService {
   }
 
   async getIndividualAccountsByAccountIds(account_ids: string[]): Promise<IIndividualAccount[]> {
-    const individual_accounts = await individualAccountRepository.getIndividualAccountsByAccountIds(account_ids);
+    const individual_accounts = await individualAccountRepository.getIndividualAccountsByAccountIds(
+      account_ids,
+    );
     return individual_accounts;
   }
 
   async transferIndividualToFamily(payload: ITransferRequest): Promise<ITransferResponse> {
-    const {source_account,destination_account} = payload
+    const { source_account, destination_account } = payload;
     // const owners_id = await familyAccountRepository.getOwnersByAccountId(destination_account);
     // if(!owners_id.includes(source_account)) throw new transferError("the individual account didnt own family account")
-    const transaction = await transferRepository.transfer(payload,1);
-    if(!transaction){
-       throw new logicError("transfer faild");
+    const transaction = await transferRepository.transfer(payload, 1);
+    if (!transaction) {
+      throw new logicError('transfer faild');
     }
     return transaction;
   }

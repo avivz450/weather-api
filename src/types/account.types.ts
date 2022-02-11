@@ -7,9 +7,9 @@ export interface IAccount {
 }
 
 export enum AccountTypes {
-  Individual = "Individual",
-  Business = "Business",
-  Family = "Family"
+  Individual = 'Individual',
+  Business = 'Business',
+  Family = 'Family',
 }
 
 export enum AccountStatuses {
@@ -17,9 +17,9 @@ export enum AccountStatuses {
   inactive = 'inactive',
 }
 
-export enum TransferTypes{
+export enum TransferTypes {
   same_currency = 'transfer',
-  different_currency = 'different-currency-transfer'
+  different_currency = 'different-currency-transfer',
 }
 export interface IIndividualAccount extends IAccount {
   individual_id: string;

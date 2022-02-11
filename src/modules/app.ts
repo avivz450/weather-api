@@ -1,17 +1,22 @@
-import path from "path";
-import express, { Application } from "express";
-import cors from "cors";
-import log from "@ajar/marker";
-import { errorLogger, errorResponse, printError, urlNotFound } from "../middlewares/error.handler.js";
-import logger from "../middlewares/logger.middleware.js";
-import attachRequestId from "../middlewares/attachRequestId.middleware.js";
-import accountRouter from "../routes/account.router.js";
-import individualAccountRouter from "../routes/IndividualAccount.router.js";
-import businessAccountRouter from "../routes/businessAccount.router.js";
-import familyAccountRouter from "../routes/familyAccount.router.js";
+import path from 'path';
+import express, { Application } from 'express';
+import cors from 'cors';
+import log from '@ajar/marker';
+import {
+  errorLogger,
+  errorResponse,
+  printError,
+  urlNotFound,
+} from '../middlewares/error.handler.js';
+import logger from '../middlewares/logger.middleware.js';
+import attachRequestId from '../middlewares/attachRequestId.middleware.js';
+import accountRouter from '../routes/account.router.js';
+import individualAccountRouter from '../routes/IndividualAccount.router.js';
+import businessAccountRouter from '../routes/businessAccount.router.js';
+import familyAccountRouter from '../routes/familyAccount.router.js';
 import fs from 'fs';
 
-const { PORT=8080, HOST='localhost' } = process.env;
+const { PORT = 8080, HOST = 'localhost' } = process.env;
 
 class App {
   private readonly app: Application;
@@ -22,17 +27,17 @@ class App {
 
   static readonly REQUESTS_LOG_PATH = path.join(process.cwd(), 'logs', 'requests.log');
 
-    constructor() {
-        this.configEnvVariables();
-        this.app = express();
-        this.initializeMiddlewares();
-        this.initializeRoutes();
-        this.initializeErrorMiddlewares();
-    }
-    
-    private configEnvVariables() {
-        process.env = JSON.parse(fs.readFileSync('./app-config.json', 'utf8'));
-    }
+  constructor() {
+    this.configEnvVariables();
+    this.app = express();
+    this.initializeMiddlewares();
+    this.initializeRoutes();
+    this.initializeErrorMiddlewares();
+  }
+
+  private configEnvVariables() {
+    process.env = JSON.parse(fs.readFileSync('./app-config.json', 'utf8'));
+  }
 
   private initializeMiddlewares() {
     this.app.use(attachRequestId);
@@ -55,14 +60,11 @@ class App {
     this.app.use(errorResponse);
   }
 
-    async start() {
-        this.app.listen(Number(PORT), HOST as string, () => {
-            log.magenta(
-                "api is live on",
-                ` ✨⚡  http://${HOST}:${PORT} ✨⚡`
-            );
-        });
-    }
+  async start() {
+    this.app.listen(Number(PORT), HOST as string, () => {
+      log.magenta('api is live on', ` ✨⚡  http://${HOST}:${PORT} ✨⚡`);
+    });
+  }
 }
 
 const app = new App();

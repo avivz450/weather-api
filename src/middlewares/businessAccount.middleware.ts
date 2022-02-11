@@ -7,14 +7,14 @@ export const verifyBusinessAccountCreation: RequestHandler = (req, res, next) =>
   next();
 };
 
-export const verifyTransferToBusiness: RequestHandler = (req, res, next) => {
+export const verifyTransferToBusiness: RequestHandler = async (req, res, next) => {
   const payload = { ...req.body, ...req.params } as IGeneralObj;
-  businessAccountValidator.transferToBusiness(payload);
+  await businessAccountValidator.transferToBusiness(payload);
   next();
 };
 
-export const verifyTransferToIndividual: RequestHandler = (req, res, next) => {
+export const verifyTransferToIndividual: RequestHandler = async (req, res, next) => {
   const payload = { ...req.body, ...req.params } as IGeneralObj;
-  businessAccountValidator.transferToIndividual(payload);
+  await businessAccountValidator.transferToIndividual(payload);
   next();
 };
