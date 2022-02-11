@@ -6,8 +6,3 @@ export const verifyBusinessAccountCreation: RequestHandler = (req, res, next) =>
   businessAccountValidator.creation(req.body as IGeneralObj);
   next();
 };
-
-export const verifyGetBusinessAccount: RequestHandler = (req, res, next) => {
-  businessAccountValidator.get(req.params);
-  next();
-};

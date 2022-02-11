@@ -3,10 +3,18 @@ export interface IAccount {
   currency: string;
   balance: number;
   status: AccountStatuses;
+  type: AccountTypes;
 }
+
+export enum AccountTypes {
+  Individual = "Individual",
+  Business = "Business",
+  Family = "Family"
+}
+
 export enum AccountStatuses {
-  active = 'not_active',
-  not_active = 'active',
+  active = 'active',
+  inactive = 'inactive',
 }
 export interface IIndividualAccount extends IAccount {
   individual_id: string;

@@ -9,21 +9,21 @@ export class IndividualAccountValidator {
   static readonly individual_id_length = 7;
 
   async creation(payload: IGeneralObj) {
-    const individualRequiredFields = ['individual_id', 'first_name', 'last_name', 'currency'];
-    const validationQueue: ValidationDetails[] = [];
+    const individual_required_fields = ['individual_id', 'first_name', 'last_name', 'currency'];
+    const validation_queue: ValidationDetails[] = [];
 
-    validationQueue.push([
-      validator.checkRequiredFieldsExist(payload, individualRequiredFields),
+    validation_queue.push([
+      validator.checkRequiredFieldsExist(payload, individual_required_fields),
       new InvalidArgumentsError('Some of the required values are not inserted'),
     ]);
 
-    validationQueue.push([
+    validation_queue.push([
       validator.checkFieldsNotExist(payload, ['account_id']),
       new InvalidArgumentsError('account_id should not be inserted'),
     ]);
 
-    validationQueue.push([
-      accountValidator.isValidId(
+    validation_queue.push([
+      accountValidationUtils.isValidId(
         payload.account_id,
         IndividualAccountValidator.individual_id_length,
       ),
@@ -36,25 +36,12 @@ export class IndividualAccountValidator {
       payload.individual_id,
     ]);
 
-    validationQueue.push([
-      accountValidator.isExist(individualAccount, 0),
+    validation_queue.push([
+      accountValidationUtils.isExist(individualAccount, 0),
       new InvalidArgumentsError(`There is already a user with the input id in the system`),
     ]);
 
-    validationCheck(validationQueue);
-  }
-
-  get(payload: IGeneralObj) {
-    const validationQueue: ValidationDetails[] = [];
-
-    validationQueue.push([
-      accountValidator.isValidId(payload.id),
-      new InvalidArgumentsError(
-        `primary_id must be inserted with numeric characters.`,
-      ),
-    ]);
-
-    validationCheck(validationQueue);
+    validationCheck(validation_queue);
   }
 }
 

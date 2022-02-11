@@ -6,8 +6,3 @@ export const verifyIndividualAccountCreation: RequestHandler = async (req, res, 
   await individualAccountValidator.creation(req.body as IGeneralObj);
   next();
 };
-
-export const verifyGetIndividualAccount: RequestHandler = (req, res, next) => {
-  individualAccountValidator.get(req.params);
-  next();
-};

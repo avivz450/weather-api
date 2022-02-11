@@ -1,8 +1,27 @@
+<<<<<<< HEAD
 import {IAccount,AccountStatuses,IIndividualAccount,DetailsLevel} from '../types/account.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 
 class AccountValidator {
   isDetailsLevelValid = (details_level: DetailsLevel) => Object.values(DetailsLevel).includes(details_level);
+=======
+import {
+  IAccount,
+  AccountStatuses,
+  IIndividualAccount,
+  DetailsLevel,
+  AccountTypes,
+} from '../types/account.types.js';
+
+class AccountValidationUtils {
+  isActionOppositeForAll = (accounts: IAccount[], action: string) =>
+    accounts.every(account => account.status !== action);
+
+  isSomeIsType = (accounts: IAccount[], accountType: AccountTypes) =>
+    accounts.every(account => account.type === accountType);
+
+  isDetailsLevelValid = (details_level: string) => details_level in DetailsLevel;
+>>>>>>> a8734b93e851f8adf2079241157d94973ac8c2ff
 
   isAllIdsValid = (idsArr: string[]) => idsArr.every(id => this.isValidId(id));
 
@@ -28,6 +47,6 @@ class AccountValidator {
   };
 }
 
-const accountValidator = new AccountValidator();
+const accountValidationUtils = new AccountValidationUtils();
 
-export default accountValidator;
+export default accountValidationUtils;

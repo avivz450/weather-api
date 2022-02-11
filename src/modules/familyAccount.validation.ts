@@ -8,7 +8,7 @@ import {
   DetailsLevel,
 } from '../types/account.types.js';
 import validator from '../utils/validator.js';
-import accountValidator from '../utils/account.validator.js';
+import accountValidationUtils from '../utils/account.validator.js';
 import ValidationDetails from '../types/validation.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import validationCheck from '../utils/validation.utils.js';
