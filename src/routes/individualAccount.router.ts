@@ -1,7 +1,7 @@
 import express from 'express';
 import { IndividualController } from '../controllers/individualAccount.controller.js';
 import raw from '../middlewares/route.async.wrapper.js';
-// import verifyIndividualAccountCreation from "../middlewares/individualAccount.middleware.js";
+import {verifyIndividualAccountCreation , verifyGetIndividualAccount} from "../middlewares/individualAccount.middleware.js";
 
 class IndividualAccountRouter {
   private readonly individualAccountRouter = express.Router();
@@ -15,8 +15,12 @@ class IndividualAccountRouter {
 
     this.individualAccountRouter.get(
       '/:account_id',
-      // raw(verifyIndividualAccountCreation),
+      // raw(verifyGetIndividualAccount),
       raw(IndividualController.getIndividualAccount),
+    );
+    this.individualAccountRouter.get(
+      '/transfer/individual',
+      raw(IndividualController.transferIndividualToFamily),
     );
   }
 

@@ -1,8 +1,8 @@
 export interface IAccount {
   account_id: string;
   currency: string;
-  balance?: number;
-  status?: AccountStatuses;
+  balance: number;
+  status: AccountStatuses;
   type: AccountTypes;
 }
 

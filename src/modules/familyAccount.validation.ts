@@ -11,9 +11,9 @@ import {
 import validator from '../utils/validator.js';
 import accountValidationUtils from '../utils/account.validator.js';
 import ValidationDetails from '../types/validation.types.js';
-import InvalidArgumentsError from '../exceptions/InvalidArguments.exception';
-import validationCheck from '../utils/validation.utils';
-import familyAccountRepository from '../repositories/familyAccount.repository';
+import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
+import validationCheck from '../utils/validation.utils.js';
+import FamilyAccountRepository from "../repositories/familyAccount.repository.js";
 
 class FamilyAccountValidator {
   readonly min_amount_of_balance = 5000;
