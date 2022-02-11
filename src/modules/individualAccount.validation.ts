@@ -3,8 +3,8 @@ import { IGeneralObj } from '../types/general.types.js';
 import ValidationDetails from '../types/validation.types.js';
 import validator from '../utils/validator.js';
 import accountValidator from '../utils/account.validator.js';
-import InvalidArgumentsError from '../exceptions/InvalidArguments.exception';
-import validationCheck from '../utils/validation.utils';
+import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
+import validationCheck from '../utils/validation.utils.js';
 export class IndividualAccountValidator {
   static readonly individual_id_length = 7;
 
