@@ -1,13 +1,13 @@
 import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
-import { IAccount, IBusinessAccount } from '../types/account.types.js';
+import { IAccount, IBusinessAccount, IBusinessAccountDB, IIndividualAccountDB } from '../types/account.types.js';
 import { parseBusinessAccountQueryResult } from '../utils/db.parser.js';
 import AccountRepository from './Account.Repository.js';
 import { createAddressPayload } from '../utils/db.parser.js';
 import DatabaseException from '../exceptions/db.exception.js';
 class BusinessAccountRepository {
    
-  async createBusinessAccount(payload: Omit<IBusinessAccount, 'accountID'>) {
+  async createBusinessAccount(payload: Omit<IBusinessAccount, 'account_id'>) {
     try {
       const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
     
@@ -53,9 +53,9 @@ class BusinessAccountRepository {
         const [account_query_result] = (await sql_con.query(
         query,
         [account_id]
-        )) as unknown as RowDataPacket[];
+        )) as unknown as RowDataPacket[][];
 
-        return parseBusinessAccountQueryResult(account_query_result[0]);
+        return parseBusinessAccountQueryResult(account_query_result[0] as IBusinessAccountDB);
     } catch (err) {
       throw new DatabaseException("Failed to get business account details")
     }

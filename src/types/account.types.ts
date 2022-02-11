@@ -5,8 +5,8 @@ export interface IAccount {
   status?: AccountStatuses;
 }
 export enum AccountStatuses {
-  active = 'not_active',
-  not_active = 'active',
+  active = 'active',
+  inactive = 'inactive',
 }
 export interface IIndividualAccount extends IAccount {
   individual_id: string;

@@ -161,7 +161,7 @@ class FamilyAccountValidator {
     const individual_accounts_amounts = (payload.individual_accounts as string[]).map(
       individual_id_amount_tuple => parseInt(individual_id_amount_tuple[1]),
     );
-    const connected_individuals_to_family = await FamilyAccountRepository.getOwnersByAccountId(payload.account_id);
+    const connected_individuals_to_family = await FamilyAccountRepository.getOwnersByFamilyAccountId(payload.account_id);
 
     validation_queue.push([
       validator.checkRequiredFieldsExist(payload, ['account_id', 'individual_accounts']),

@@ -17,17 +17,17 @@ class IndividualAccountRepository {
       let insert_query = 'INSERT INTO address SET ?';
       const [address_insertion] = (await sql_con.query(
       insert_query,
-      address_payload,
+      [address_payload]
       )) as unknown as OkPacket[];
 
       //create row in individualAccount table
       const individual_payload = {
-      accountID: new_account_id,
-      individualID: payload.individual_id,
-      firstName: payload.first_name,
-      lastName: payload.last_name,
-      email: payload.email || null,
-      addressID: address_insertion.insertId,
+        accountID: new_account_id,
+        individualID: payload.individual_id,
+        firstName: payload.first_name,
+        lastName: payload.last_name,
+        email: payload.email || null,
+        addressID: address_insertion.insertId,
       };
 
       insert_query = "INSERT INTO individualAccount SET ?";
