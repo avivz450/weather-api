@@ -17,21 +17,9 @@ import accountValidator from './account.valdation.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 class FamilyAccountValidator {
   private readonly min_amount_of_balance = 5000;
-  private readonly min_amount_of_individual_transaction = 1000;
 
   async creation(payload: IGeneralObj) {
     const familyRequiredFields = ['currency', 'individual_accounts_details', 'agent_id'];
-    const individual_accounts_details: IndividualTransferDetails[] =
-      payload.individual_accounts_details;
-    const individual_accounts: IIndividualAccount[] =
-      await individualAccountService.getIndividualAccountsByAccountIds(
-        individual_accounts_details.map(account_details => account_details[0]),
-      );
-    const individual_accounts_balance_after_transfer: IGeneralObj =
-      individualAccountService.getIndividualAccountsRemainingBalance(
-        individual_accounts,
-        individual_accounts_details,
-      );
     const validation_queue: ValidationDetails[] = [];
 
     validation_queue.push([
@@ -45,7 +33,36 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isExist(individual_accounts, individual_accounts.length),
+      Array.isArray(payload.individual_accounts_details),
+      new InvalidArgumentsError('individual_accounts_details must be an array of tupples'),
+    ]);
+
+    validation_queue.push([
+      payload.individual_accounts_details.length !== 0,
+      new InvalidArgumentsError('individual_accounts_details must have at lease one tupple'),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isValidArrayOfTransfer(payload.individual_accounts_details as any[]),
+      new InvalidArgumentsError(`Invalid details of individual accounts`),
+    ]);
+
+    validationCheck(validation_queue);
+
+    const individual_accounts_details: IndividualTransferDetails[] =
+      payload.individual_accounts_details;
+    const individual_accounts: IIndividualAccount[] =
+      await individualAccountService.getIndividualAccountsByAccountIds(
+        individual_accounts_details.map(account_details => account_details[0]),
+      );
+    const individual_accounts_balance_after_transfer: IGeneralObj =
+      individualAccountService.getIndividualAccountsRemainingBalance(
+        individual_accounts,
+        individual_accounts_details,
+      );
+
+    validation_queue.push([
+      accountValidationUtils.isExist(individual_accounts, individual_accounts_details.length),
       new InvalidArgumentsError(`Some of the individual accounts are not exist`),
     ]);
 
@@ -165,7 +182,8 @@ class FamilyAccountValidator {
       individual_id_amount_tuple => parseInt(individual_id_amount_tuple[1]),
     );
 
-    const connected_individuals_to_family = await familyAccountRepository.getOwnersByFamilyAccountId(payload.account_id);
+    const connected_individuals_to_family =
+      await familyAccountRepository.getOwnersByFamilyAccountId(payload.account_id);
 
     validation_queue.push([
       validator.checkRequiredFieldsExist(payload, ['account_id', 'individual_accounts']),
@@ -193,7 +211,7 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      (individual_accounts_ids).every(individual_id =>
+      individual_accounts_ids.every(individual_id =>
         (connected_individuals_to_family as string[]).includes(individual_id),
       ),
       new InvalidArgumentsError(
@@ -216,10 +234,11 @@ class FamilyAccountValidator {
   }
 
   async transferToBusiness(payload: IGeneralObj) {
-  //await accountValidator.transfer(payload);
+    //await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
-    const connected_individuals_to_family = await familyAccountRepository.getOwnersByFamilyAccountId(payload.source_account_id);
+    const connected_individuals_to_family =
+      await familyAccountRepository.getOwnersByFamilyAccountId(payload.source_account_id);
     const individual_accounts: IIndividualAccount[] =
       await individualAccountService.getIndividualAccountsByAccountIds(
         connected_individuals_to_family as string[],

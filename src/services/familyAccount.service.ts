@@ -22,7 +22,7 @@ export class FamilyAccountService {
       family_account_id,
       Object.keys(payload.individual_accounts_details),
     );
-    const family_account = await familyAccountRepository.getFamilyAccount(
+    const family_account = await familyAccountRepository.getFamilyAccountsByAccountIds(
       family_account_id,
       DetailsLevel.full,
     ) as IFamilyAccount;

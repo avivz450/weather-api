@@ -10,7 +10,7 @@ class FamilyAccountRouter {
     this.familyAccountRouter.post(
       '/',
       raw(familyMiddlewares.verifyCreation),
-  //    raw(familyAccountController.createFamilyAccount),
+      raw(familyAccountController.createFamilyAccount),
     );
     // this.familyAccountRouter.get(
     //     ":account_id/:details_level",
