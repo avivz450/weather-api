@@ -159,12 +159,12 @@ class FamilyAccountValidator {
     const individual_accounts_ids = (payload.individual_accounts as string[]).map(
       individual_id_amount_tuple => individual_id_amount_tuple[0],
     );
+
     const individual_accounts_amounts = (payload.individual_accounts as string[]).map(
       individual_id_amount_tuple => parseInt(individual_id_amount_tuple[1]),
     );
-    const connected_individuals_to_family = await familyAccountRepository.getOwnersByAccountId(
-      payload.account_id,
-    );
+
+    const connected_individuals_to_family = await familyAccountRepository.getOwnersByFamilyAccountId(payload.account_id);
 
     validation_queue.push([
       validator.checkRequiredFieldsExist(payload, ['account_id', 'individual_accounts']),
@@ -218,9 +218,7 @@ class FamilyAccountValidator {
    await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
-    const connected_individuals_to_family = await familyAccountRepository.getOwnersByAccountId(
-      payload.source_account_id,
-    );
+    const connected_individuals_to_family = await familyAccountRepository.getOwnersByFamilyAccountId(payload.source_account_id);
     const individual_accounts: IIndividualAccount[] =
       await individualAccountService.getIndividualAccountsByAccountIds(
         connected_individuals_to_family as string[],

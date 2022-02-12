@@ -1,12 +1,7 @@
-import {
-  IAddress,
-  IBusinessAccount,
-  IBusinessAccountDB,
-  IFamilyAccount,
-  IIndividualAccount,
-  IIndividualAccountDB,
-} from '../types/account.types';
-import { IGeneralObj } from '../types/general.types';
+import { RowDataPacket } from "mysql2";
+import { DetailsLevel, IAddress, IBusinessAccount, IBusinessAccountDB, IFamilyAccount, IIndividualAccount, IIndividualAccountDB } from "../types/account.types";
+import { IFamilyAccountParse } from "../types/db.types";
+import { IGeneralObj } from "../types/general.types";
 
 export function parseIndividualAccountQueryResult(query_result_obj: IIndividualAccountDB) {
   const {
@@ -90,15 +85,48 @@ export function parseBusinessAccountQueryResult(query_result_obj: IBusinessAccou
   } as unknown as IBusinessAccount;
 }
 
-export function createAddressPayload(
-  payload: Omit<IBusinessAccount, 'account_id'> | Omit<IIndividualAccount, 'account_id'>,
-) {
-  return {
-    countryCode: payload.address?.country_code || null,
-    postalCode: payload.address?.postal_code || null,
-    city: payload.address?.city || null,
-    region: payload.address?.region || null,
-    streetName: payload.address?.street_name || null,
-    streetNumber: payload.address?.street_number || null,
-  };
+export function createAddressPayload(payload: Omit<IBusinessAccount, "account_id"> | Omit<IIndividualAccount, "account_id"> ) {
+    return {
+        countryCode: payload.address?.country_code || null,
+        postalCode: payload.address?.postal_code || null,
+        city: payload.address?.city || null,
+        region: payload.address?.region || null,
+        streetName: payload.address?.street_name || null,
+        streetNumber: payload.address?.street_number || null,
+      };
+}
+
+export function parseFamilyAccountQueryResult(payload: IFamilyAccountParse, details_level: DetailsLevel) {
+    if(details_level === DetailsLevel.short) {
+        const { accountID, currencyCode, statusName, balance, context } = (payload.query_res as RowDataPacket[0]);
+        const owners: string[] = [];
+        const output = {
+            account_id: accountID, 
+            currency: currencyCode, 
+            balance, 
+            status: statusName, 
+            context, 
+            owners 
+        };
+        
+        (payload.query_res as RowDataPacket[]).forEach(row => {
+            const { individualAccountID } = row;
+            output.owners.push(individualAccountID)
+        });
+
+        return output as IFamilyAccount;
+
+    } else if (details_level === DetailsLevel.full) {
+        const { accountID, currencyCode, statusName, balance, context } = (payload.query_res as RowDataPacket[])[0];
+        const output = {
+            account_id: accountID, 
+            currency: currencyCode, 
+            balance, 
+            status: statusName, 
+            context, 
+            owners: payload.owners_full 
+        };
+
+        return output as IFamilyAccount;
+    }
 }

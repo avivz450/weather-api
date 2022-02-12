@@ -4,7 +4,7 @@ import DatabaseException from '../exceptions/db.exception.js';
 import { IIndividualAccount, IIndividualAccountDB, IAccount } from '../types/account.types';
 import { IGeneralObj } from '../types/general.types.js';
 import { createAddressPayload, parseIndividualAccountQueryResult } from '../utils/db.parser.js';
-import AccountRepository from './Account.Repository.js';
+import { AccountRepository } from './Account.Repository.js';
 
 class IndividualAccountRepository {
   async createIndividualAccount(payload: Omit<IIndividualAccount, 'account_id'>) {
@@ -16,18 +16,18 @@ class IndividualAccountRepository {
 
       let insert_query = 'INSERT INTO address SET ?';
       const [address_insertion] = (await sql_con.query(
-        insert_query,
-        address_payload,
+      insert_query,
+      [address_payload]
       )) as unknown as OkPacket[];
 
       //create row in individualAccount table
       const individual_payload = {
-        accountID: new_account_id,
-        individualID: payload.individual_id,
-        firstName: payload.first_name,
-        lastName: payload.last_name,
-        email: payload.email || null,
-        addressID: address_insertion.insertId,
+          accountID: new_account_id,
+          individualID: payload.individual_id,
+          firstName: payload.first_name,
+          lastName: payload.last_name,
+          email: payload.email || null,
+          addressID: address_insertion.insertId
       };
 
       insert_query = 'INSERT INTO individualAccount SET ?';
@@ -43,11 +43,11 @@ class IndividualAccountRepository {
     try {
       let query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName ,ad.*
                       FROM account AS a 
-                      JOIN individualAccount AS ia ON a.accountID= ia.accountID 
-                      JOIN statusAccount AS s ON s.statusID=a.statusID
-                      JOIN currency AS c ON c.currencyID=a.currencyID
-                      JOIN address AS ad ON ad.addressID=ia.addressID
-                      JOIN country as co ON co.countryCode=ad.countryCode
+                      LEFT JOIN individualAccount AS ia ON a.accountID= ia.accountID 
+                      LEFT JOIN statusAccount AS s ON s.statusID=a.statusID
+                      LEFT JOIN currency AS c ON c.currencyID=a.currencyID
+                      LEFT JOIN address AS ad ON ad.addressID=ia.addressID
+                      LEFT JOIN country as co ON co.countryCode=ad.countryCode
                       WHERE a.accountID = ?`;
       const [account_query_result] = (await sql_con.query(query, [
         account_id,
@@ -100,7 +100,7 @@ class IndividualAccountRepository {
 
       const [individual_accounts_result_query] = (await sql_con.query(query, [
         ...individual_ids,
-      ])) as unknown as RowDataPacket[];
+      ])) as unknown as RowDataPacket[][];
 
       const IndividualAccounts: IIndividualAccount[] = [];
 
