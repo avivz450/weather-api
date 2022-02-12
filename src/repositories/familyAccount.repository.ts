@@ -31,7 +31,7 @@ class FamilyAccountRepository {
             throw new DatabaseException(errMessasge)        }
     }
 
-    async getFamilyAccountsByAccountIds(family_account_id: string, details_level: DetailsLevel) {
+    async getFamilyAccountById(family_account_id: string, details_level: DetailsLevel) {
         try {
             if (details_level === DetailsLevel.short) {
                 //get family account return after parse
@@ -112,8 +112,9 @@ class FamilyAccountRepository {
             } else throw Error("");
 
         } catch(err) {
-            const errMessasge:string = (err as any).sqlMessage;
-            throw new DatabaseException(errMessasge)        }
+            const errMessasge: string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)        
+        }
     }
 
     async transferFromIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_transfer_details: IndividualTransferDetails[]) {
