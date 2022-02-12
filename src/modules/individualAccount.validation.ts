@@ -10,7 +10,7 @@ class IndividualAccountValidator {
   private readonly min_amount_of_balance = 1000;
 
   async creation(payload: IGeneralObj) {
-    const individual_required_fields = ['individual_id', 'first_name', 'last_name', 'currency'];
+    const individual_required_fields = ['individual_id', 'first_name', 'last_name', 'currency', 'agent_id'];
     const validation_queue: ValidationDetails[] = [];
 
     validation_queue.push([

@@ -11,7 +11,7 @@ class BusinessAccountValidator {
   private readonly min_amount_of_balance = 10000;
 
   creation(payload: IGeneralObj) {
-    const businessRequiredFields = ['company_id', 'company_name', 'currency'];
+    const businessRequiredFields = ['company_id', 'company_name', 'currency', 'agent_id'];
     const validation_queue: ValidationDetails[] = [];
 
     validation_queue.push([

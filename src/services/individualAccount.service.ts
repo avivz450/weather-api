@@ -1,9 +1,7 @@
 import { d } from '@ajar/marker';
 import logicError from '../exceptions/logic.exception.js';
 import transferError from '../exceptions/transfer.exception.js';
-import familyAccountRepository, {
-  FamilyAccountRepository,
-} from '../repositories/familyAccount.repository.js';
+import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import individualAccountRepository from '../repositories/individualAccount.repository.js';
 import transferRepository from '../repositories/Transfer.Repository.js';
 import {

@@ -2,39 +2,37 @@ import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
 import DatabaseException from '../exceptions/db.exception.js';
 import { IIndividualAccount, IIndividualAccountDB, IAccount } from '../types/account.types';
-import { IGeneralObj } from '../types/general.types.js';
+import addressRepository from "./address.repository.js";
 import { createAddressPayload, parseIndividualAccountQueryResult } from '../utils/db.parser.js';
-import { AccountRepository } from './Account.Repository.js';
+import accountRepository from './Account.Repository.js';
 
 class IndividualAccountRepository {
   async createIndividualAccount(payload: Omit<IIndividualAccount, 'account_id'>) {
+    // create an account
+    const new_account_id = await accountRepository.createAccount(payload as unknown as IAccount);
+
+    //create row in address table
+    const address_payload = createAddressPayload(payload);
+    const address_id = await addressRepository.createAddress(address_payload);
+
     try {
-      const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
-
-      //create row in address table
-      const address_payload = createAddressPayload(payload);
-      let insert_query = 'INSERT INTO address SET ?';
-      const [address_insertion] = (await sql_con.query(
-      insert_query,
-      [address_payload]
-      )) as unknown as OkPacket[];
-
       //create row in individualAccount table
       const individual_payload = {
-          accountID: new_account_id,
-          individualID: payload.individual_id,
-          firstName: payload.first_name,
-          lastName: payload.last_name,
-          email: payload.email || null,
-          addressID: address_insertion.insertId
+        accountID: new_account_id,
+        individualID: payload.individual_id,
+        firstName: payload.first_name,
+        lastName: payload.last_name,
+        email: payload.email || null,
+        addressID: address_id 
       };
 
-      insert_query = 'INSERT INTO individualAccount SET ?';
+      let insert_query = 'INSERT INTO individualAccount SET ?';
       await sql_con.query(insert_query, [individual_payload]);
 
       return new_account_id;
     } catch (err) {
-      throw new DatabaseException('Failed to create individual account');
+      const errMessasge:string = (err as any).sqlMessage;
+      throw new DatabaseException(errMessasge);
     }
   }
 
@@ -54,8 +52,8 @@ class IndividualAccountRepository {
 
       return parseIndividualAccountQueryResult(account_query_result[0]);
     } catch (err) {
-      throw new DatabaseException('Failed to get individual account details');
-    }
+      const errMessasge:string = (err as any).sqlMessage;
+      throw new DatabaseException(errMessasge)    }
   }
 
   async getIndividualAccountsByAccountIds(account_ids: string[]) {
@@ -80,8 +78,8 @@ class IndividualAccountRepository {
 
       return IndividualAccounts;
     } catch (err) {
-      throw new DatabaseException('Failed to get individual accounts details');
-    }
+      const errMessasge:string = (err as any).sqlMessage;
+      throw new DatabaseException(errMessasge)    }
   }
 
   async getIndividualAccountsByIndividualIds(individual_ids: string[]) {
@@ -109,8 +107,8 @@ class IndividualAccountRepository {
 
       return IndividualAccounts;
     } catch (err) {
-      throw new DatabaseException('Failed to get individual accounts details');
-    }
+      const errMessasge:string = (err as any).sqlMessage;
+      throw new DatabaseException(errMessasge)    }
   }
 }
 
