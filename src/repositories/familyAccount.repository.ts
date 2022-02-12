@@ -26,7 +26,7 @@ class FamilyAccountRepository {
             [family_account_payload]
             )) as unknown as OkPacket[][];
             
-            return account_insertion_result.insertId.toString();
+            return account_insertion_result[0].insertId.toString();
         } catch (err) {
             throw new DatabaseException("Failed to create family account");
         }
@@ -239,6 +239,7 @@ class FamilyAccountRepository {
     }
 
     closeFamilyAccountByAccountId(family_account_id: string) {
+
     }
 }
 
