@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { ResponseMessage } from '../types/messages.types.js';
-import { FamilyAccountService } from '../services/familyAccount.service.js';
+import familyAccountService  from '../services/familyAccount.service.js';
 import {
   DetailsLevel,
   IFamilyAccount,
@@ -11,15 +11,15 @@ import {
 import logicError from '../exceptions/logic.exception.js';
 
 class FamilyAccountController {
-  //  createFamilyAccount: RequestHandler = async (req, res) => {
-  //   const family_account = await FamilyAccountService.createFamilyAccount(req.body as IFamilyAccountCreationInput);
-  //   const response: ResponseMessage = {
-  //     status: 200,
-  //     message: 'success',
-  //     data: { family_account },
-  //   };
-  //   res.status(response.status).json(response);
-  // };
+   createFamilyAccount: RequestHandler = async (req, res) => {
+    const family_account = await familyAccountService.createFamilyAccount(req.body as IFamilyAccountCreationInput);
+    const response: ResponseMessage = {
+      status: 200,
+      message: 'success',
+      data: { family_account },
+    };
+    res.status(response.status).json(response);
+  };
   //  getFamilyAccount: RequestHandler = async (req, res) => {
   //   const { account_id,details_level} = req.params;
   //   const family_account = await FamilyAccountService.getFamilyAccountsByAccountIds(account_id,details_level as DetailsLevel);
