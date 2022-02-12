@@ -1,48 +1,49 @@
 import { IGeneralObj } from '../types/general.types.js';
 import validator from '../utils/validator.js';
-import accountValidator from '../utils/account.validator.js';
-import validationCheck from '../utils/validation.utils';
+import accountValidationUtils from '../utils/account.validator.js';
+import validationCheck from '../utils/validation.utils.js';
 import ValidationDetails from '../types/validation.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
-import { IndividualAccountValidator } from './individualAccount.validation.js';
+import individualAccountValidator from './individualAccount.validation.js';
+import accountValidator from './account.valdation';
 class BusinessAccountValidator {
   private readonly company_id_length = 8;
+  private readonly min_amount_of_balance = 10000;
 
   creation(payload: IGeneralObj) {
     const businessRequiredFields = ['company_id', 'company_name', 'currency'];
-    const validationQueue: ValidationDetails[] = [];
+    const validation_queue: ValidationDetails[] = [];
 
-    validationQueue.push([
+    validation_queue.push([
       validator.checkRequiredFieldsExist(payload, businessRequiredFields),
       new InvalidArgumentsError('Some of the required values are not inserted'),
     ]);
 
-    validationQueue.push([
+    validation_queue.push([
       validator.checkFieldsNotExist(payload, ['account_id']),
       new InvalidArgumentsError('account_id should not be inserted'),
     ]);
 
-    validationQueue.push([
-      accountValidator.isValidId(payload.account_id, this.company_id_length),
+    validation_queue.push([
+      accountValidationUtils.isValidId(String(payload.account_id), this.company_id_length),
       new InvalidArgumentsError(
-        `id must be made of ${IndividualAccountValidator.individual_id_length} numbers`,
+        `id must be made of ${individualAccountValidator.individualIdLength} numbers`,
       ),
     ]);
 
-    validationCheck(validationQueue);
+    validationCheck(validation_queue);
   }
 
-  get(payload: IGeneralObj) {
-    const validationQueue: ValidationDetails[] = [];
+  async transferToBusiness(payload: IGeneralObj) {
+    await accountValidator.transfer(payload);
+  }
 
-    validationQueue.push([
-      accountValidator.isValidId(payload.id),
-      new InvalidArgumentsError(
-        `primary_id must be inserted with numeric characters.`,
-      ),
-    ]);
+  async transferToIndividual(payload: IGeneralObj) {
+    await accountValidator.transfer(payload);
+  }
 
-    validationCheck(validationQueue);
+  get minAmountOfBalance() {
+    return this.min_amount_of_balance;
   }
 }
 

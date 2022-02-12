@@ -2,60 +2,52 @@ import individualAccountService from '../services/individualAccount.service.js';
 import { IGeneralObj } from '../types/general.types.js';
 import ValidationDetails from '../types/validation.types.js';
 import validator from '../utils/validator.js';
-import accountValidator from '../utils/account.validator.js';
-import InvalidArgumentsError from '../exceptions/InvalidArguments.exception';
-import validationCheck from '../utils/validation.utils';
-export class IndividualAccountValidator {
-  static readonly individual_id_length = 7;
+import accountValidationUtils from '../utils/account.validator.js';
+import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
+import validationCheck from '../utils/validation.utils.js';
+class IndividualAccountValidator {
+  private readonly individual_id_length = 7;
+  private readonly min_amount_of_balance = 1000;
 
   async creation(payload: IGeneralObj) {
-    const individualRequiredFields = ['individual_id', 'first_name', 'last_name', 'currency'];
-    const validationQueue: ValidationDetails[] = [];
+    const individual_required_fields = ['individual_id', 'first_name', 'last_name', 'currency'];
+    const validation_queue: ValidationDetails[] = [];
 
-    validationQueue.push([
-      validator.checkRequiredFieldsExist(payload, individualRequiredFields),
+    validation_queue.push([
+      validator.checkRequiredFieldsExist(payload, individual_required_fields),
       new InvalidArgumentsError('Some of the required values are not inserted'),
     ]);
 
-    validationQueue.push([
+    validation_queue.push([
       validator.checkFieldsNotExist(payload, ['account_id']),
       new InvalidArgumentsError('account_id should not be inserted'),
     ]);
 
-    validationQueue.push([
-      accountValidator.isValidId(
-        payload.account_id,
-        IndividualAccountValidator.individual_id_length,
-      ),
-      new InvalidArgumentsError(
-        `id must be made of ${IndividualAccountValidator.individual_id_length} numbers`,
-      ),
+    validation_queue.push([
+      accountValidationUtils.isValidId(String(payload.account_id), this.individual_id_length),
+      new InvalidArgumentsError(`id must be made of ${this.individual_id_length} numbers`),
     ]);
 
     const individualAccount = await individualAccountService.getIndividualAccountsByIndividualIds([
       payload.individual_id,
-    ]);
+    ] as string[]);
 
-    validationQueue.push([
-      accountValidator.isExist(individualAccount, 0),
+    validation_queue.push([
+      accountValidationUtils.isExist(individualAccount, 0),
       new InvalidArgumentsError(`There is already a user with the input id in the system`),
     ]);
 
-    validationCheck(validationQueue);
+    validationCheck(validation_queue);
   }
 
-  get(payload: IGeneralObj) {
-    const validationQueue: ValidationDetails[] = [];
+  get minAmountOfBalance() {
+    return this.min_amount_of_balance;
+  }
 
-    validationQueue.push([
-      accountValidator.isValidId(payload.id),
-      new InvalidArgumentsError(
-        `primary_id must be inserted with numeric characters.`,
-      ),
-    ]);
-
-    validationCheck(validationQueue);
+  get individualIdLength() {
+    return this.individual_id_length;
   }
 }
 
-export const individualAccountValidator = new IndividualAccountValidator();
+const individualAccountValidator = new IndividualAccountValidator();
+export default individualAccountValidator;

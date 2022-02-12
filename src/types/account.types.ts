@@ -1,12 +1,25 @@
 export interface IAccount {
   account_id: string;
   currency: string;
-  balance?: number;
-  status?: AccountStatuses;
+  balance: number;
+  status: AccountStatuses;
+  type: AccountTypes;
 }
+
+export enum AccountTypes {
+  Individual = 'Individual',
+  Business = 'Business',
+  Family = 'Family',
+}
+
 export enum AccountStatuses {
   active = 'active',
   inactive = 'inactive',
+}
+
+export enum TransferTypes {
+  same_currency = 'transfer',
+  different_currency = 'different-currency-transfer',
 }
 export interface IIndividualAccount extends IAccount {
   individual_id: string;

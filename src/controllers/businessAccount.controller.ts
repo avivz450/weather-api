@@ -5,7 +5,9 @@ import { IBusinessAccount, ITransferRequest } from '../types/account.types.js';
 
 export class BusinessController {
   static createBusinessAccount: RequestHandler = async (req, res) => {
-    const business_account = await BusinessAccountService.createBusinessAccount(req.body as IBusinessAccount);
+    const business_account = await BusinessAccountService.createBusinessAccount(
+      req.body as IBusinessAccount,
+    );
     const response: ResponseMessage = {
       status: 200,
       message: 'success',

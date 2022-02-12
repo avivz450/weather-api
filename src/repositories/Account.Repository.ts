@@ -1,7 +1,7 @@
 import { OkPacket, RowDataPacket } from "mysql2";
 import { sql_con } from "../db/sql/sql.connection.js";
 import DatabaseException from "../exceptions/db.exception.js";
-import { IBusinessAccount, ITransferRequest, ITransferResponse, IIndividualAccount, IAccount, AccountStatuses } from "../types/account.types.js";
+import { IBusinessAccount, ITransferRequest, ITransferResponse, IIndividualAccount, IAccount, AccountStatuses, AccountTypes } from "../types/account.types.js";
 import { IGeneralObj } from "../types/general.types.js";
 import bussinessAccountRepository from "./bussinessAccount.repository.js";
 
@@ -10,23 +10,23 @@ class AccountRepository {
         try {
             let query = 'SELECT currencyID FROM currency WHERE currencyCode = ?';
             //get currencyID with currency code
-            const [currency_query_result] = (await sql_con.query(query,[payload.currency])) as unknown as RowDataPacket[];
+            const [currency_query_result] = (await sql_con.query(query,[payload.currency])) as unknown as RowDataPacket[][];
     
             // get statusID from statuses
             query = 'SELECT statusID FROM statusAccount WHERE statusName = ?'; 
-            const [status_query_result] = (await sql_con.query(query, ['active'])) as unknown as RowDataPacket[];
+            const [status_query_result] = (await sql_con.query(query, [AccountStatuses.active])) as unknown as RowDataPacket[][];
     
             //create row in account table
             const account_payload = {
-            currencyID: (currency_query_result[0] as IGeneralObj).currencyID,
-            balance: payload.balance || 0,
-            statusID: (status_query_result[0] as IGeneralObj).statusID,
+                currencyID: (currency_query_result[0] as IGeneralObj).currencyID,
+                balance: payload.balance || 0,
+                statusID: (status_query_result[0] as IGeneralObj).statusID,
             };
     
             let insert_query = 'INSERT INTO account SET ?';
             const [account_insertion_result] = (await sql_con.query(
             insert_query,
-            account_payload,
+            [account_payload],
             )) as unknown as OkPacket[];
             
             return account_insertion_result.insertId.toString();
@@ -48,26 +48,27 @@ class AccountRepository {
             throw new DatabaseException("Failed to get account details")
         }
     }
+  
 
-    async changeAccountsStatusesByAccountIds(account_ids: string[], status_to_update: AccountStatuses) {
+    async changeAccountsStatusesByAccountIds(account_ids: string[], status_to_update: AccountStatuses) {  
         try {
             const in_placeholder = account_ids.map(() => "?").join(",")
             const query = `UPDATE account a JOIN statuses s ON (a.statusID = o.statusID)
                             SET a.statusID = o.statusID
-                            WHERE a.accountID IN (${in_placeholder}) AND o.statusName = ?;`
+                            WHERE a.accountID IN (${in_placeholder}) AND o.statusName = ?`
             const [update_query_result] = (await sql_con.query(
                 query,
                 [status_to_update]
             )) as unknown as OkPacket[];
             
             if (update_query_result.affectedRows) {
-                return true
+                return true;
             } else throw new Error("");
         } catch (err) {
-            throw new DatabaseException(`Falied to change account statuses to account ids: ${account_ids.toString()}`)
+            throw new DatabaseException(`Falied to change account statuses to account ids: ${account_ids.toString()}`);
         }
     }
-}
 
+}
 const accountRepository = new AccountRepository();
 export default accountRepository;
