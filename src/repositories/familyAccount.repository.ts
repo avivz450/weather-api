@@ -241,6 +241,7 @@ class FamilyAccountRepository {
     }
 
     closeFamilyAccountByAccountId(family_account_id: string) {
+
     }
 }
 

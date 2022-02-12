@@ -23,7 +23,7 @@ class IndividualAccountRepository {
         firstName: payload.first_name,
         lastName: payload.last_name,
         email: payload.email || null,
-        addressID: address_id
+        addressID: address_id 
       };
 
       let insert_query = 'INSERT INTO individualAccount SET ?';
@@ -38,7 +38,7 @@ class IndividualAccountRepository {
 
   async getIndividualAccountByAccountId(account_id: string) {
     try {
-      let query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName ,ad.*
+      let query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName, ad.countryCode, ad.postalCode, ad.city, ad.region, ad.streetName, ad.streetNumber
                       FROM account AS a 
                       LEFT JOIN individualAccount AS ia ON a.accountID= ia.accountID 
                       LEFT JOIN statusAccount AS s ON s.statusID=a.statusID
