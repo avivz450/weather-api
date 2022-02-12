@@ -5,26 +5,24 @@ import { parseBusinessAccountQueryResult } from '../utils/db.parser.js';
 import AccountRepository from './Account.Repository.js';
 import { createAddressPayload } from '../utils/db.parser.js';
 import DatabaseException from '../exceptions/db.exception.js';
+import addressRepository from './address.repository.js';
 class BusinessAccountRepository {
   async createBusinessAccount(payload: Omit<IBusinessAccount, 'account_id'>) {
+    //create an account
+    const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
+
+    //create row in address table
+    const address_payload = createAddressPayload(payload);
+    const address_id = await addressRepository.createAddress(address_payload);
+
     try {
-      const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
-
-      // create row in address table
-      const address_payload = createAddressPayload(payload);
-      let insert_query = 'INSERT INTO address SET ?';
-      const [address_insertion] = (await sql_con.query(
-        insert_query,
-        address_payload,
-      )) as unknown as OkPacket[];
-
       // create row in bussinessAccount table
       const business_payload = {
         accountID: new_account_id,
         companyID: payload.company_id,
         companyName: payload.company_name,
         context: payload.context || null,
-        addressID: address_insertion.insertId,
+        addressID: address_id,
       };
 
       const [bussiness_insertion] = (await sql_con.query(

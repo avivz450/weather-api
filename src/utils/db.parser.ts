@@ -1,7 +1,7 @@
 import { RowDataPacket } from "mysql2";
-import { DetailsLevel, IAddress, IBusinessAccount, IBusinessAccountDB, IFamilyAccount, IIndividualAccount, IIndividualAccountDB } from "../types/account.types";
-import { IFamilyAccountParse } from "../types/db.types";
-import { IGeneralObj } from "../types/general.types";
+import { DetailsLevel, IAddress, IBusinessAccount, IBusinessAccountDB, IFamilyAccount, IIndividualAccount, IIndividualAccountDB } from "../types/account.types.js";
+import { IFamilyAccountParse } from "../types/db.types.js";
+import { IGeneralObj } from "../types/general.types.js";
 
 export function parseIndividualAccountQueryResult(query_result_obj: IIndividualAccountDB) {
   const {
