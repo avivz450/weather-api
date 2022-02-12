@@ -24,7 +24,7 @@ class IndividualAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isValidId(String(payload.account_id), this.individual_id_length),
+      accountValidationUtils.isValidId(String(payload.individual_id), this.individual_id_length),
       new InvalidArgumentsError(`id must be made of ${this.individual_id_length} numbers`),
     ]);
 

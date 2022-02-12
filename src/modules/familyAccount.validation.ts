@@ -9,6 +9,7 @@ import {
 } from '../types/account.types.js';
 import validator from '../utils/validator.js';
 import accountValidationUtils from '../utils/account.validator.js';
+import individualAccountValidator from './individualAccount.validation.js';
 import ValidationDetails from '../types/validation.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import validationCheck from '../utils/validation.utils.js';
@@ -73,11 +74,11 @@ class FamilyAccountValidator {
 
     validation_queue.push([
       validator.isEachAboveMinAmount(
-        this.min_amount_of_individual_transaction,
+        individualAccountValidator.minAmountOfBalance,
         Object.values(individual_accounts_balance_after_transfer) as number[],
       ),
       new InvalidArgumentsError(
-        `the sum of the amounts didn't pass the minimum of ${this.min_amount_of_individual_transaction}`,
+        `There is an individual account that will have less than ${individualAccountValidator.minAmountOfBalance} coins after the transaction`,
       ),
     ]);
 
@@ -207,7 +208,7 @@ class FamilyAccountValidator {
     const validation_queue: ValidationDetails[] = [];
 
     validation_queue.push([
-      accountValidationUtils.isValidId(String(payload.id)),
+      accountValidationUtils.isValidId(String(payload.account_id)),
       new InvalidArgumentsError(`primary_id must be inserted with numeric characters.`),
     ]);
 
