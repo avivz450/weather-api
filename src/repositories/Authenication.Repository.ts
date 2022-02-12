@@ -7,7 +7,7 @@ class AuthenticationRepository {
         try {
             const query = `SELECT secretKey 
                             FROM agent
-                            WHERE accessKey =?`
+                            WHERE accessKey = ?`
             const [secret_query_res] = (await sql_con.query(
                 query,
                 [accesKey]

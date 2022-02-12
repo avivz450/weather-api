@@ -44,7 +44,7 @@ class BusinessAccountRepository {
 
   async getBusinessAccountByAccountID(account_id: string) {
     try {
-      let query = `SELECT a.accountID, ba.companyID,ba.companyName,ba.context ,a.balance,s.statusName as status,c.currencyCode, co.countryName, ad.*
+      let query = `SELECT a.accountID, ba.companyID,ba.companyName,ba.context ,a.balance,s.statusName as status,c.currencyCode, co.countryName, ad.countryCode, ad.postalCode, ad.city, ad.region, ad.streetName, ad.streetNumber
                       FROM account AS a 
                       JOIN businessAccount AS ba 
                       JOIN statusAccount AS s 

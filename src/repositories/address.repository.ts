@@ -11,7 +11,7 @@ class AddressRepository {
         payload,
       ])) as unknown as OkPacket[];
 
-      return address_insertion.insertId;
+      return address_insertion.insertId ? address_insertion.insertId : null;
     } catch (err) {
       const errMessasge: string = (err as any).sqlMessage;
       throw new DatabaseException(errMessasge);
