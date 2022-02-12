@@ -10,17 +10,18 @@ class AccountRepository {
             let query = 'SELECT currencyID FROM currency WHERE currencyCode = ?';
             //get currencyID with currency code
             const [currency_query_result] = (await sql_con.query(query,[payload.currency])) as unknown as RowDataPacket[][];
-    
+
+            
             // get statusID from statuses
             query = 'SELECT statusID FROM statusAccount WHERE statusName = ?'; 
             const [status_query_result] = (await sql_con.query(query, [AccountStatuses.active])) as unknown as RowDataPacket[][];
-    
+
             //create row in account table
             const account_payload = {
                 currencyID: (currency_query_result[0] as IGeneralObj).currencyID,
                 balance: payload.balance || 0,
                 statusID: (status_query_result[0] as IGeneralObj).statusID,
-                agentID: payload.agentID
+                agentID: payload.agent_id
             };
     
             let insert_query = 'INSERT INTO account SET ?';
@@ -28,10 +29,11 @@ class AccountRepository {
             insert_query,
             [account_payload],
             )) as unknown as OkPacket[];
-            
+
             return account_insertion_result.insertId.toString();
         } catch (err) {
-            throw new DatabaseException("Failed to create account")
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)
         }
     }
 
@@ -45,8 +47,8 @@ class AccountRepository {
     
             return account_query[0] as IIndividualAccount || null;
         } catch (err) {
-            throw new DatabaseException("Failed to get account details")
-        }
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)        }
     }
   
 
@@ -65,7 +67,8 @@ class AccountRepository {
                 return true;
             } else throw new Error("");
         } catch (err) {
-            throw new DatabaseException(`Falied to change account statuses to account ids: ${account_ids.toString()}`);
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)
         }
     }
 

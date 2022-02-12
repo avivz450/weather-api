@@ -10,9 +10,10 @@ import individualAccountRepository from "./individualAccount.repository.js";
 class FamilyAccountRepository {
 
     async createFamilyAccount(payload :Omit<IFamilyAccountCreationInput, "account_id">) {
+                    //insert new account row
+                    const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
+                    
         try {
-            //insert new account row
-            const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
 
             //insert new family account row with new account id
             const family_account_payload = {
@@ -26,10 +27,10 @@ class FamilyAccountRepository {
             [family_account_payload]
             )) as unknown as OkPacket[][];
             
-            return account_insertion_result.insertId.toString();
+            return account_insertion_result[0].insertId.toString();
         } catch (err) {
-            throw new DatabaseException("Failed to create family account");
-        }
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)        }
     }
 
     async getFamilyAccount(family_account_id: string, details_level: DetailsLevel) {
@@ -85,8 +86,8 @@ class FamilyAccountRepository {
             }
             
         } catch (err) {
-          throw new DatabaseException(`Failed to get family account with id: ${family_account_id}`)
-        }
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)        }
     }
 
     async addIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_ids: string[]) {
@@ -113,8 +114,8 @@ class FamilyAccountRepository {
             } else throw Error("");
 
         } catch(err) {
-            throw new DatabaseException("Failed to add individual accounts to a family account")
-        }
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)        }
     }
 
     async transferFromIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_transfer_details: IndividualTransferDetails[]) {
@@ -153,7 +154,8 @@ class FamilyAccountRepository {
                 return true;
             } else throw Error("");
         } catch(err) {
-            throw new DatabaseException("Failed to transfer from individuals to family account")
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)
         }
     }
 
@@ -172,8 +174,8 @@ class FamilyAccountRepository {
                 return true;
             } else throw Error("");
         } catch(err) {
-            throw new DatabaseException("Failed to add individual accounts to a family account")
-        }
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)        }
     }
 
     async transferFromFamilyAccountToIndividualAccounts(family_account_id: string, individual_accounts_transfer_details: IndividualTransferDetails[]) {
@@ -212,8 +214,8 @@ class FamilyAccountRepository {
                 return true;
             } else throw Error("");
         } catch(err) {
-            throw new DatabaseException("Failed to transfer from individuals to family account")
-        }
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)        }
     }
 
     async getOwnersByFamilyAccountId(family_account_id: string) {
@@ -234,8 +236,8 @@ class FamilyAccountRepository {
                 return owner_id.individualAccountID as string
             });
         } catch (err) {
-            throw new DatabaseException(`Failed to get owners of family account id: ${family_account_id}`)
-        }
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)        }
     }
 
     closeFamilyAccountByAccountId(family_account_id: string) {
