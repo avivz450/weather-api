@@ -1,5 +1,5 @@
 import express from 'express';
-import { BusinessController } from '../controllers/businessAccount.controller.js';
+import  businessController  from '../controllers/businessAccount.controller.js';
 import businessMiddlewares from '../middlewares/businessAccount.middleware.js';
 import accountMiddlewares from '../middlewares/account.middleware.js';
 
@@ -12,21 +12,21 @@ class BusinessAccountRouter {
     this.businessAccountRouter.post(
       '/',
       raw(businessMiddlewares.verifyCreation),
-      raw(BusinessController.createBusinessAccount),
+      raw(businessController.createBusinessAccount),
     );
     this.businessAccountRouter.get(
       '/:account_id',
       raw(accountMiddlewares.verifyGetAccount),
-      raw(BusinessController.getBusinessAccount),
+      raw(businessController.getBusinessAccount),
     );
     this.businessAccountRouter.post(
       '/business/transfer/business',
-      raw(BusinessController.transferBusinessToBusiness),
+      raw(businessController.transferBusinessToBusiness),
     );
 
     this.businessAccountRouter.post(
       '/business/transfer/individual',
-      raw(BusinessController.transferBusinessToIndividual),
+      raw(businessController.transferBusinessToIndividual),
     );
   }
 

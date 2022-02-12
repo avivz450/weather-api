@@ -3,8 +3,8 @@ import { ResponseMessage } from '../types/messages.types.js';
 import { BusinessAccountService } from '../services/businessAccount.service.js';
 import { IBusinessAccount, ITransferRequest } from '../types/account.types.js';
 
-export class BusinessController {
-  static createBusinessAccount: RequestHandler = async (req, res) => {
+class BusinessController {
+  createBusinessAccount: RequestHandler = async (req, res) => {
     const business_account = await BusinessAccountService.createBusinessAccount(
       req.body as IBusinessAccount,
     );
@@ -16,7 +16,7 @@ export class BusinessController {
     res.status(response.status).json(response);
   };
 
-  static getBusinessAccount: RequestHandler = async (req, res) => {
+  getBusinessAccount: RequestHandler = async (req, res) => {
     const { account_id } = req.params;
     const business_account = await BusinessAccountService.getBusinessAccount(account_id);
     //   if (!businessAccount) throw new UrlNotFoundException(req.originalUrl);
@@ -28,7 +28,7 @@ export class BusinessController {
     res.status(response.status).json(response);
   };
 
-  static transferBusinessToBusiness: RequestHandler = async (req, res) => {
+  transferBusinessToBusiness: RequestHandler = async (req, res) => {
     const busines_account = await BusinessAccountService.transferBusinessToBusiness(
       req.body as ITransferRequest,
     );
@@ -41,7 +41,7 @@ export class BusinessController {
     res.status(response.status).json(response);
   };
 
-  static transferBusinessToIndividual: RequestHandler = async (req, res) => {
+  transferBusinessToIndividual: RequestHandler = async (req, res) => {
     const busines_account = await BusinessAccountService.transferBusinessToIndividual(
       req.body as ITransferRequest,
     );
