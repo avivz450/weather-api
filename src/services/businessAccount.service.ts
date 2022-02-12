@@ -1,6 +1,6 @@
 import { IBusinessAccount, ITransferRequest, ITransferResponse } from '../types/account.types.js';
 import BussinessAccountRepository from '../repositories/bussinessAccount.repository.js';
-import TransferRepository from '../repositories/Transfer.Repository.js';
+import TransferRepository from '../repositories/transfer.repository.js';
 import transferError from '../exceptions/transfer.exception.js';
 import logicError from '../exceptions/logic.exception.js';
 export class BusinessAccountService {

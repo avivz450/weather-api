@@ -22,7 +22,7 @@ class FamilyAccountController {
   // };
   //  getFamilyAccount: RequestHandler = async (req, res) => {
   //   const { account_id,details_level} = req.params;
-  //   const family_account = await FamilyAccountService.getFamilyAccount(account_id,details_level as DetailsLevel);
+  //   const family_account = await FamilyAccountService.getFamilyAccountsByAccountIds(account_id,details_level as DetailsLevel);
   //   const response: ResponseMessage = {
   //     status: 200,
   //     message: 'success',

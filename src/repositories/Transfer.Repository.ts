@@ -1,7 +1,7 @@
 import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
 import { IBusinessAccount, ITransferRequest, ITransferResponse } from '../types/account.types.js';
-import accountRepository from './Account.Repository.js';
+import accountRepository from './account.repository.js';
 import { IGeneralObj } from '../types/general.types.js';
 import DatabaseException from '../exceptions/db.exception.js';
 

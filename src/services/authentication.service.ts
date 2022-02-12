@@ -1,5 +1,5 @@
 import { AuthenticationException } from '../exceptions/authentication.exception.js';
-import authenticationRepository from '../repositories/Authenication.Repository.js';
+import authenticationRepository from '../repositories/authenication.repository.js';
 import { IGeneralObj } from '../types/general.types.js';
 
 class AuthenticationService {

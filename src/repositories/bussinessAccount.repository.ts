@@ -7,7 +7,7 @@ import {
   IIndividualAccountDB,
 } from '../types/account.types.js';
 import { parseBusinessAccountQueryResult } from '../utils/db.parser.js';
-import AccountRepository from './Account.Repository.js';
+import AccountRepository from './account.repository.js';
 import { createAddressPayload } from '../utils/db.parser.js';
 import DatabaseException from '../exceptions/db.exception.js';
 import addressRepository from './address.repository.js';

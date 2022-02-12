@@ -3,7 +3,7 @@ import logicError from '../exceptions/logic.exception.js';
 import transferError from '../exceptions/transfer.exception.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import individualAccountRepository from '../repositories/individualAccount.repository.js';
-import transferRepository from '../repositories/Transfer.Repository.js';
+import transferRepository from '../repositories/transfer.repository.js';
 import {
   IIndividualAccount,
   IndividualTransferDetails,

@@ -1,4 +1,4 @@
-import AccountRepository from '../repositories/Account.repository.js';
+import AccountRepository from '../repositories/account.repository.js';
 import { IAccount, IIndividualAccount } from '../types/account.types.js';
 import { IGeneralObj } from '../types/general.types.js';
 

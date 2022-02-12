@@ -4,7 +4,7 @@ import DatabaseException from '../exceptions/db.exception.js';
 import { IIndividualAccount, IIndividualAccountDB, IAccount } from '../types/account.types';
 import addressRepository from "./address.repository.js";
 import { createAddressPayload, parseIndividualAccountQueryResult } from '../utils/db.parser.js';
-import accountRepository from './Account.Repository.js';
+import accountRepository from './account.repository.js';
 
 class IndividualAccountRepository {
   async createIndividualAccount(payload: Omit<IIndividualAccount, 'account_id'>) {
