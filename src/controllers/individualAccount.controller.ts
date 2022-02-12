@@ -3,8 +3,8 @@ import { ResponseMessage } from '../types/messages.types.js';
 import IndividualAccountService from '../services/individualAccount.service.js';
 import { IIndividualAccount, ITransferRequest } from '../types/account.types.js';
 
-export class IndividualController {
-  static createIndividualAccount: RequestHandler = async (req, res) => {
+class IndividualController {
+  createIndividualAccount: RequestHandler = async (req, res) => {
     const individual_account = await IndividualAccountService.createIndividualAccount(
       req.body as IIndividualAccount,
     );
@@ -16,7 +16,7 @@ export class IndividualController {
     res.status(response.status).json(response);
   };
 
-  static getIndividualAccount: RequestHandler = async (req, res) => {
+  getIndividualAccount: RequestHandler = async (req, res) => {
     const { account_id } = req.params;
     const business_account = await IndividualAccountService.getIndividualAccountByAccountId(
       account_id,
@@ -29,7 +29,7 @@ export class IndividualController {
     res.status(response.status).json(response);
   };
 
-  static transferIndividualToFamily: RequestHandler = async (req, res) => {
+  transferIndividualToFamily: RequestHandler = async (req, res) => {
     const transaction = await IndividualAccountService.transferIndividualToFamily(
       req.body as ITransferRequest,
     );
@@ -41,5 +41,5 @@ export class IndividualController {
     res.status(response.status).json(transaction);
   };
 }
-const businessController = new IndividualController();
-export default businessController;
+const individualController = new IndividualController();
+export default individualController;

@@ -1,6 +1,11 @@
 import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
-import { IAccount, IBusinessAccount, IBusinessAccountDB, IIndividualAccountDB } from '../types/account.types.js';
+import {
+  IAccount,
+  IBusinessAccount,
+  IBusinessAccountDB,
+  IIndividualAccountDB,
+} from '../types/account.types.js';
 import { parseBusinessAccountQueryResult } from '../utils/db.parser.js';
 import AccountRepository from './Account.Repository.js';
 import { createAddressPayload } from '../utils/db.parser.js';
@@ -32,7 +37,8 @@ class BusinessAccountRepository {
 
       return new_account_id;
     } catch (err) {
-      throw new DatabaseException('Failed to create business account');
+      const errMessasge: string = (err as any).sqlMessage;
+      throw new DatabaseException(errMessasge);
     }
   }
 
@@ -46,15 +52,15 @@ class BusinessAccountRepository {
                       JOIN address AS ad
                       JOIN country AS co
                       ON c.currencyID=a.currencyID AND s.statusID=a.statusID AND a.accountID= ba.accountID AND ad.addressID=ba.addressID AND co.countryCode=ad.countryCode
-                      WHERE a.accountID = ?`
-        const [account_query_result] = (await sql_con.query(
-        query,
-        [account_id]
-        )) as unknown as RowDataPacket[][];
+                      WHERE a.accountID = ?`;
+      const [account_query_result] = (await sql_con.query(query, [
+        account_id,
+      ])) as unknown as RowDataPacket[][];
 
-        return parseBusinessAccountQueryResult(account_query_result[0] as IBusinessAccountDB);
+      return parseBusinessAccountQueryResult(account_query_result[0] as IBusinessAccountDB);
     } catch (err) {
-        throw new DatabaseException('Failed to get business account details');
+      const errMessasge: string = (err as any).sqlMessage;
+      throw new DatabaseException(errMessasge);
     }
   }
 }

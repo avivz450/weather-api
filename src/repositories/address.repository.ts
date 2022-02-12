@@ -4,7 +4,6 @@ import DatabaseException from '../exceptions/db.exception.js';
 
 class AddressRepository {
   async createAddress(payload:any) {
-      console.log(payload);
     try {
       //create row in address table
       let insert_query = 'INSERT INTO address SET ?';
