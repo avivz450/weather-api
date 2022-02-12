@@ -25,9 +25,9 @@ class BusinessAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isValidId(String(payload.account_id), this.company_id_length),
+      accountValidationUtils.isValidId(String(payload.company_id), this.company_id_length),
       new InvalidArgumentsError(
-        `id must be made of ${individualAccountValidator.individualIdLength} numbers`,
+        `id must be made of ${this.company_id_length} numbers`,
       ),
     ]);
 
@@ -35,11 +35,11 @@ class BusinessAccountValidator {
   }
 
   async transferToBusiness(payload: IGeneralObj) {
-    await accountValidator.transfer(payload);
+    //await accountValidator.transfer(payload);
   }
 
   async transferToIndividual(payload: IGeneralObj) {
-    await accountValidator.transfer(payload);
+    //await accountValidator.transfer(payload);
   }
 
   get minAmountOfBalance() {

@@ -1,9 +1,8 @@
 import express from 'express';
 import { BusinessController } from '../controllers/businessAccount.controller.js';
-import {
-  verifyBusinessAccountCreation,
-  verifyGetBusinessAccount,
-} from '../middlewares/businessAccount.middleware.js';
+import businessMiddlewares from '../middlewares/businessAccount.middleware.js';
+import accountMiddlewares from '../middlewares/account.middleware.js';
+
 import raw from '../middlewares/route.async.wrapper.js';
 
 class BusinessAccountRouter {
@@ -12,12 +11,12 @@ class BusinessAccountRouter {
   constructor() {
     this.businessAccountRouter.post(
       '/',
-      // raw(verifyBusinessAccountCreation),
+      raw(businessMiddlewares.verifyCreation),
       raw(BusinessController.createBusinessAccount),
     );
     this.businessAccountRouter.get(
       '/:account_id',
-      // raw(verifyGetBusinessAccount),
+      raw(accountMiddlewares.verifyGetAccount),
       raw(BusinessController.getBusinessAccount),
     );
     this.businessAccountRouter.post(
