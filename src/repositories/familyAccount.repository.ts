@@ -4,17 +4,15 @@ import DatabaseException from "../exceptions/db.exception.js";
 import { IAccount, IFamilyAccountCreationInput, IndividualTransferDetails, DetailsLevel } from "../types/account.types.js";
 import { IFamilyAccountParse } from "../types/db.types.js";
 import { parseFamilyAccountQueryResult } from "../utils/db.parser.js";
-import AccountRepository from "./Account.Repository.js";
+import AccountRepository from "./account.repository.js";
 import individualAccountRepository from "./individualAccount.repository.js";
 
 class FamilyAccountRepository {
 
     async createFamilyAccount(payload :Omit<IFamilyAccountCreationInput, "account_id">) {
-                    //insert new account row
-                    const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
-                    
+            //insert new account row
+            const new_account_id = await AccountRepository.createAccount(payload as unknown as IAccount);
         try {
-
             //insert new family account row with new account id
             const family_account_payload = {
                 accountID: new_account_id,
@@ -33,9 +31,9 @@ class FamilyAccountRepository {
             throw new DatabaseException(errMessasge)        }
     }
 
-    async getFamilyAccount(family_account_id: string, details_level: DetailsLevel) {
+    async getFamilyAccountsByAccountIds(family_account_id: string, details_level: DetailsLevel) {
         try {
-            if (details_level === DetailsLevel.short ) {
+            if (details_level === DetailsLevel.short) {
                 //get family account return after parse
                 let query = `SELECT a.accountID, c.currencyCode, s.statusName, a.balance, fa.context, ow.individualAccountID
                             FROM account AS a 

@@ -7,11 +7,11 @@ import {
   ITransferResponse,
 } from '../types/account.types.js';
 import  familyAccountRepository  from '../repositories/familyAccount.repository.js';
-import TransferRepository from '../repositories/Transfer.Repository.js';
+import TransferRepository from '../repositories/transfer.repository.js';
 import transferError from '../exceptions/transfer.exception.js';
 import HttpError from '../exceptions/http.exception.js';
 import logicError from '../exceptions/logic.exception.js';
-import accountRepository from '../repositories/Account.repository.js';
+import accountRepository from '../repositories/account.repository.js';
 
 export class FamilyAccountService {
   // async createFamilyAccount(
@@ -46,7 +46,7 @@ export class FamilyAccountService {
   //       family_account_id,
   //       individual_accounts_details,
   //     );
-  //   const family_account: IFamilyAccount = await this.getFamilyAccount(account_id, details_level);
+  //   const family_account: IFamilyAccount = await this.getFamilyAccountByAccountIds(account_id, details_level);
   //   return family_account;
   // }
 
