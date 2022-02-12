@@ -1,9 +1,8 @@
 import { OkPacket, RowDataPacket } from "mysql2";
 import { sql_con } from "../db/sql/sql.connection.js";
 import DatabaseException from "../exceptions/db.exception.js";
-import { IBusinessAccount, ITransferRequest, ITransferResponse, IIndividualAccount, IAccount, AccountStatuses, AccountTypes } from "../types/account.types.js";
+import { IIndividualAccount, IAccount, AccountStatuses } from "../types/account.types.js";
 import { IGeneralObj } from "../types/general.types.js";
-import bussinessAccountRepository from "./bussinessAccount.repository.js";
 
 class AccountRepository {
     async createAccount(payload: IAccount) {
@@ -21,6 +20,7 @@ class AccountRepository {
                 currencyID: (currency_query_result[0] as IGeneralObj).currencyID,
                 balance: payload.balance || 0,
                 statusID: (status_query_result[0] as IGeneralObj).statusID,
+                agentID: payload.agentID
             };
     
             let insert_query = 'INSERT INTO account SET ?';

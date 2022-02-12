@@ -4,6 +4,7 @@ export interface IAccount {
   balance: number;
   status: AccountStatuses;
   type: AccountTypes;
+  agentID?: string;
 }
 
 export enum AccountTypes {
