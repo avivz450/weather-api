@@ -10,6 +10,12 @@ import individualAccountValidator from '../modules/individualAccount.validation.
 import businessAccountValidator from '../modules/businessAccount.validation.js';
 
 class AccountValidationUtils {
+  isValidArrayOfTransfer = (individual_accounts_details: any[]) =>
+    individual_accounts_details.every(
+      account_details =>
+        typeof account_details[0] === 'string' && typeof account_details[1] === 'number',
+    );
+
   isBalanceAllowsTransfer(
     account: IAccount,
     transfer_amount: number,
@@ -58,7 +64,7 @@ class AccountValidationUtils {
 
   isExist = (accounts: IAccount[], amount: number) => {
     const numberOfExistAccounts: number = accounts.reduce((acc, account) => {
-      return account !== null ? acc + 1 : acc;
+      return account !== undefined ? acc + 1 : acc;
     }, 0);
 
     return numberOfExistAccounts === amount;
