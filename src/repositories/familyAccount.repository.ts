@@ -1,10 +1,9 @@
 import { OkPacket, RowDataPacket } from "mysql2";
 import { sql_con } from "../db/sql/sql.connection.js";
 import DatabaseException from "../exceptions/db.exception.js";
-import { IAccount, IFamilyAccount, IFamilyAccountCreationInput, IndividualTransferDetails, DetailsLevel } from "../types/account.types.js";
+import { IAccount, IFamilyAccountCreationInput, IndividualTransferDetails, DetailsLevel } from "../types/account.types.js";
 import { IFamilyAccountParse } from "../types/db.types.js";
 import { parseFamilyAccountQueryResult } from "../utils/db.parser.js";
-import accountRepository from "./Account.Repository.js";
 import AccountRepository from "./Account.Repository.js";
 import individualAccountRepository from "./individualAccount.repository.js";
 
@@ -95,7 +94,7 @@ class FamilyAccountRepository {
             //Added each individual account id to ownersFamilyAccount
             let placeholder = individual_accounts_ids.map(() => "(?, ?)").join(",");
             let insert_query =`INSERT INTO familyAccount
-                                (familyAccountID, IndividualAccountID)
+                                (familyAccountID, individualAccountID)
                                 VALUES ${placeholder}`;
             
             let values: string[] = [];
@@ -162,7 +161,7 @@ class FamilyAccountRepository {
         try{
             let in_placeholder = individual_accounts_ids.map(() => "?").join(",");
             let insert_query =`DELETE FROM ownersFamilyAccount
-                               WHERE IndividualAccountID IN (${in_placeholder})`;
+                               WHERE individualAccountID IN (${in_placeholder})`;
             
             const [account_deletion_result] = (await sql_con.query(
             insert_query,
@@ -220,7 +219,7 @@ class FamilyAccountRepository {
     async getOwnersByFamilyAccountId(family_account_id: string) {
         //return all account owners ids in array
         try {
-            let query = `SELECT IndividualAccountID
+            let query = `SELECT individualAccountID
                         FROM account a
                         JOIN ownersFamilyAccount o
                         ON a.accountID=o.familyAccountID
@@ -232,7 +231,7 @@ class FamilyAccountRepository {
             
             // parse to array of string ids
             return get_owners_query_result.map(owner_id => {
-                return owner_id.IndividualAccountID as string
+                return owner_id.individualAccountID as string
             });
         } catch (err) {
             throw new DatabaseException(`Failed to get owners of family account id: ${family_account_id}`)
