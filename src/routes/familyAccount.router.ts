@@ -13,7 +13,7 @@ class FamilyAccountRouter {
       raw(familyAccountController.createFamilyAccount),
     );
     this.familyAccountRouter.get(
-        ":account_id/:details_level",
+        "/:account_id/:details_level",
         raw(familyAccountController.getFamilyAccount)
       );
     this.familyAccountRouter.post(
