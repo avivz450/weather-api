@@ -37,16 +37,6 @@ class FamilyAccountValidator {
       new InvalidArgumentsError('individual_accounts_details must be an array of tupples'),
     ]);
 
-    validation_queue.push([
-      payload.individual_accounts_details.length !== 0,
-      new InvalidArgumentsError('individual_accounts_details must have at lease one tupple'),
-    ]);
-
-    validation_queue.push([
-      accountValidationUtils.isValidArrayOfTransfer(payload.individual_accounts_details as any[]),
-      new InvalidArgumentsError(`Invalid details of individual accounts`),
-    ]);
-
     validationCheck(validation_queue);
 
     const individual_accounts_details: IndividualTransferDetails[] =
@@ -60,6 +50,16 @@ class FamilyAccountValidator {
         individual_accounts,
         individual_accounts_details,
       );
+
+    validation_queue.push([
+      payload.individual_accounts_details.length !== 0,
+      new InvalidArgumentsError('individual_accounts_details must have at lease one tupple'),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isValidArrayOfTransfer(payload.individual_accounts_details as any[]),
+      new InvalidArgumentsError(`Invalid details of individual accounts`),
+    ]);
 
     validation_queue.push([
       accountValidationUtils.isExist(individual_accounts, individual_accounts_details.length),
@@ -102,75 +102,87 @@ class FamilyAccountValidator {
     validationCheck(validation_queue);
   }
 
-  // async addIndividualAccount(payload: IGeneralObj) {
-  //   const validation_queue: ValidationDetails[] = [];
-  //   const individual_accounts_ids = (payload.individual_accounts as string[]).map(
-  //     individual_id_amount_tuple => individual_id_amount_tuple[0],
-  //   );
-  //   const individual_accounts_amounts = (payload.individual_accounts as string[]).map(
-  //     individual_id_amount_tuple => parseInt(individual_id_amount_tuple[1]),
-  //   );
-  //   const individual_accounts: IIndividualAccount[] =
-  //     await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids);
-  //   const [family_account] = await familyAccountService.getFamilyAccountsByAccountIds(
-  //     String(payload.account_id),
-  //     DetailsLevel.full,
-  //   );
+  async addIndividualAccounts(payload: IGeneralObj) {
+    const validation_queue: ValidationDetails[] = [];
+    validation_queue.push([
+      validator.checkRequiredFieldsExist(payload, [
+        'account_id',
+        'details_level',
+        'individual_accounts_details',
+      ]),
+      new InvalidArgumentsError('Some of the required fields are not inserted'),
+    ]);
 
-  //   validation_queue.push([
-  //     validator.checkRequiredFieldsExist(payload, [
-  //       'account_id',
-  //       'details_level',
-  //       'individual_accounts',
-  //     ]),
-  //     new InvalidArgumentsError('Some of the required fields are not inserted'),
-  //   ]);
+    validation_queue.push([
+      accountValidationUtils.isDetailsLevelValid(payload.details_level as string),
+      new InvalidArgumentsError('details_level is not valid'),
+    ]);
 
-  //   validation_queue.push([
-  //     accountValidationUtils.isDetailsLevelValid(String(payload.details_level)),
-  //     new InvalidArgumentsError('details_level is not valid'),
-  //   ]);
+    validation_queue.push([
+      accountValidationUtils.isValidId(payload.account_id as string),
+      new InvalidArgumentsError('account_id must be numeric'),
+    ]);
 
-  //   validation_queue.push([
-  //     accountValidationUtils.isValidId(String(payload.account_id )),
-  //     new InvalidArgumentsError('account_id must be numeric'),
-  //   ]);
 
-  //   validation_queue.push([
-  //     validator.isEmptyArray(payload.individual_accounts as any[]),
-  //     new InvalidArgumentsError('individual_accounts list should not be empty'),
-  //   ]);
+    validation_queue.push([
+      Array.isArray(payload.individual_accounts_details),
+      new InvalidArgumentsError('individual_accounts_details list must be an array'),
+    ]);
 
-  //   validation_queue.push([
-  //     validator.isAllNumbersPositive(individual_accounts_amounts),
-  //     new InvalidArgumentsError(`Some of the inserted amounts are not positive`),
-  //   ]);
+    validationCheck(validation_queue);
 
-  //   validation_queue.push([
-  //     accountValidationUtils.isValidIds(individual_accounts_ids),
-  //     new InvalidArgumentsError('there is an individual account_id that is not numeric'),
-  //   ]);
 
-  //   validation_queue.push([
-  //     accountValidationUtils.isAllWithSameCurrency(
-  //       String(family_account.currency),
-  //       individual_accounts,
-  //     ),
-  //     new InvalidArgumentsError(
-  //       `some of the accounts don't have the same currency as the currency in the family account`,
-  //     ),
-  //   ]);
+    validation_queue.push([
+      validator.isEmptyArray(payload.individual_accounts_details as any[]),
+      new InvalidArgumentsError('individual_accounts_details list should not be empty'),
+    ]);
 
-  //   validation_queue.push([
-  //     accountValidationUtils.isAllAccountsWithSameStatus(
-  //       individual_accounts,
-  //       AccountStatuses.active,
-  //     ),
-  //     new InvalidArgumentsError(`Some of the individual accounts are not active`),
-  //   ]);
+    console.log(3);
 
-  //   validationCheck(validation_queue);
-  // }
+    const individual_accounts_ids = (payload.individual_accounts_details as string[]).map(
+      individual_id_amount_tuple => individual_id_amount_tuple[0],
+    );
+    const individual_accounts_amounts = (payload.individual_accounts_details as string[]).map(
+      individual_id_amount_tuple => parseInt(individual_id_amount_tuple[1]),
+    );
+    const individual_accounts: IIndividualAccount[] =
+      await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids);
+    const family_account = await familyAccountService.getFamilyAccountById(
+      String(payload.account_id),
+      DetailsLevel.full,
+    );
+
+
+    validation_queue.push([
+      validator.isAllNumbersPositive(individual_accounts_amounts),
+      new InvalidArgumentsError(`Some of the inserted amounts are not positive`),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isValidIds(individual_accounts_ids),
+      new InvalidArgumentsError('there is an individual account_id that is not numeric'),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isAllWithSameCurrency(
+        String(family_account.currency),
+        individual_accounts,
+      ),
+      new InvalidArgumentsError(
+        `some of the accounts don't have the same currency as the currency in the family account`,
+      ),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isAllAccountsWithSameStatus(
+        individual_accounts,
+        AccountStatuses.active,
+      ),
+      new InvalidArgumentsError(`Some of the individual accounts are not active`),
+    ]);
+
+    validationCheck(validation_queue);
+  }
 
   async removeIndividualAccount(payload: IGeneralObj) {
     const validation_queue: ValidationDetails[] = [];

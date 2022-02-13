@@ -67,7 +67,6 @@ class FamilyAccountRepository {
         const [account_query_result] = (await sql_con.query(query, [
           family_account_id,
         ])) as unknown as RowDataPacket[][];
-
         const owners: string[] = [];
         account_query_result.forEach(row => {
           const { individualAccountID } = row;
