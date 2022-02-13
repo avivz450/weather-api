@@ -9,7 +9,7 @@ class AccountMiddlewares {
 
   verifyStatusChange: RequestHandler = async (req, res, next) => {
     const payload = { ...req.body, ...req.params };
-   // await accountValidator.statusChange(payload);
+    await accountValidator.statusChange(payload);
     next();
   };
 }

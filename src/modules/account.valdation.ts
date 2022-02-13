@@ -22,44 +22,46 @@ class AccountValidator {
     validationCheck(validation_queue);
   }
 
-  // async statusChange(payload: IGeneralObj) {
-  //   const validation_queue: ValidationDetails[] = [];
-  //   const accounts: IAccount[] = await accountRepository.getAccountsByAccountIds(
-  //     payload.accounts_ids,
-  //   );
+  async statusChange(payload: IGeneralObj) {
+    const validation_queue: ValidationDetails[] = [];
+    const accounts: IAccount[] = await accountRepository.getAccountsByAccountIds(
+      payload.accounts_ids,
+    );
 
-  //   validation_queue.push([
-  //     validator.checkRequiredFieldsExist(payload, ['accounts_ids', 'action']),
-  //     new InvalidArgumentsError('Some of the required values are not inserted'),
-  //   ]);
+    validation_queue.push([
+      validator.checkRequiredFieldsExist(payload, ['accounts_ids', 'action']),
+      new InvalidArgumentsError('Some of the required values are not inserted'),
+    ]);
 
-  //   validation_queue.push([
-  //     validator.isEmptyArray(payload.accounts_ids as any[]),
-  //     new InvalidArgumentsError('accounts_ids list should not be empty'),
-  //   ]);
+    validation_queue.push([
+      !validator.isEmptyArray(payload.accounts_ids as any[]),
+      new InvalidArgumentsError('accounts_ids list should not be empty'),
+    ]);
 
-  //   validation_queue.push([
-  //     accountValidationUtils.isValidIds(payload.accounts_ids as string[]),
-  //     new InvalidArgumentsError('there is an individual account_id that is not numeric'),
-  //   ]);
+    validation_queue.push([
+      accountValidationUtils.isValidIds(payload.accounts_ids as string[]),
+      new InvalidArgumentsError('there is an account id that is not numeric'),
+    ]);
 
-  //   validation_queue.push([
-  //     accountValidationUtils.isExist(accounts, payload.accounts_ids),
-  //     new InvalidArgumentsError(`Some of the accounts are not exist`),
-  //   ]);
 
-  //   validation_queue.push([
-  //     !accountValidationUtils.isSomeIsType(accounts, AccountTypes.Family),
-  //     new InvalidArgumentsError(`Some of the accounts are family accounts`),
-  //   ]);
+    validation_queue.push([
+      accountValidationUtils.isExist(accounts.map(account => account.account_id), payload.accounts_ids.length),
+      new InvalidArgumentsError(`Some of the accounts are not exist`),
+    ]);
 
-  //   validation_queue.push([
-  //     accountValidationUtils.isActionOppositeForAll(accounts, payload.action as AccountStatuses),
-  //     new InvalidArgumentsError(`Some of the accounts has ${payload.action} status`),
-  //   ]);
+    // validation_queue.push([
+    //   !accountValidationUtils.isSomeIsType(accounts, AccountTypes.Family),
+    //   new InvalidArgumentsError(`Some of the accounts are family accounts`),
+    // ]);
 
-  //   validationCheck(validation_queue);
-  // }
+
+    validation_queue.push([
+      accountValidationUtils.isActionOppositeForAll(accounts, payload.action as AccountStatuses),
+      new InvalidArgumentsError(`Some of the accounts has ${payload.action} status`),
+    ]);
+
+    validationCheck(validation_queue);
+  }
 
   async transfer(payload: IGeneralObj) {
     const validation_queue: ValidationDetails[] = [];

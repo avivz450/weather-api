@@ -81,14 +81,14 @@ export class FamilyAccountService {
     return family_account;
   }
 
-  async closeFamilyAccount(account_id: string): Promise<boolean> {
+  async closeFamilyAccount(account_id: string) {
     const owners_id = await familyAccountRepository.getOwnersByFamilyAccountId(account_id);
-    if (owners_id) {
-      throw new logicError('family account cant closed with people');
+
+    if (owners_id.length !== 0) {
+      throw new logicError(`family account can't be closed with individual accounts connected to it`);
     }  
-    const inactivate_status = await accountRepository.changeAccountsStatusesByAccountIds([account_id], AccountStatuses.inactive);
-    if (!inactivate_status) return false;
-    
+     await accountRepository.changeAccountsStatusesByAccountIds([account_id], AccountStatuses.inactive);
+
     return true;
   }
 }
