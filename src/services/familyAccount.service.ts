@@ -9,8 +9,14 @@ import accountRepository from '../repositories/account.repository.js';
 export class FamilyAccountService {
   async createFamilyAccount(payload: Omit<IFamilyAccountCreationInput, 'account_id'>): Promise<IFamilyAccount> {
     const family_account_id = await familyAccountRepository.createFamilyAccount(payload);
+<<<<<<< HEAD
     await familyAccountRepository.addIndividualAccountsToFamilyAccount(family_account_id,Object.keys(payload.individual_accounts_details));
     const family_account = await familyAccountRepository.getFamilyAccountById(family_account_id, DetailsLevel.full) as IFamilyAccount;
+=======
+    const individual_ids_to_connect = payload.individual_accounts_details.map(tuple => tuple[0]);
+    const family_account = await this.addIndividualAccountsToFamilyAccount(family_account_id, payload.individual_accounts_details, DetailsLevel.full);
+    
+>>>>>>> fixed transfer from i2f
     return family_account;
   }
 
@@ -28,7 +34,7 @@ export class FamilyAccountService {
     
     let success: boolean = await familyAccountRepository.addIndividualAccountsToFamilyAccount(family_account_id,individual_accounts_id);
     if (!success) throw new logicError('faild add individual accounts to family account');
-    
+
     success = await familyAccountRepository.transferFromIndividualAccountsToFamilyAccount(family_account_id, individual_accounts_details);
     if (!success) throw new logicError('faild to transfer from individual accounts to familt account');
     
@@ -38,7 +44,9 @@ export class FamilyAccountService {
 
   async getFamilyAccountById(family_account_id: string, details_level?: DetailsLevel): Promise<IFamilyAccount> {
     details_level = details_level || DetailsLevel.short;
+
     const family_account: IFamilyAccount | undefined = await familyAccountRepository.getFamilyAccountById(family_account_id, details_level);
+    
     if (!family_account) {
       throw new logicError('get familys account faild');
     }
