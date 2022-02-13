@@ -1,13 +1,16 @@
-import AccountRepository from '../repositories/account.repository.js';
-import { IAccount, IIndividualAccount } from '../types/account.types.js';
+import accountRepository from '../repositories/account.repository.js';
+import { AccountStatuses, IAccount, IIndividualAccount } from '../types/account.types.js';
 import { IGeneralObj } from '../types/general.types.js';
 
-export class AccountService {
-  // static async changeStatusAccountsByAccountIds(action:string,account_ids:string[]){
-  //   const status = await AccountRepository.changeStatusAccountsByAccountIds(action,account_ids);
-  //   const result_accounts = account_ids.map((account_id:string)=> [account_id,status])
-  //   return result_accounts ;
-  // }
+class AccountService {
+  async changeStatusAccountsByAccountIds(new_status: string, accounts_ids: string[]) {
+    const status = await accountRepository.changeAccountsStatusesByAccountIds(
+      accounts_ids,
+      new_status as AccountStatuses,
+    );
+    const result_accounts = accounts_ids.map((account_id: string) => [account_id, status]);
+    return result_accounts;
+  }
 }
 
 const accountService = new AccountService();
