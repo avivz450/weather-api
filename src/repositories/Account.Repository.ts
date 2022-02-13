@@ -55,12 +55,12 @@ class AccountRepository {
     async changeAccountsStatusesByAccountIds(account_ids: string[], status_to_update: AccountStatuses) {  
         try {
             const in_placeholder = account_ids.map(() => "?").join(",")
-            const query = `UPDATE account a JOIN statuses s ON (a.statusID = o.statusID)
-                            SET a.statusID = o.statusID
-                            WHERE a.accountID IN (${in_placeholder}) AND o.statusName = ?`
+            const query = `UPDATE account a JOIN statusAccount s ON (a.statusID = s.statusID)
+                            SET a.statusID = s.statusID
+                            WHERE a.accountID IN (${in_placeholder}) AND s.statusName = ?`
             const [update_query_result] = (await sql_con.query(
                 query,
-                [status_to_update]
+                [...account_ids, 'not active']
             )) as unknown as OkPacket[];
             
             if (update_query_result.affectedRows) {

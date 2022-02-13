@@ -34,7 +34,7 @@ class AccountValidationUtils {
     }
   }
 
-  isActionOppositeForAll = (accounts: IAccount[], action: string) =>
+  isActionOppositeForAll = (accounts: IAccount[], action: AccountStatuses) =>
     accounts.every(account => account.status !== action);
 
   isSomeIsType = (accounts: IAccount[], accountType: AccountTypes) =>

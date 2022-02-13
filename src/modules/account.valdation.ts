@@ -6,6 +6,7 @@ import accountValidationUtils from '../utils/account.validator.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import validationCheck from '../utils/validation.utils.js';
 import { IAccount, AccountTypes, AccountStatuses, TransferTypes } from '../types/account.types.js';
+import accountRepository from '../repositories/Account.repository.js';
 
 class AccountValidator {
   get(payload: IGeneralObj) {
@@ -21,7 +22,7 @@ class AccountValidator {
 
   // async statusChange(payload: IGeneralObj) {
   //   const validation_queue: ValidationDetails[] = [];
-  //   const accounts: IAccount[] = await individualAccountService.getAccountsByAccountIds(
+  //   const accounts: IAccount[] = await accountRepository.getAccountsByAccountIds(
   //     payload.accounts_ids,
   //   );
 
@@ -31,17 +32,17 @@ class AccountValidator {
   //   ]);
 
   //   validation_queue.push([
-  //     validator.isEmptyArray(String(payload.accounts_ids)),
+  //     validator.isEmptyArray(payload.accounts_ids as any[]),
   //     new InvalidArgumentsError('accounts_ids list should not be empty'),
   //   ]);
 
   //   validation_queue.push([
-  //     accountValidationUtils.isValidIds(String(payload.accounts_ids)),
+  //     accountValidationUtils.isValidIds(payload.accounts_ids as string[]),
   //     new InvalidArgumentsError('there is an individual account_id that is not numeric'),
   //   ]);
 
   //   validation_queue.push([
-  //     accountValidationUtils.isExist(accounts, accounts.length),
+  //     accountValidationUtils.isExist(accounts, payload.accounts_ids),
   //     new InvalidArgumentsError(`Some of the accounts are not exist`),
   //   ]);
 
@@ -51,8 +52,8 @@ class AccountValidator {
   //   ]);
 
   //   validation_queue.push([
-  //     accountValidationUtils.isActionOppositeForAll(accounts, String(payload.action)),
-  //     new InvalidArgumentsError('Some of the required values are not inserted'),
+  //     accountValidationUtils.isActionOppositeForAll(accounts, payload.action as AccountStatuses),
+  //     new InvalidArgumentsError(`Some of the accounts has ${payload.action} status`),
   //   ]);
 
   //   validationCheck(validation_queue);

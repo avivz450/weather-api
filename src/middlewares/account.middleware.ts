@@ -7,11 +7,11 @@ class AccountMiddlewares {
     next();
   };
 
-  // verifyStatusChange: RequestHandler = async (req, res, next) => {
-  //   const payload = { ...req.body, ...req.params };
-  //   await accountValidator.statusChange(payload);
-  //   next();
-  // };
+  verifyStatusChange: RequestHandler = async (req, res, next) => {
+    const payload = { ...req.body, ...req.params };
+   // await accountValidator.statusChange(payload);
+    next();
+  };
 }
 
 const accountMiddlewares = new AccountMiddlewares();
