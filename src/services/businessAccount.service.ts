@@ -3,10 +3,10 @@ import BussinessAccountRepository from '../repositories/bussinessAccount.reposit
 import TransferRepository from '../repositories/transfer.repository.js';
 import transferError from '../exceptions/transfer.exception.js';
 import logicError from '../exceptions/logic.exception.js';
+import { getRate } from '../utils/generic.functions.js';
 export class BusinessAccountService {
-  static async createBusinessAccount(
-    payload: Omit<IBusinessAccount, 'account_id'>,
-  ): Promise<IBusinessAccount> {
+
+   async createBusinessAccount(payload: Omit<IBusinessAccount, 'account_id'>): Promise<IBusinessAccount> {
     const account_id: string = await BussinessAccountRepository.createBusinessAccount(payload);
     const business_account = await this.getBusinessAccount(account_id);
     if (!business_account) {
@@ -15,14 +15,14 @@ export class BusinessAccountService {
     return business_account;
   }
 
-  static async getBusinessAccount(account_id: string): Promise<IBusinessAccount> {
+   async getBusinessAccount(account_id: string): Promise<IBusinessAccount> {
     const businessAccount: IBusinessAccount =
       await BussinessAccountRepository.getBusinessAccountByAccountID(account_id);
     if (!businessAccount) throw new logicError('faild created bussines account');
     return businessAccount;
   }
 
-  static async transferBusinessToBusiness(payload: ITransferRequest): Promise<ITransferResponse> {
+   async transferBusinessToBusiness(payload: ITransferRequest): Promise<ITransferResponse> {
     let rate = 1;
     const { source_account, destination_account, amount } = payload;
 
@@ -43,10 +43,7 @@ export class BusinessAccountService {
     const destination_currency = source_account_model.currency;
 
     if (source_currency !== destination_currency) {
-      const base_url = `http://api.exchangeratesapi.io/latest`;
-      const url = `${base_url}?base=${source_currency}&symbols=${destination_currency}&access_key=78ca52413fb26cdc4a99ec638fa21db7`;
-      const response = await (await fetch(url)).json();
-      rate = response.rates[destination_currency];
+      rate = await getRate(source_currency,destination_currency)
     }
     const transaction = await TransferRepository.transfer(payload, rate);
     if (!transaction) {
@@ -55,7 +52,7 @@ export class BusinessAccountService {
     return transaction;
   }
 
-  static async transferBusinessToIndividual(payload: ITransferRequest): Promise<ITransferResponse> {
+   async transferBusinessToIndividual(payload: ITransferRequest): Promise<ITransferResponse> {
     if (payload.amount > 1000) {
       throw new transferError('transfer amount limit exceeded');
     }
