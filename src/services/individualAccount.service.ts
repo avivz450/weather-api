@@ -44,7 +44,7 @@ class IndividualAccountService {
   }
 
   async transferIndividualToFamily(payload: ITransferRequest): Promise<ITransferResponse> {
-    const { source_account, destination_account } = payload;
+    const { source_account_id, destination_account_id } = payload;
     // const owners_id = await familyAccountRepository.getOwnersByAccountId(destination_account);
     // if(!owners_id.includes(source_account)) throw new transferError("the individual account didnt own family account")
     const transaction = await transferRepository.transfer(payload, 1);

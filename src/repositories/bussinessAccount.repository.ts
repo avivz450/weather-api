@@ -55,7 +55,6 @@ class BusinessAccountRepository {
       const [account_query_result] = (await sql_con.query(query, [
         account_id,
       ])) as unknown as RowDataPacket[][];
-console.log(account_query_result);
       return parseBusinessAccountQueryResult(account_query_result[0] as IBusinessAccountDB);
     } catch (err) {
       const errMessasge: string = (err as any).sqlMessage;
