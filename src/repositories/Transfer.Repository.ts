@@ -8,10 +8,11 @@ import DatabaseException from '../exceptions/db.exception.js';
 class TransferRepository {
   async transfer(payload: ITransferRequest, rate: number) {
     try {
-      const source_account = await accountRepository.getAccountByAccountId(payload.source_account_id);
-      const destination_account = await accountRepository.getAccountByAccountId(
-        payload.destination_account_id,
-      );
+      let source_account, destination_account;
+      const [account_a, account_b] = await accountRepository.getAccountsByAccountIds([payload.source_account_id, payload.destination_account_id], true);
+      
+      source_account = payload.source_account_id === account_a.account_id ? account_a : account_b;
+      destination_account = payload.destination_account_id === account_b.account_id ?  account_b : account_a;
 
       if (source_account.balance && destination_account.balance) {
         const updated_source_account_balance = source_account.balance - payload.amount;
@@ -31,7 +32,7 @@ class TransferRepository {
           payload.source_account_id,
           payload.destination_account_id,
         ])) as unknown as OkPacket[];
-
+        
         source_account.balance = updated_source_account_balance;
         destination_account.balance = updated_destination_account_balance;
 
@@ -44,12 +45,14 @@ class TransferRepository {
           // date: new Date().toISOString().slice(0, 19).replace('T', ' ')
         };
 
+
         query = 'INSERT INTO transaction SET ?';
         const [transaction_insertion] = (await sql_con.query(
           query,
           transaction_payload,
         )) as unknown as OkPacket[];
 
+        
         const transfer_response = {
           source_account: {
             account_id: (source_account as unknown as IGeneralObj).accountID,
@@ -66,7 +69,7 @@ class TransferRepository {
         return transfer_response as ITransferResponse;
       }
     } catch (err) {
-      throw new DatabaseException('Failed to make a transfer');
+      throw new DatabaseException((err as any).message);
     }
   }
 }

@@ -27,6 +27,7 @@ class BusinessAccountRouter {
 
     this.businessAccountRouter.post(
       '/:transfer/individual',
+      raw(businessMiddlewares.verifyTransferToIndividual),
       raw(businessController.transferBusinessToIndividual),
     );
   }

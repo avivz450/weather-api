@@ -46,12 +46,12 @@ class BusinessAccountValidator {
     );
 
     validation_queue.push([
-      accountValidationUtils.isExist([source_account], 1),
+      accountValidationUtils.isExist([source_account.company_id], 1),
       new InvalidArgumentsError(`Source account is not a business account`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isExist([destination_account], 1),
+      accountValidationUtils.isExist([destination_account.company_id], 1),
       new InvalidArgumentsError(`Destionation account is not a business account`),
     ]);
 
@@ -80,13 +80,15 @@ class BusinessAccountValidator {
       payload.destination_account_id,
     );
 
+    console.log(destination_account);
+
     validation_queue.push([
-      accountValidationUtils.isExist([source_account], 1),
+      accountValidationUtils.isExist([source_account.company_id], 1),
       new InvalidArgumentsError(`Source account is not a business account`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isExist([destination_account], 1),
+      accountValidationUtils.isExist([destination_account.individual_id], 1),
       new InvalidArgumentsError(`Destionation account is not an individual account`),
     ]);
 

@@ -3,6 +3,12 @@ import familyAccountValidator from '../modules/familyAccount.validation.js';
 import { IGeneralObj } from '../types/general.types.js';
 
 class FamilyMiddlewares {
+  verifyTransferToBusiness: RequestHandler = async (req, res, next) => {
+    const payload = { ...req.body, ...req.params } as IGeneralObj;
+    await familyAccountValidator.transferToBusiness(payload);
+    next();
+  };
+
   verifyCloseIndividuals: RequestHandler = async (req, res, next) => {
     const payload = { ...req.body, ...req.params } as IGeneralObj;
     await familyAccountValidator.removeIndividualAccount(payload);

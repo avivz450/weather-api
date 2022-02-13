@@ -32,7 +32,6 @@ class BusinessController {
     const busines_account = await businessAccountService.transferBusinessToBusiness(
       req.body as ITransferRequest,
     );
-    //   if (!businessAccount) throw new UrlNotFoundException(req.originalUrl);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',

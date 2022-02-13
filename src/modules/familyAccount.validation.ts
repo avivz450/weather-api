@@ -17,6 +17,7 @@ import validationCheck from '../utils/validation.utils.js';
 import accountValidator from './account.valdation.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import businessAccountService from '../services/businessAccount.service.js';
+import { Console } from 'console';
 class FamilyAccountValidator {
   private readonly min_amount_of_balance = 5000;
 
@@ -64,7 +65,7 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isExist(individual_accounts, individual_accounts_details.length),
+      accountValidationUtils.isExist(individual_accounts.map(account => account.individual_id), individual_accounts_details.length),
       new InvalidArgumentsError(`Some of the individual accounts are not exist`),
     ]);
 
@@ -243,32 +244,18 @@ class FamilyAccountValidator {
       new InvalidArgumentsError('there is an individual account_id that is not numeric'),
     ]);
 
-    validation_queue.push([
-      accountValidationUtils.isAllWithSameCurrency(
-        family_account.currency as string,
-        individual_accounts,
-      ),
-      new InvalidArgumentsError(
-        `some of the accounts don't have the same currency as the currency in the family account`,
-      ),
-    ]);
-
-    validation_queue.push([
-      accountValidationUtils.isAllAccountsWithSameStatus(
-        individual_accounts,
-        AccountStatuses.active,
-      ),
-      new InvalidArgumentsError(`Some of the individual accounts are not active`),
-    ]);
-
     validationCheck(validation_queue);
 
-    const connected_individuals_to_family =
-      await familyAccountRepository.getOwnersByFamilyAccountId(payload.account_id);
+    const connected_individuals_to_family = (
+      await familyAccountRepository.getOwnersByFamilyAccountId(payload.account_id)
+    ).map(id => String(id));
+
+    console.log(connected_individuals_to_family);
+    console.log(individual_accounts_ids);
 
     validation_queue.push([
       individual_accounts_ids.every(individual_id =>
-        (connected_individuals_to_family as string[]).includes(individual_id),
+        connected_individuals_to_family.includes(individual_id),
       ),
       new InvalidArgumentsError(
         'there is an individual account id that is not connected to family id',
@@ -295,18 +282,20 @@ class FamilyAccountValidator {
     const validation_queue: ValidationDetails[] = [];
     const source_account = await familyAccountService.getFamilyAccountById(
       payload.source_account_id,
+      DetailsLevel.full
     );
+
     const destination_account = await businessAccountService.getBusinessAccount(
       payload.destination_account_id,
     );
 
     validation_queue.push([
-      accountValidationUtils.isExist([source_account], 1),
+      accountValidationUtils.isExist(source_account.owners as string[], 1),
       new InvalidArgumentsError(`Source account is not a family account`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isExist([destination_account], 1),
+      accountValidationUtils.isExist([destination_account.company_id], 1),
       new InvalidArgumentsError(`Destionation account is not a business account`),
     ]);
 
@@ -336,12 +325,12 @@ class FamilyAccountValidator {
     );
 
     validation_queue.push([
-      accountValidationUtils.isExist([source_account], 1),
+      accountValidationUtils.isExist(source_account.owners as string[], 1),
       new InvalidArgumentsError(`Source account is not an family account`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isExist([destination_account], 1),
+      accountValidationUtils.isExist([destination_account.individual_id], 1),
       new InvalidArgumentsError(`Destionation account is not an individual account`),
     ]);
 

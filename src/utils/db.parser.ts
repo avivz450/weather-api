@@ -1,13 +1,36 @@
 import { RowDataPacket } from "mysql2";
-import { DetailsLevel, IAccount, IAddress, IBusinessAccount, IBusinessAccountDB, IFamilyAccount, IIndividualAccount, IIndividualAccountDB, IAccountDB } from "../types/account.types.js";
+import { DetailsLevel, IAccount, IAddress, IBusinessAccount, IBusinessAccountDB, IFamilyAccount, IIndividualAccount, IIndividualAccountDB, IAccountDB, AccountStatuses } from "../types/account.types.js";
 import { IFamilyAccountParse } from "../types/db.types.js";
 import { IGeneralObj } from "../types/general.types.js";
 
-export function parseAccountQueryResult(query_result_obj: IAccountDB) {
+export function parseAccountQueryResult(query_result_obj: IAccountDB):IAccount {
   const {
     accountID,
     balance,
     currencyCode,
+    currencyID,
+    statusName,
+    agentID
+  } = query_result_obj;
+
+  const parsed_response: IAccount = {
+    account_id: accountID,
+    balance,
+    currency: currencyCode,
+    status: statusName as AccountStatuses,
+    agent_id: agentID
+  };
+  const result = currencyID ?  {...parsed_response, currencyID} : parsed_response;
+return result;
+  
+
+}
+
+export function parseAccountQueryResultForTransferResponse(query_result_obj: IAccountDB) {
+  const {
+    accountID,
+    balance,
+    currencyID,
     statusName,
     agentID
   } = query_result_obj;
@@ -15,11 +38,12 @@ export function parseAccountQueryResult(query_result_obj: IAccountDB) {
   return {
     account_id: accountID,
     balance,
-    currency: currencyCode,
+    currency: currencyID,
     status: statusName,
     agent_id: agentID
-  } as unknown as IAccount;
+  };
 }
+
 
 export function parseIndividualAccountQueryResult(query_result_obj: IIndividualAccountDB) {
   const {
