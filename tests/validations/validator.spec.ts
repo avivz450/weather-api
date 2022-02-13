@@ -22,6 +22,29 @@ describe('#validator module', function () {
       const exist = validator.checkRequiredFieldsExist(obj,keys);
       expect(exist).to.be.true;
     });
+<<<<<<< HEAD
 
+=======
+    //    it("should sum of many numbers", ()=> {
+    //        const mySum=sum(1,2,3,4);
+    //        expect(mySum).to.equal(10);
+
+    //    });
+    //    it("should exists", ()=> {
+    //        expect(multiply).to.be.a("function");
+    //        expect(multiply).to.be.instanceOf(Function);
+    //    });
+
+    //      it("should multiply the elements of the array with the multiplier", ()=> {
+    //        const mymultiply=multiply(2,[1,2]);
+    //        expect(mymultiply).to.eql([2,4]);
+
+    //    });
+    //    it("should multiply many numbers", ()=> {
+    //        const mymultiply=multiply(2,[2,3,4,3]);
+    //        expect(mymultiply).to.eql([4,6,8,6]);
+
+    //    });
+>>>>>>> dd37ca5e153196b124708eef8852f66a00f93b80
   });
 });
