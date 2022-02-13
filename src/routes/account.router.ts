@@ -9,7 +9,7 @@ class AccountRouter {
    constructor() {
     this.accountRouter.patch(
       "/status/:action",
-      //raw(accountMiddlewares.verifyStatusChange),
+      raw(accountMiddlewares.verifyStatusChange),
       raw(accountController.changeStatus)
     );
    }
