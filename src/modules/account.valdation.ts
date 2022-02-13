@@ -81,10 +81,7 @@ class AccountValidator {
 
     validationCheck(validation_queue);
 
-    const accounts: IAccount[] = await accountRepository.getAccountsByAccountIds(
-      accounts_ids,
-    );
-
+    const accounts: IAccount[] = await accountRepository.getAccountsByAccountIds(accounts_ids);
     const is_same_currency_transfer = TransferTypes.same_currency === payload.transfer;
     const is_both_accounts_with_same_currency = accountValidationUtils.isAllWithSameCurrency(
       accounts[0].currency,
@@ -106,6 +103,7 @@ class AccountValidator {
       new InvalidArgumentsError(`Chosen transfer type is invalid`),
     ]);
 
+
     validation_queue.push([
       (is_same_currency_transfer && is_both_accounts_with_same_currency) ||
         (!is_same_currency_transfer && !is_both_accounts_with_same_currency),
@@ -116,6 +114,8 @@ class AccountValidator {
       validator.isNumberPositive(Number(payload.amount)),
       new InvalidArgumentsError(`Transfer amount is not a positive number`),
     ]);
+
+    validationCheck(validation_queue);
   }
 }
 

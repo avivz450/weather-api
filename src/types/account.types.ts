@@ -55,8 +55,8 @@ export interface IAddress {
   street_number: string;
 }
 export interface ITransferRequest {
-  source_account_id: string;
-  destination_account_id: string;
+  source_account: string;
+  destination_account: string;
   amount: number;
 }
 export interface ITransferResponse {

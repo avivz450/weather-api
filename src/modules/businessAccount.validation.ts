@@ -36,7 +36,7 @@ class BusinessAccountValidator {
   }
 
   async transferToBusiness(payload: IGeneralObj) {
-    //await accountValidator.transfer(payload);
+    await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
     const source_account = await businessAccountService.getBusinessAccount(
@@ -71,7 +71,7 @@ class BusinessAccountValidator {
   }
 
   async transferToIndividual(payload: IGeneralObj) {
-    //await accountValidator.transfer(payload);
+    await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
     const source_account = await individualAccountService.getIndividualAccountByAccountId(
