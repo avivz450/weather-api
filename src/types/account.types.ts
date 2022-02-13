@@ -69,6 +69,13 @@ export enum DetailsLevel {
   short = 'short',
 }
 
+export interface IAccountDB {
+  accountID: string,
+  balance: number,
+  currencyCode: string,
+  statusName: string,
+  agentID: string
+}
 export interface IIndividualAccountDB {
   accountID: number;
   currencyCode: string;

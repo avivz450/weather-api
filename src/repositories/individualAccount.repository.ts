@@ -70,13 +70,13 @@ class IndividualAccountRepository {
       const [individual_accounts_result_query] = (await sql_con.query(query, [
         ...account_ids,
       ])) as unknown as RowDataPacket[];
+      
       const IndividualAccounts: IIndividualAccount[] = [];
-
       (individual_accounts_result_query as IIndividualAccountDB[]).forEach(individualAccount => {
         IndividualAccounts.push(parseIndividualAccountQueryResult(individualAccount));
       });
 
-      return IndividualAccounts;
+      return IndividualAccounts || null;
     } catch (err) {
       const errMessasge:string = (err as any).sqlMessage;
       throw new DatabaseException(errMessasge)    }
