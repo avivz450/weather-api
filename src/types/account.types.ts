@@ -3,7 +3,6 @@ export interface IAccount {
   currency: string;
   balance: number;
   status: AccountStatuses;
-  type: AccountTypes;
   agent_id?: string;
 }
 

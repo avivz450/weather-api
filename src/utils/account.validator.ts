@@ -37,11 +37,11 @@ class AccountValidationUtils {
   isActionOppositeForAll = (accounts: IAccount[], action: AccountStatuses) =>
     accounts.every(account => account.status !== action);
 
-  isSomeIsType = (accounts: IAccount[], accountType: AccountTypes) =>
-    accounts.some(account => account.type === accountType);
+  // isSomeIsType = (accounts: IAccount[], accountType: AccountTypes) =>
+  //   accounts.some(account => account.type === accountType);
 
-  isAllIsType = (accounts: IAccount[], accountType: AccountTypes) =>
-    accounts.every(account => account.type === accountType);
+  // isAllIsType = (accounts: IAccount[], accountType: AccountTypes) =>
+  //   accounts.every(account => account.type === accountType);
 
   isDetailsLevelValid = (details_level: string) => details_level in DetailsLevel;
 

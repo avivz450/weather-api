@@ -13,11 +13,11 @@ class FamilyMiddlewares {
     next();
   };
 
-  // verifyAddIndividuals: RequestHandler = async (req, res, next) => {
-  //   const payload = { ...req.body, ...req.params } as IGeneralObj;
-  //   await familyAccountValidator.addIndividualAccounts(payload);
-  //   next();
-  // };
+  verifyAddIndividuals: RequestHandler = async (req, res, next) => {
+    const payload = { ...req.body, ...req.params } as IGeneralObj;
+    await familyAccountValidator.addIndividualAccounts(payload);
+    next();
+  };
 
   // verifyRemoveIndividuals: RequestHandler = async (req, res, next) => {
   //   const payload = { ...req.body, ...req.params } as IGeneralObj;
