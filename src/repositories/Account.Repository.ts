@@ -39,7 +39,12 @@ class AccountRepository {
 
     async getAccountByAccountId(account_id: string) {
         try {
-            const query = "SELECT * FROM account WHERE accountID = ?"
+            const query = `SELECT accountID, balance, currencyCode, statusName, agentID
+                            FROM account a
+                            JOIN statusAccount s 
+                            JOIN currency c
+                            ON s.statusID=a.statusID AND c.currencyID=a.currencyID
+                            WHERE a.accountID = ?`
             const [account_query] = (await sql_con.query(
                 query,
                 [account_id]
@@ -53,9 +58,12 @@ class AccountRepository {
 
     async getAccountsByAccountIds(account_ids: string[]) {
         try {
-            const query = `SELECT * 
-                            FROM account 
-                            WHERE accountID IN (${'?,'.repeat(account_ids.length).slice(0, -1)})`
+            const query = `SELECT accountID, balance, currencyCode, statusName, agentID
+                            FROM account a
+                            JOIN statusAccount s 
+                            JOIN currency c
+                            ON s.statusID=a.statusID AND c.currencyID=a.currencyID
+                            WHERE a.accountID IN (?)`;
             const [account_query_result] = (await sql_con.query(
                 query,
                 [account_ids]
@@ -64,7 +72,8 @@ class AccountRepository {
             return account_query_result as IIndividualAccount[] || null;
         } catch (err) {
             const errMessasge:string = (err as any).sqlMessage;
-            throw new DatabaseException(errMessasge)        }
+            throw new Error(errMessasge)        
+        }
     }
   
     async changeAccountsStatusesByAccountIds(account_ids: string[], status_to_update: AccountStatuses) {  
