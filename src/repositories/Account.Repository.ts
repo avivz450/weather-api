@@ -1,8 +1,9 @@
 import { OkPacket, RowDataPacket } from "mysql2";
 import { sql_con } from "../db/sql/sql.connection.js";
 import DatabaseException from "../exceptions/db.exception.js";
-import { IIndividualAccount, IAccount, AccountStatuses } from "../types/account.types.js";
+import { IIndividualAccount, IAccount, AccountStatuses, IAccountDB } from "../types/account.types.js";
 import { IGeneralObj } from "../types/general.types.js";
+import { parseAccountQueryResult } from "../utils/db.parser.js";
 
 class AccountRepository {
     async createAccount(payload: IAccount) {
@@ -50,7 +51,7 @@ class AccountRepository {
                 [account_id]
             )) as unknown as RowDataPacket[][];
     
-            return account_query[0] as IIndividualAccount || null;
+            return parseAccountQueryResult(account_query[0] as IAccountDB) || null;
         } catch (err) {
             const errMessasge:string = (err as any).sqlMessage;
             throw new DatabaseException(errMessasge)        }
@@ -68,8 +69,13 @@ class AccountRepository {
                 query,
                 [account_ids]
             )) as unknown as RowDataPacket[][];
-    
-            return account_query_result as IIndividualAccount[] || null;
+
+            const accounts: IAccount[] = [];
+            (account_query_result as IAccountDB[]).forEach(account => {
+                accounts.push(parseAccountQueryResult(account));
+            });
+                
+            return accounts || null;
         } catch (err) {
             const errMessasge:string = (err as any).sqlMessage;
             throw new DatabaseException(errMessasge)        
