@@ -26,7 +26,7 @@ class FamilyAccountController {
   };
 
    addAccountsToFamilyAccount: RequestHandler = async (req, res) => {
-    const { account_id,details_level } = req.params;
+    const { account_id, details_level } = req.params;
     const family_account = await familyAccountService.addIndividualAccountsToFamilyAccount(account_id,req.body as IndividualTransferDetails[],details_level as DetailsLevel);
     const response: ResponseMessage = {
       status: 200,

@@ -119,10 +119,7 @@ class FamilyAccountRepository {
     }
   }
 
-  async transferFromIndividualAccountsToFamilyAccount(
-    family_account_id: string,
-    individual_accounts_transfer_details: IndividualTransferDetails[],
-  ) {
+  async transferFromIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_transfer_details: IndividualTransferDetails[]) {
     try {
       //iterate over tuples -> calc amount to add to family
       const total_transfer_amount = individual_accounts_transfer_details.reduce(
@@ -136,9 +133,9 @@ class FamilyAccountRepository {
       let individual_account_when_placeholder = individual_accounts_transfer_details
         .map(() => 'WHEN accountID = ? THEN balance-?')
         .join('\n\t\t\t\t\t\t\t\t ');
-      individual_accounts_transfer_details.push(['8', total_transfer_amount]); //push family account id and total amount to add to balance
+      individual_accounts_transfer_details.push([family_account_id, total_transfer_amount]); //push family account id and total amount to add to balance
       let values_placeholder = individual_accounts_transfer_details.map(() => '?').join(',');
-      let insert_query = `UPDATE account SET balance = (
+      let update_query = `UPDATE account SET balance = (
                                 CASE ${individual_account_when_placeholder}
                                 WHEN accountID = ? THEN balance+?
                                 END)
@@ -154,11 +151,11 @@ class FamilyAccountRepository {
       });
       values.push(family_account_id); //push also family account id for where clause
 
-      const [account_insertion_result] = (await sql_con.query(insert_query, [
+      const [account_update_result] = (await sql_con.query(update_query, [
         ...values,
       ])) as unknown as OkPacket[];
 
-      if (account_insertion_result.affectedRows) {
+      if (account_update_result.affectedRows) {
         return true;
       } else throw Error('');
     } catch (err) {
