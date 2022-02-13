@@ -28,7 +28,7 @@ class TransferRepository {
           updated_source_account_balance,
           payload.destination_account_id,
           updated_destination_account_balance,
-          payload.destination_account_id,
+          payload.source_account_id,
           payload.destination_account_id,
         ])) as unknown as OkPacket[];
 
@@ -44,7 +44,7 @@ class TransferRepository {
           // date: new Date().toISOString().slice(0, 19).replace('T', ' ')
         };
 
-        query = 'INSERT INTO address SET ?';
+        query = 'INSERT INTO transaction SET ?';
         const [transaction_insertion] = (await sql_con.query(
           query,
           transaction_payload,
