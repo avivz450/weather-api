@@ -46,11 +46,11 @@ class BusinessAccountRepository {
     try {
       let query = `SELECT a.accountID, ba.companyID,ba.companyName,ba.context ,a.balance,s.statusName as status,c.currencyCode, co.countryName, ad.countryCode, ad.postalCode, ad.city, ad.region, ad.streetName, ad.streetNumber
                       FROM account AS a 
-                      JOIN businessAccount AS ba 
-                      JOIN statusAccount AS s 
-                      JOIN currency AS c 
-                      JOIN address AS ad
-                      JOIN country AS co
+                      LEFT JOIN businessAccount AS ba 
+                      LEFT JOIN statusAccount AS s 
+                      LEFT JOIN currency AS c 
+                      LEFT JOIN address AS ad
+                      LEFT JOIN country AS co
                       ON c.currencyID=a.currencyID AND s.statusID=a.statusID AND a.accountID= ba.accountID AND ad.addressID=ba.addressID AND co.countryCode=ad.countryCode
                       WHERE a.accountID = ?`;
       const [account_query_result] = (await sql_con.query(query, [

@@ -60,11 +60,11 @@ class IndividualAccountRepository {
     try {
       const query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName ,ad.*
                       FROM account AS a 
-                      JOIN individualAccount AS ia ON a.accountID= ia.accountID 
-                      JOIN statusAccount AS s ON s.statusID=a.statusID
-                      JOIN currency AS c ON c.currencyID=a.currencyID
-                      JOIN address AS ad ON ad.addressID=ia.addressID
-                      JOIN country as co ON co.countryCode=ad.countryCode
+                      LEFT JOIN individualAccount AS ia ON a.accountID= ia.accountID 
+                      LEFT JOIN statusAccount AS s ON s.statusID=a.statusID
+                      LEFT JOIN currency AS c ON c.currencyID=a.currencyID
+                      LEFT JOIN address AS ad ON ad.addressID=ia.addressID
+                      LEFT JOIN country as co ON co.countryCode=ad.countryCode
                       WHERE a.accountID IN (${'?,'.repeat(account_ids.length).slice(0, -1)})`;
 
       const [individual_accounts_result_query] = (await sql_con.query(query, [
@@ -86,11 +86,11 @@ class IndividualAccountRepository {
     try {
       const query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName, ad.*
                       FROM account AS a 
-                      JOIN individualAccount AS ia ON a.accountID= ia.accountID 
-                      JOIN statusAccount AS s ON s.statusID=a.statusID
-                      JOIN currency AS c ON c.currencyID=a.currencyID
-                      JOIN address AS ad ON ad.addressID=ia.addressID
-                      JOIN country as co ON co.countryCode=ad.countryCode
+                      LEFT JOIN individualAccount AS ia ON a.accountID= ia.accountID 
+                      LEFT JOIN statusAccount AS s ON s.statusID=a.statusID
+                      LEFT JOIN currency AS c ON c.currencyID=a.currencyID
+                      LEFT JOIN address AS ad ON ad.addressID=ia.addressID
+                      LEFT JOIN country as co ON co.countryCode=ad.countryCode
                       WHERE ia.individualID IN (${'?,'
                         .repeat(individual_ids.length)
                         .slice(0, -1)})`;
