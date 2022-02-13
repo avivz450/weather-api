@@ -30,7 +30,6 @@ export class BusinessAccountService {
     const destination_account_model =
       await BussinessAccountRepository.getBusinessAccountByAccountID(destination_account_id);
 
-
     const same_company = source_account_model.company_id === destination_account_model.company_id;
     if (same_company && amount > 10000) {
       throw new transferError('transfer amount limit exceeded');
@@ -39,7 +38,7 @@ export class BusinessAccountService {
       throw new transferError('transfer amount limit exceeded');
     }
     const source_currency = source_account_model.currency;
-    const destination_currency = source_account_model.currency;
+    const destination_currency = destination_account_model.currency;
 
     if (source_currency !== destination_currency) {
       rate = await getRate(source_currency, destination_currency);

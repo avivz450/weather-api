@@ -203,7 +203,7 @@ class FamilyAccountRepository {
       let individual_account_when_placeholder = individual_accounts_transfer_details
         .map(() => 'WHEN accountID = ? THEN balance+?')
         .join('\n\t\t\t\t\t\t\t\t ');
-      individual_accounts_transfer_details.push(['8', total_transfer_amount]); //push family account id and total amount to subtract to balance
+      individual_accounts_transfer_details.push([family_account_id, total_transfer_amount]); //push family account id and total amount to subtract to balance
       let values_placeholder = individual_accounts_transfer_details.map(() => '?').join(',');
       let insert_query = `UPDATE account SET balance = (
                                 CASE ${individual_account_when_placeholder}
@@ -249,7 +249,7 @@ class FamilyAccountRepository {
       // parse to array of string ids
       return get_owners_query_result.map(owner_id => {
         return owner_id.individualAccountID as string;
-      });
+      }).filter((value, index, self) => self.indexOf(value) === index);
     } catch (err) {
       const errMessasge: string = (err as any).sqlMessage;
       throw new DatabaseException(errMessasge);

@@ -5,7 +5,6 @@ import accountValidationUtils from '../utils/account.validator.js';
 import validationCheck from '../utils/validation.utils.js';
 import ValidationDetails from '../types/validation.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
-import individualAccountValidator from './individualAccount.validation.js';
 import accountValidator from './account.valdation.js';
 import businessAccountService from '../services/businessAccount.service.js';
 import individualAccountService from '../services/individualAccount.service.js';
@@ -36,7 +35,7 @@ class BusinessAccountValidator {
   }
 
   async transferToBusiness(payload: IGeneralObj) {
-    //await accountValidator.transfer(payload);
+    await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
     const source_account = await businessAccountService.getBusinessAccount(
@@ -47,12 +46,12 @@ class BusinessAccountValidator {
     );
 
     validation_queue.push([
-      accountValidationUtils.isExist([source_account], 1),
+      accountValidationUtils.isExist([source_account.company_id], 1),
       new InvalidArgumentsError(`Source account is not a business account`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isExist([destination_account], 1),
+      accountValidationUtils.isExist([destination_account.company_id], 1),
       new InvalidArgumentsError(`Destionation account is not a business account`),
     ]);
 
@@ -71,23 +70,25 @@ class BusinessAccountValidator {
   }
 
   async transferToIndividual(payload: IGeneralObj) {
-    //await accountValidator.transfer(payload);
+    await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
-    const source_account = await individualAccountService.getIndividualAccountByAccountId(
+    const source_account = await businessAccountService.getBusinessAccount(
       payload.source_account_id,
     );
     const destination_account = await individualAccountService.getIndividualAccountByAccountId(
       payload.destination_account_id,
     );
 
+    console.log(destination_account);
+
     validation_queue.push([
-      accountValidationUtils.isExist([source_account], 1),
-      new InvalidArgumentsError(`Source account is not an individual account`),
+      accountValidationUtils.isExist([source_account.company_id], 1),
+      new InvalidArgumentsError(`Source account is not a business account`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isExist([destination_account], 1),
+      accountValidationUtils.isExist([destination_account.individual_id], 1),
       new InvalidArgumentsError(`Destionation account is not an individual account`),
     ]);
 
@@ -95,10 +96,10 @@ class BusinessAccountValidator {
       accountValidationUtils.isBalanceAllowsTransfer(
         source_account,
         Number(payload.amount),
-        AccountTypes.Individual,
+        AccountTypes.Business,
       ),
       new InvalidArgumentsError(
-        `Balance after transaction will be below the minimal remiaining balance of individual account`,
+        `Balance after transaction will be below the minimal remiaining balance of business account`,
       ),
     ]);
 

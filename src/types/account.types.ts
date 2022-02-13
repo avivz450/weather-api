@@ -4,6 +4,7 @@ export interface IAccount {
   balance: number;
   status: AccountStatuses;
   agent_id?: string;
+  currencyID?: string;
 }
 
 export enum AccountTypes {
@@ -73,6 +74,7 @@ export interface IAccountDB {
   accountID: string,
   balance: number,
   currencyCode: string,
+  currencyID?: string,
   statusName: string,
   agentID: string
 }

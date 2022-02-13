@@ -21,6 +21,8 @@ class AccountValidationUtils {
     transfer_amount: number,
     account_type: AccountTypes,
   ): boolean {
+
+
     switch (account_type) {
       case AccountTypes.Individual:
         return account.balance - transfer_amount >= individualAccountValidator.minAmountOfBalance;
@@ -42,7 +44,7 @@ class AccountValidationUtils {
 
   isDetailsLevelValid = (details_level: string) => details_level in DetailsLevel;
 
-  isTransferOptionValid = (transfer_option: string) => transfer_option in TransferTypes;
+  isTransferOptionValid = (transfer_option: string) => (Object.values(TransferTypes) as string[]).includes(transfer_option);
 
   isValidIds = (idsArr: string[]) => idsArr.every(id => this.isValidId(id));
 
@@ -59,9 +61,9 @@ class AccountValidationUtils {
   isAllWithSameCurrency = (currency: string, accounts: IAccount[]) =>
     accounts.every(account => account.currency === currency);
 
-  isExist = (accounts: IAccount[], amount: number) => {
-    const numberOfExistAccounts: number = accounts.reduce((acc, account) => {
-      return account !== undefined ? acc + 1 : acc;
+  isExist = (accounts_ids: string[], amount: number) => {
+    const numberOfExistAccounts: number = accounts_ids.reduce((acc, account_id) => {
+      return account_id !== null ? acc + 1 : acc;
     }, 0);
 
     return numberOfExistAccounts === amount;

@@ -8,6 +8,7 @@ import validationCheck from '../utils/validation.utils.js';
 import { IAccount, AccountTypes, AccountStatuses, TransferTypes } from '../types/account.types.js';
 import accountRepository from '../repositories/Account.repository.js';
 import accountService from '../services/account.service.js';
+import { Console } from 'console';
 
 class AccountValidator {
   get(payload: IGeneralObj) {
@@ -81,10 +82,7 @@ class AccountValidator {
 
     validationCheck(validation_queue);
 
-    const accounts: IAccount[] = await accountRepository.getAccountsByAccountIds(
-      accounts_ids,
-    );
-
+    const accounts: IAccount[] = await accountRepository.getAccountsByAccountIds(accounts_ids);
     const is_same_currency_transfer = TransferTypes.same_currency === payload.transfer;
     const is_both_accounts_with_same_currency = accountValidationUtils.isAllWithSameCurrency(
       accounts[0].currency,
@@ -92,7 +90,7 @@ class AccountValidator {
     );
 
     validation_queue.push([
-      accountValidationUtils.isExist(accounts, accounts_ids.length),
+      accountValidationUtils.isExist(accounts.map(account => account.account_id), accounts_ids.length),
       new InvalidArgumentsError(`Some of the accounts are not exist`),
     ]);
 
@@ -101,8 +99,9 @@ class AccountValidator {
       new InvalidArgumentsError(`Some of the accounts are not active`),
     ]);
 
+
     validation_queue.push([
-      accountValidationUtils.isTransferOptionValid(String(payload.transfer)),
+      accountValidationUtils.isTransferOptionValid(payload.transfer),
       new InvalidArgumentsError(`Chosen transfer type is invalid`),
     ]);
 
@@ -116,6 +115,8 @@ class AccountValidator {
       validator.isNumberPositive(Number(payload.amount)),
       new InvalidArgumentsError(`Transfer amount is not a positive number`),
     ]);
+
+    validationCheck(validation_queue);
   }
 }
 

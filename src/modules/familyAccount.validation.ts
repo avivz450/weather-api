@@ -6,6 +6,7 @@ import {
   IndividualTransferDetails,
   DetailsLevel,
   AccountStatuses,
+  AccountTypes,
 } from '../types/account.types.js';
 import validator from '../utils/validator.js';
 import accountValidationUtils from '../utils/account.validator.js';
@@ -15,6 +16,8 @@ import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import validationCheck from '../utils/validation.utils.js';
 import accountValidator from './account.valdation.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
+import businessAccountService from '../services/businessAccount.service.js';
+import { Console } from 'console';
 class FamilyAccountValidator {
   private readonly min_amount_of_balance = 5000;
 
@@ -62,7 +65,7 @@ class FamilyAccountValidator {
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isExist(individual_accounts, individual_accounts_details.length),
+      accountValidationUtils.isExist(individual_accounts.map(account => account.individual_id), individual_accounts_details.length),
       new InvalidArgumentsError(`Some of the individual accounts are not exist`),
     ]);
 
@@ -184,31 +187,52 @@ class FamilyAccountValidator {
 
   async removeIndividualAccount(payload: IGeneralObj) {
     const validation_queue: ValidationDetails[] = [];
-    const individual_accounts_ids = (payload.individual_accounts as string[]).map(
-      individual_id_amount_tuple => individual_id_amount_tuple[0],
-    );
-
-    const individual_accounts_amounts = (payload.individual_accounts as string[]).map(
-      individual_id_amount_tuple => parseInt(individual_id_amount_tuple[1]),
-    );
-
-    const connected_individuals_to_family =
-      await familyAccountRepository.getOwnersByFamilyAccountId(payload.account_id);
-
     validation_queue.push([
-      validator.checkRequiredFieldsExist(payload, ['account_id', 'individual_accounts']),
+      validator.checkRequiredFieldsExist(payload, [
+        'account_id',
+        'details_level',
+        'individual_accounts_details',
+      ]),
       new InvalidArgumentsError('Some of the required fields are not inserted'),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isValidId(String(payload.account_id)),
+      accountValidationUtils.isDetailsLevelValid(payload.details_level as string),
+      new InvalidArgumentsError('details_level is not valid'),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isValidId(payload.account_id as string),
       new InvalidArgumentsError('account_id must be numeric'),
     ]);
 
     validation_queue.push([
-      validator.isEmptyArray(payload.individual_accounts as any[]),
-      new InvalidArgumentsError('individual_accounts list should not be empty'),
+      Array.isArray(payload.individual_accounts_details),
+      new InvalidArgumentsError('individual_accounts_details list must be an array'),
     ]);
+
+    validationCheck(validation_queue);
+
+    validation_queue.push([
+      !validator.isEmptyArray(payload.individual_accounts_details as any[]),
+      new InvalidArgumentsError('individual_accounts_details list should not be empty'),
+    ]);
+
+    const individual_accounts_ids = (payload.individual_accounts_details as string[]).map(
+      individual_id_amount_tuple => individual_id_amount_tuple[0],
+    );
+    const individual_accounts_amounts = (payload.individual_accounts_details as string[]).map(
+      individual_id_amount_tuple => parseInt(individual_id_amount_tuple[1]),
+    );
+
+    validationCheck(validation_queue);
+
+    const individual_accounts: IIndividualAccount[] =
+      await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids);
+    const family_account = await familyAccountService.getFamilyAccountById(
+      payload.account_id as string,
+      DetailsLevel.full,
+    );
 
     validation_queue.push([
       validator.isAllNumbersPositive(individual_accounts_amounts),
@@ -220,9 +244,18 @@ class FamilyAccountValidator {
       new InvalidArgumentsError('there is an individual account_id that is not numeric'),
     ]);
 
+    validationCheck(validation_queue);
+
+    const connected_individuals_to_family = (
+      await familyAccountRepository.getOwnersByFamilyAccountId(payload.account_id)
+    ).map(id => String(id));
+
+    console.log(connected_individuals_to_family);
+    console.log(individual_accounts_ids);
+
     validation_queue.push([
       individual_accounts_ids.every(individual_id =>
-        (connected_individuals_to_family as string[]).includes(individual_id),
+        connected_individuals_to_family.includes(individual_id),
       ),
       new InvalidArgumentsError(
         'there is an individual account id that is not connected to family id',
@@ -244,35 +277,72 @@ class FamilyAccountValidator {
   }
 
   async transferToBusiness(payload: IGeneralObj) {
-    //await accountValidator.transfer(payload);
+    await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
-    const connected_individuals_to_family =
-      await familyAccountRepository.getOwnersByFamilyAccountId(payload.source_account_id);
-    const individual_accounts: IIndividualAccount[] =
-      await individualAccountService.getIndividualAccountsByAccountIds(
-        connected_individuals_to_family as string[],
-      );
+    const source_account = await familyAccountService.getFamilyAccountById(
+      payload.source_account_id,
+      DetailsLevel.full
+    );
+
+    const destination_account = await businessAccountService.getBusinessAccount(
+      payload.destination_account_id,
+    );
 
     validation_queue.push([
-      accountValidationUtils.isExist(individual_accounts, individual_accounts.length),
-      new InvalidArgumentsError(`Some of the individual accounts are not exist`),
+      accountValidationUtils.isExist(source_account.owners as string[], 1),
+      new InvalidArgumentsError(`Source account is not a family account`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllAccountsWithSameStatus(
-        individual_accounts,
-        AccountStatuses.active,
-      ),
-      new InvalidArgumentsError(`Some of the individual accounts are not active`),
+      accountValidationUtils.isExist([destination_account.company_id], 1),
+      new InvalidArgumentsError(`Destionation account is not a business account`),
     ]);
 
     validation_queue.push([
-      accountValidationUtils.isAllWithSameCurrency(
-        individual_accounts[0].currency,
-        individual_accounts,
+      accountValidationUtils.isBalanceAllowsTransfer(
+        source_account,
+        Number(payload.amount),
+        AccountTypes.Family,
       ),
-      new InvalidArgumentsError(`Some of the accounts have different currencies`),
+      new InvalidArgumentsError(
+        `Balance after transaction will be below the minimal remiaining balance of family account`,
+      ),
+    ]);
+
+    validationCheck(validation_queue);
+  }
+
+  async transferToIndividual(payload: IGeneralObj) {
+    await accountValidator.transfer(payload);
+
+    const validation_queue: ValidationDetails[] = [];
+    const source_account = await familyAccountService.getFamilyAccountById(
+      payload.source_account_id,
+    );
+    const destination_account = await individualAccountService.getIndividualAccountByAccountId(
+      payload.destination_account_id,
+    );
+
+    validation_queue.push([
+      accountValidationUtils.isExist(source_account.owners as string[], 1),
+      new InvalidArgumentsError(`Source account is not an family account`),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isExist([destination_account.individual_id], 1),
+      new InvalidArgumentsError(`Destionation account is not an individual account`),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isBalanceAllowsTransfer(
+        source_account,
+        Number(payload.amount),
+        AccountTypes.Family,
+      ),
+      new InvalidArgumentsError(
+        `Balance after transaction will be below the minimal remiaining balance of family account`,
+      ),
     ]);
 
     validationCheck(validation_queue);

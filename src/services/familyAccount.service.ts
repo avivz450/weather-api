@@ -15,19 +15,6 @@ export class FamilyAccountService {
     return family_account;
   }
 
-  async addIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_details: IndividualTransferDetails[], details_level?: DetailsLevel) {
-    const individual_accounts_id = individual_accounts_details.map((individual_accounts: IndividualTransferDetails) => individual_accounts[0]);
-    
-    let success: boolean = await familyAccountRepository.addIndividualAccountsToFamilyAccount(family_account_id,individual_accounts_id);
-    if (!success) throw new logicError('faild add individual accounts to family account');
-
-    success = await familyAccountRepository.transferFromIndividualAccountsToFamilyAccount(family_account_id, individual_accounts_details);
-    if (!success) throw new logicError('faild to transfer from individual accounts to familt account');
-    
-    const family_account: IFamilyAccount = await this.getFamilyAccountById(family_account_id, details_level);
-    return family_account;
-  }
-
   async getFamilyAccountById(family_account_id: string, details_level?: DetailsLevel): Promise<IFamilyAccount> {
     details_level = details_level || DetailsLevel.short;
 
@@ -48,6 +35,19 @@ export class FamilyAccountService {
       throw new transferError('transfer failed');
     }
     return transaction;
+  }
+
+  async addIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_details: IndividualTransferDetails[], details_level?: DetailsLevel) {
+    const individual_accounts_id = individual_accounts_details.map((individual_accounts: IndividualTransferDetails) => individual_accounts[0]);
+    
+    let success: boolean = await familyAccountRepository.addIndividualAccountsToFamilyAccount(family_account_id,individual_accounts_id);
+    if (!success) throw new logicError('faild add individual accounts to family account');
+
+    success = await familyAccountRepository.transferFromIndividualAccountsToFamilyAccount(family_account_id, individual_accounts_details);
+    if (!success) throw new logicError('faild to transfer from individual accounts to familt account');
+    
+    const family_account: IFamilyAccount = await this.getFamilyAccountById(family_account_id, details_level);
+    return family_account;
   }
 
   async removeIndividualAccountsFromFamilyAccount(family_account_id: string, individual_accounts_details: IndividualTransferDetails[], details_level?: DetailsLevel) {
@@ -71,6 +71,7 @@ export class FamilyAccountService {
       throw new logicError('faild remove individual accounts to family account');
     }
     
+
     const transfer = await familyAccountRepository.transferFromFamilyAccountToIndividualAccounts(family_account_id, individual_accounts_details);
     if (!transfer) {
       throw new logicError("Failed to transfer from family account to individual accounts");

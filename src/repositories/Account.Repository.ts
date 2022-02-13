@@ -3,7 +3,7 @@ import { sql_con } from "../db/sql/sql.connection.js";
 import DatabaseException from "../exceptions/db.exception.js";
 import { IIndividualAccount, IAccount, AccountStatuses, IAccountDB } from "../types/account.types.js";
 import { IGeneralObj } from "../types/general.types.js";
-import { parseAccountQueryResult } from "../utils/db.parser.js";
+import { parseAccountQueryResult, parseAccountQueryResultForTransferResponse } from "../utils/db.parser.js";
 
 class AccountRepository {
     async createAccount(payload: IAccount) {
@@ -40,7 +40,7 @@ class AccountRepository {
 
     async getAccountByAccountId(account_id: string) {
         try {
-            const query = `SELECT accountID, balance, currencyCode, statusName, agentID
+            const query = `SELECT accountID, balance, currencyCode, curencyID statusName, agentID
                             FROM account a
                             JOIN statusAccount s 
                             JOIN currency c
@@ -54,12 +54,13 @@ class AccountRepository {
             return parseAccountQueryResult(account_query[0] as IAccountDB) || null;
         } catch (err) {
             const errMessasge:string = (err as any).sqlMessage;
-            throw new DatabaseException(errMessasge)        }
+            throw new DatabaseException(errMessasge)        
+        }
     }
 
-    async getAccountsByAccountIds(account_ids: string[]) {
+    async getAccountsByAccountIds(account_ids: string[], include_currency_id?: boolean) {
         try {
-            const query = `SELECT accountID, balance, currencyCode, statusName, agentID
+            const query = `SELECT accountID, balance, currencyCode,statusName, agentID ${include_currency_id ? ',c.currencyID' : ''}
                             FROM account a
                             JOIN statusAccount s 
                             JOIN currency c
@@ -78,7 +79,7 @@ class AccountRepository {
             return accounts || null;
         } catch (err) {
             const errMessasge:string = (err as any).sqlMessage;
-            throw new Error(errMessasge)        
+            throw new DatabaseException(errMessasge)        
         }
     }
   
