@@ -1,11 +1,6 @@
 import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
-import {
-  IAccount,
-  IBusinessAccount,
-  IBusinessAccountDB,
-  IIndividualAccountDB,
-} from '../types/account.types.js';
+import { IAccount, IBusinessAccount, IBusinessAccountDB, IIndividualAccountDB } from '../types/account.types.js';
 import { parseBusinessAccountQueryResult } from '../utils/db.parser.js';
 import AccountRepository from './account.repository.js';
 import { createAddressPayload } from '../utils/db.parser.js';
