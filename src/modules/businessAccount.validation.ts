@@ -5,7 +5,6 @@ import accountValidationUtils from '../utils/account.validator.js';
 import validationCheck from '../utils/validation.utils.js';
 import ValidationDetails from '../types/validation.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
-import individualAccountValidator from './individualAccount.validation.js';
 import accountValidator from './account.valdation.js';
 import businessAccountService from '../services/businessAccount.service.js';
 import individualAccountService from '../services/individualAccount.service.js';
@@ -74,7 +73,7 @@ class BusinessAccountValidator {
     await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
-    const source_account = await individualAccountService.getIndividualAccountByAccountId(
+    const source_account = await businessAccountService.getBusinessAccount(
       payload.source_account_id,
     );
     const destination_account = await individualAccountService.getIndividualAccountByAccountId(
@@ -83,7 +82,7 @@ class BusinessAccountValidator {
 
     validation_queue.push([
       accountValidationUtils.isExist([source_account], 1),
-      new InvalidArgumentsError(`Source account is not an individual account`),
+      new InvalidArgumentsError(`Source account is not a business account`),
     ]);
 
     validation_queue.push([
@@ -95,10 +94,10 @@ class BusinessAccountValidator {
       accountValidationUtils.isBalanceAllowsTransfer(
         source_account,
         Number(payload.amount),
-        AccountTypes.Individual,
+        AccountTypes.Business,
       ),
       new InvalidArgumentsError(
-        `Balance after transaction will be below the minimal remiaining balance of individual account`,
+        `Balance after transaction will be below the minimal remiaining balance of business account`,
       ),
     ]);
 

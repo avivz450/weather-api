@@ -18,10 +18,12 @@ class FamilyAccountRouter {
       );
     this.familyAccountRouter.post(
       "/add-accounts/:account_id/:details_level",
+      raw(familyMiddlewares.verifyAddIndividuals),
       raw(familyAccountController.addAccountsToFamilyAccount)
     );
     this.familyAccountRouter.patch(
       "/remove-accounts/:account_id/:details_level",
+      raw(familyMiddlewares.verifyCloseIndividuals),
       raw(familyAccountController.removeAccountsFromFamilyAccount)
     );
     this.familyAccountRouter.patch(

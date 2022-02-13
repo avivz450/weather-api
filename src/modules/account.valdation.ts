@@ -87,11 +87,13 @@ class AccountValidator {
       accounts[0].currency,
       accounts,
     );
-
+    
     validation_queue.push([
       accountValidationUtils.isExist(accounts, accounts_ids.length),
       new InvalidArgumentsError(`Some of the accounts are not exist`),
     ]);
+
+    console.log(accounts);
 
     validation_queue.push([
       accountValidationUtils.isAllAccountsWithSameStatus(accounts, AccountStatuses.active),
