@@ -8,6 +8,7 @@ import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import individualAccountValidator from './individualAccount.validation.js';
 import accountValidator from './account.valdation.js';
 import businessAccountService from '../services/businessAccount.service.js';
+import individualAccountService from '../services/individualAccount.service.js';
 class BusinessAccountValidator {
   private readonly company_id_length = 8;
   private readonly min_amount_of_balance = 10000;
@@ -28,9 +29,7 @@ class BusinessAccountValidator {
 
     validation_queue.push([
       accountValidationUtils.isValidId(String(payload.company_id), this.company_id_length),
-      new InvalidArgumentsError(
-        `id must be made of ${this.company_id_length} numbers`,
-      ),
+      new InvalidArgumentsError(`id must be made of ${this.company_id_length} numbers`),
     ]);
 
     validationCheck(validation_queue);
@@ -40,8 +39,12 @@ class BusinessAccountValidator {
     //await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
-    const source_account = await businessAccountService.getBusinessAccount(payload.source_account_id);
-    const destination_account = await businessAccountService.getBusinessAccount(payload.destination_account_id);
+    const source_account = await businessAccountService.getBusinessAccount(
+      payload.source_account_id,
+    );
+    const destination_account = await businessAccountService.getBusinessAccount(
+      payload.destination_account_id,
+    );
 
     validation_queue.push([
       accountValidationUtils.isExist([source_account], 1),
@@ -50,9 +53,7 @@ class BusinessAccountValidator {
 
     validation_queue.push([
       accountValidationUtils.isExist([destination_account], 1),
-      new InvalidArgumentsError(
-        `Destionation account is not a business account`,
-      ),
+      new InvalidArgumentsError(`Destionation account is not a business account`),
     ]);
 
     validation_queue.push([
@@ -71,6 +72,37 @@ class BusinessAccountValidator {
 
   async transferToIndividual(payload: IGeneralObj) {
     //await accountValidator.transfer(payload);
+
+    const validation_queue: ValidationDetails[] = [];
+    const source_account = await individualAccountService.getIndividualAccountByAccountId(
+      payload.source_account_id,
+    );
+    const destination_account = await individualAccountService.getIndividualAccountByAccountId(
+      payload.destination_account_id,
+    );
+
+    validation_queue.push([
+      accountValidationUtils.isExist([source_account], 1),
+      new InvalidArgumentsError(`Source account is not an individual account`),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isExist([destination_account], 1),
+      new InvalidArgumentsError(`Destionation account is not an individual account`),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isBalanceAllowsTransfer(
+        source_account,
+        Number(payload.amount),
+        AccountTypes.Individual,
+      ),
+      new InvalidArgumentsError(
+        `Balance after transaction will be below the minimal remiaining balance of individual account`,
+      ),
+    ]);
+
+    validationCheck(validation_queue);
   }
 
   get minAmountOfBalance() {

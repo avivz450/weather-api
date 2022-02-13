@@ -1,6 +1,6 @@
 
 import { expect, assert } from 'chai';
-import sinon from 'sinon';
+//import sinon from 'sinon';
 // import PubSub from 'pubsub-js';
 import validator from '../../src/utils/validator.js';
 import { IGeneralObj } from '../../src/types/general.types.js';

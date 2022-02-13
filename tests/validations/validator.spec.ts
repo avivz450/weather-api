@@ -1,11 +1,6 @@
 import { expect, assert } from 'chai';
-<<<<<<< HEAD
-import sinon from 'sinon';
-// import PubSub from 'pubsub-js';
-=======
 //import sinon from 'sinon';
 //import PubSub from 'pubsub-js';
->>>>>>> modified transfer b2b
 import validator from '../../src/utils/validator.js';
 import { IGeneralObj } from '../../src/types/general.types.js';
 
@@ -27,10 +22,6 @@ describe('#validator module', function () {
       const exist = validator.checkRequiredFieldsExist(obj,["id","name"]);
       expect(exist).to.be.eq(true)
     });
-<<<<<<< HEAD
-
-=======
->>>>>>> modified transfer b2b
     //    it("should sum of many numbers", ()=> {
     //        const mySum=sum(1,2,3,4);
     //        expect(mySum).to.equal(10);
