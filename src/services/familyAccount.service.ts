@@ -9,14 +9,9 @@ import accountRepository from '../repositories/account.repository.js';
 export class FamilyAccountService {
   async createFamilyAccount(payload: Omit<IFamilyAccountCreationInput, 'account_id'>): Promise<IFamilyAccount> {
     const family_account_id = await familyAccountRepository.createFamilyAccount(payload);
-<<<<<<< HEAD
-    await familyAccountRepository.addIndividualAccountsToFamilyAccount(family_account_id,Object.keys(payload.individual_accounts_details));
-    const family_account = await familyAccountRepository.getFamilyAccountById(family_account_id, DetailsLevel.full) as IFamilyAccount;
-=======
     const individual_ids_to_connect = payload.individual_accounts_details.map(tuple => tuple[0]);
     const family_account = await this.addIndividualAccountsToFamilyAccount(family_account_id, payload.individual_accounts_details, DetailsLevel.full);
     
->>>>>>> fixed transfer from i2f
     return family_account;
   }
 
