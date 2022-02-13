@@ -8,9 +8,9 @@ import DatabaseException from '../exceptions/db.exception.js';
 class TransferRepository {
   async transfer(payload: ITransferRequest, rate: number) {
     try {
-      const source_account = await accountRepository.getAccountByAccountId(payload.source_account);
+      const source_account = await accountRepository.getAccountByAccountId(payload.source_account_id);
       const destination_account = await accountRepository.getAccountByAccountId(
-        payload.destination_account,
+        payload.destination_account_id,
       );
 
       if (source_account.balance && destination_account.balance) {
@@ -24,20 +24,20 @@ class TransferRepository {
                             END)
                             WHERE accountID in (?, ?)`;
         const [transfer_update] = (await sql_con.query(query, [
-          payload.source_account,
+          payload.source_account_id,
           updated_source_account_balance,
-          payload.destination_account,
+          payload.destination_account_id,
           updated_destination_account_balance,
-          payload.destination_account,
-          payload.destination_account,
+          payload.destination_account_id,
+          payload.destination_account_id,
         ])) as unknown as OkPacket[];
 
         source_account.balance = updated_source_account_balance;
         destination_account.balance = updated_destination_account_balance;
 
         const transaction_payload = {
-          sourceAccountID: payload.source_account,
-          destinationAccountID: payload.destination_account,
+          sourceAccountID: payload.source_account_id,
+          destinationAccountID: payload.destination_account_id,
           sourceCurrencyID: (source_account as any).currencyID,
           destinationCurrencyID: (destination_account as any).currencyID,
           amount: payload.amount,

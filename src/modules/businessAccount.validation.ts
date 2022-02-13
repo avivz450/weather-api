@@ -37,13 +37,11 @@ class BusinessAccountValidator {
   }
 
   async transferToBusiness(payload: IGeneralObj) {
+    //await accountValidator.transfer(payload);
+
     const validation_queue: ValidationDetails[] = [];
-
-
     const source_account = await businessAccountService.getBusinessAccount(payload.source_account_id);
     const destination_account = await businessAccountService.getBusinessAccount(payload.destination_account_id);
-
-    console.log(2);
 
     validation_queue.push([
       accountValidationUtils.isExist([source_account], 1),
@@ -64,12 +62,11 @@ class BusinessAccountValidator {
         AccountTypes.Business,
       ),
       new InvalidArgumentsError(
-        `Balance after transaction will be below the minimal remiaining balance of ${payload.source_account_type as AccountTypes}`,
+        `Balance after transaction will be below the minimal remiaining balance of business account`,
       ),
     ]);
 
     validationCheck(validation_queue);
-    await accountValidator.transfer(payload);
   }
 
   async transferToIndividual(payload: IGeneralObj) {
