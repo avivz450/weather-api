@@ -7,6 +7,7 @@ import { IGeneralObj } from '../../src/types/general.types.js';
 
 describe('#validator module', function () {
   context('check Required Fields Exist', () => {
+      
     it('should exists', () => {
       // @ts-ignore
       expect(validator.checkRequiredFieldsExist()).to.be.a('function');
@@ -21,6 +22,9 @@ describe('#validator module', function () {
       const exist = validator.checkRequiredFieldsExist(obj,keys);
       expect(exist).to.be.true;
     });
+<<<<<<< HEAD
+
+=======
     //    it("should sum of many numbers", ()=> {
     //        const mySum=sum(1,2,3,4);
     //        expect(mySum).to.equal(10);
@@ -41,5 +45,6 @@ describe('#validator module', function () {
     //        expect(mymultiply).to.eql([4,6,8,6]);
 
     //    });
+>>>>>>> dd37ca5e153196b124708eef8852f66a00f93b80
   });
 });
