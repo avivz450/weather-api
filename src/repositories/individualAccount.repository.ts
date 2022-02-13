@@ -91,12 +91,10 @@ class IndividualAccountRepository {
                       LEFT JOIN currency AS c ON c.currencyID=a.currencyID
                       LEFT JOIN address AS ad ON ad.addressID=ia.addressID
                       LEFT JOIN country as co ON co.countryCode=ad.countryCode
-                      WHERE ia.individualID IN (${'?,'
-                        .repeat(individual_ids.length)
-                        .slice(0, -1)})`;
+                      WHERE ia.individualID IN (?)`;
 
       const [individual_accounts_result_query] = (await sql_con.query(query, [
-        ...individual_ids,
+        [...individual_ids],
       ])) as unknown as RowDataPacket[][];
 
       const IndividualAccounts: IIndividualAccount[] = [];

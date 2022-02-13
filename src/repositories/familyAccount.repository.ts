@@ -74,7 +74,7 @@ class FamilyAccountRepository {
           owners.push(individualAccountID);
         });
 
-        const owners_full = await individualAccountRepository.getIndividualAccountsByIndividualIds(
+        const owners_full = await individualAccountRepository.getIndividualAccountsByAccountIds(
           owners,
         );
         const payload = {
