@@ -45,14 +45,13 @@ class BusinessAccountRepository {
   async getBusinessAccountByAccountID(account_id: string) {
     try {
       let query = `SELECT a.accountID, ba.companyID,ba.companyName,ba.context ,a.balance,s.statusName as status,c.currencyCode, co.countryName, ad.countryCode, ad.postalCode, ad.city, ad.region, ad.streetName, ad.streetNumber
-                      FROM account AS a 
-                      LEFT JOIN businessAccount AS ba 
-                      LEFT JOIN statusAccount AS s 
-                      LEFT JOIN currency AS c 
-                      LEFT JOIN address AS ad
-                      LEFT JOIN country AS co
-                      ON c.currencyID=a.currencyID AND s.statusID=a.statusID AND a.accountID= ba.accountID AND ad.addressID=ba.addressID AND co.countryCode=ad.countryCode
-                      WHERE a.accountID = ?`;
+                  FROM account AS a 
+                  LEFT JOIN businessAccount AS ba ON a.accountID= ba.accountID
+                  JOIN statusAccount AS s ON s.statusID=a.statusID
+                  JOIN currency AS c ON c.currencyID=a.currencyID
+                  JOIN address AS ad ON ad.addressID=ba.addressID
+                  JOIN country AS co ON co.countryCode=ad.countryCode
+                  WHERE a.accountID = ?`;
       const [account_query_result] = (await sql_con.query(query, [
         account_id,
       ])) as unknown as RowDataPacket[][];
