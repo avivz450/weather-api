@@ -40,9 +40,6 @@ class AccountValidationUtils {
   // isSomeIsType = (accounts: IAccount[], accountType: AccountTypes) =>
   //   accounts.some(account => account.type === accountType);
 
-  // isAllIsType = (accounts: IAccount[], accountType: AccountTypes) =>
-  //   accounts.every(account => account.type === accountType);
-
   isDetailsLevelValid = (details_level: string) => details_level in DetailsLevel;
 
   isTransferOptionValid = (transfer_option: string) => transfer_option in TransferTypes;

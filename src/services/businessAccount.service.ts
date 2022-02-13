@@ -3,26 +3,23 @@ import BussinessAccountRepository from '../repositories/bussinessAccount.reposit
 import TransferRepository from '../repositories/transfer.repository.js';
 import transferError from '../exceptions/transfer.exception.js';
 import logicError from '../exceptions/logic.exception.js';
-export class BusinessAccountService {
-  static async createBusinessAccount(
+class BusinessAccountService {
+  async createBusinessAccount(
     payload: Omit<IBusinessAccount, 'account_id'>,
   ): Promise<IBusinessAccount> {
     const account_id: string = await BussinessAccountRepository.createBusinessAccount(payload);
     const business_account = await this.getBusinessAccount(account_id);
-    if (!business_account) {
-      throw new logicError('create business account faild');
-    }
     return business_account;
   }
 
-  static async getBusinessAccount(account_id: string): Promise<IBusinessAccount> {
+  async getBusinessAccount(account_id: string): Promise<IBusinessAccount> {
     const businessAccount: IBusinessAccount =
       await BussinessAccountRepository.getBusinessAccountByAccountID(account_id);
     if (!businessAccount) throw new logicError('faild created bussines account');
     return businessAccount;
   }
 
-  static async transferBusinessToBusiness(payload: ITransferRequest): Promise<ITransferResponse> {
+  async transferBusinessToBusiness(payload: ITransferRequest): Promise<ITransferResponse> {
     let rate = 1;
     const { source_account, destination_account, amount } = payload;
 
@@ -55,7 +52,7 @@ export class BusinessAccountService {
     return transaction;
   }
 
-  static async transferBusinessToIndividual(payload: ITransferRequest): Promise<ITransferResponse> {
+  async transferBusinessToIndividual(payload: ITransferRequest): Promise<ITransferResponse> {
     if (payload.amount > 1000) {
       throw new transferError('transfer amount limit exceeded');
     }

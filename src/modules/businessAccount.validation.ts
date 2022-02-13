@@ -1,11 +1,13 @@
 import { IGeneralObj } from '../types/general.types.js';
+import { AccountTypes } from '../types/account.types.js';
 import validator from '../utils/validator.js';
 import accountValidationUtils from '../utils/account.validator.js';
 import validationCheck from '../utils/validation.utils.js';
 import ValidationDetails from '../types/validation.types.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import individualAccountValidator from './individualAccount.validation.js';
-import accountValidator from './account.valdation';
+import accountValidator from './account.valdation.js';
+import businessAccountService from '../services/businessAccount.service.js';
 class BusinessAccountValidator {
   private readonly company_id_length = 8;
   private readonly min_amount_of_balance = 10000;
@@ -35,7 +37,39 @@ class BusinessAccountValidator {
   }
 
   async transferToBusiness(payload: IGeneralObj) {
-    //await accountValidator.transfer(payload);
+    const validation_queue: ValidationDetails[] = [];
+
+
+    const source_account = await businessAccountService.getBusinessAccount(payload.source_account_id);
+    const destination_account = await businessAccountService.getBusinessAccount(payload.destination_account_id);
+
+    console.log(2);
+
+    validation_queue.push([
+      accountValidationUtils.isExist([source_account], 1),
+      new InvalidArgumentsError(`Source account is not a business account`),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isExist([destination_account], 1),
+      new InvalidArgumentsError(
+        `Destionation account is not a business account`,
+      ),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isBalanceAllowsTransfer(
+        source_account,
+        Number(payload.amount),
+        AccountTypes.Business,
+      ),
+      new InvalidArgumentsError(
+        `Balance after transaction will be below the minimal remiaining balance of ${payload.source_account_type as AccountTypes}`,
+      ),
+    ]);
+
+    validationCheck(validation_queue);
+    await accountValidator.transfer(payload);
   }
 
   async transferToIndividual(payload: IGeneralObj) {
