@@ -4,11 +4,11 @@ import { IGeneralObj } from '../types/general.types.js';
 
 class AuthenticationService {
     async getSecretKey(access_key: string) {
-        const secert_key = await authenticationRepository.getSecretKey(access_key);
-        if (!secert_key) {
+        const secret_key = await authenticationRepository.getSecretKey(access_key);
+        if (!secret_key) {
             throw new AuthenticationException("Unautherized request denined");
         }
-        return secert_key;
+        return secret_key;
     }   
 
     async validateSignatrues(signature: string, signature2compare: string) {

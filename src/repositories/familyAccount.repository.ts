@@ -1,13 +1,7 @@
-import { Console } from 'console';
 import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
 import DatabaseException from '../exceptions/db.exception.js';
-import {
-  IAccount,
-  IFamilyAccountCreationInput,
-  IndividualTransferDetails,
-  DetailsLevel,
-} from '../types/account.types.js';
+import { DetailsLevel, IAccount, IFamilyAccountCreationInput, IndividualTransferDetails } from '../types/account.types.js';
 import { IFamilyAccountParse } from '../types/db.types.js';
 import { parseFamilyAccountQueryResult } from '../utils/db.parser.js';
 import AccountRepository from './account.repository.js';
@@ -46,9 +40,7 @@ class FamilyAccountRepository {
                             JOIN currency AS c 
                             ON a.accountID= fa.accountID AND ow.familyAccountID=fa.accountID AND s.statusID=a.statusID AND c.currencyID=a.currencyID 
                             WHERE a.accountID = ?`;
-        const [account_query_result] = (await sql_con.query(query, [
-          family_account_id,
-        ])) as unknown as RowDataPacket[][];
+        const [account_query_result] = (await sql_con.query(query, [family_account_id])) as unknown as RowDataPacket[][];
 
         const payload = {
           query_res: account_query_result,
@@ -64,18 +56,14 @@ class FamilyAccountRepository {
                             JOIN currency AS c 
                             ON a.accountID= fa.accountID AND ow.familyAccountID=fa.accountID AND s.statusID=a.statusID AND c.currencyID=a.currencyID 
                             WHERE a.accountID = ?`;
-        const [account_query_result] = (await sql_con.query(query, [
-          family_account_id,
-        ])) as unknown as RowDataPacket[][];
+        const [account_query_result] = (await sql_con.query(query, [family_account_id])) as unknown as RowDataPacket[][];
         const owners: string[] = [];
         account_query_result.forEach(row => {
           const { individualAccountID } = row;
           owners.push(individualAccountID);
         });
 
-        const owners_full = await individualAccountRepository.getIndividualAccountsByAccountIds(
-          owners,
-        );
+        const owners_full = await individualAccountRepository.getIndividualAccountsByAccountIds(owners);
         const payload = {
           query_res: account_query_result,
           owners_full,
@@ -89,10 +77,7 @@ class FamilyAccountRepository {
     }
   }
 
-  async addIndividualAccountsToFamilyAccount(
-    family_account_id: string,
-    individual_accounts_ids: string[],
-  ) {
+  async addIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_ids: string[]) {
     try {
       //Added each individual account id to ownersFamilyAccount
       let placeholder = individual_accounts_ids.map(() => '(?, ?)').join(',');
@@ -106,9 +91,7 @@ class FamilyAccountRepository {
         values.push(individual_account_id);
       });
 
-      const [account_insertion_result] = (await sql_con.query(insert_query, [
-        ...values,
-      ])) as unknown as OkPacket[];
+      const [account_insertion_result] = (await sql_con.query(insert_query, [...values])) as unknown as OkPacket[];
 
       if (account_insertion_result.insertId) {
         return true;
@@ -122,17 +105,12 @@ class FamilyAccountRepository {
   async transferFromIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_transfer_details: IndividualTransferDetails[]) {
     try {
       //iterate over tuples -> calc amount to add to family
-      const total_transfer_amount = individual_accounts_transfer_details.reduce(
-        (total_amount, individual_account_details) => {
-          total_amount += individual_account_details[1];
-          return total_amount;
-        },
-        0,
-      );
+      const total_transfer_amount = individual_accounts_transfer_details.reduce((total_amount, individual_account_details) => {
+        total_amount += individual_account_details[1];
+        return total_amount;
+      }, 0);
       //subtract from each account his amount
-      let individual_account_when_placeholder = individual_accounts_transfer_details
-        .map(() => 'WHEN accountID = ? THEN balance-?')
-        .join('\n\t\t\t\t\t\t\t\t ');
+      let individual_account_when_placeholder = individual_accounts_transfer_details.map(() => 'WHEN accountID = ? THEN balance-?').join('\n\t\t\t\t\t\t\t\t ');
       individual_accounts_transfer_details.push([family_account_id, total_transfer_amount]); //push family account id and total amount to add to balance
       let values_placeholder = individual_accounts_transfer_details.map(() => '?').join(',');
       let update_query = `UPDATE account SET balance = (
@@ -151,9 +129,7 @@ class FamilyAccountRepository {
       });
       values.push(family_account_id); //push also family account id for where clause
 
-      const [account_update_result] = (await sql_con.query(update_query, [
-        ...values,
-      ])) as unknown as OkPacket[];
+      const [account_update_result] = (await sql_con.query(update_query, [...values])) as unknown as OkPacket[];
 
       if (account_update_result.affectedRows) {
         return true;
@@ -164,18 +140,13 @@ class FamilyAccountRepository {
     }
   }
 
-  async removeIndividualAccountsFromFamilyAccount(
-    family_account_id: string,
-    individual_accounts_ids: string[],
-  ) {
+  async removeIndividualAccountsFromFamilyAccount(family_account_id: string, individual_accounts_ids: string[]) {
     try {
       let in_placeholder = individual_accounts_ids.map(() => '?').join(',');
       let insert_query = `DELETE FROM ownersFamilyAccount
                                WHERE individualAccountID IN (${in_placeholder})`;
 
-      const [account_deletion_result] = (await sql_con.query(insert_query, [
-        ...individual_accounts_ids,
-      ])) as unknown as OkPacket[];
+      const [account_deletion_result] = (await sql_con.query(insert_query, [...individual_accounts_ids])) as unknown as OkPacket[];
 
       if (account_deletion_result.affectedRows) {
         return true;
@@ -186,19 +157,13 @@ class FamilyAccountRepository {
     }
   }
 
-  async transferFromFamilyAccountToIndividualAccounts(
-    family_account_id: string,
-    individual_accounts_transfer_details: IndividualTransferDetails[],
-  ) {
+  async transferFromFamilyAccountToIndividualAccounts(family_account_id: string, individual_accounts_transfer_details: IndividualTransferDetails[]) {
     try {
       //iterate over tuples -> calc amount to subtract from family
-      const total_transfer_amount = individual_accounts_transfer_details.reduce(
-        (total_amount, individual_account_details) => {
-          total_amount += individual_account_details[1];
-          return total_amount;
-        },
-        0,
-      );
+      const total_transfer_amount = individual_accounts_transfer_details.reduce((total_amount, individual_account_details) => {
+        total_amount += individual_account_details[1];
+        return total_amount;
+      }, 0);
       //subtract from family account the total amount and add to each individual his amount
       let individual_account_when_placeholder = individual_accounts_transfer_details
         .map(() => 'WHEN accountID = ? THEN balance+?')
@@ -221,9 +186,7 @@ class FamilyAccountRepository {
       });
       values.push(family_account_id); //push also family account id for where clause
 
-      const [account_update_result] = (await sql_con.query(insert_query, [
-        ...values,
-      ])) as unknown as OkPacket[];
+      const [account_update_result] = (await sql_con.query(insert_query, [...values])) as unknown as OkPacket[];
 
       if (account_update_result.affectedRows) {
         return true;
@@ -237,14 +200,12 @@ class FamilyAccountRepository {
   async getOwnersByFamilyAccountId(family_account_id: string) {
     //return all account owners ids in array
     try {
-      let query = `SELECT individualAccountID
+      let query = `SELECT DISTINCT individualAccountID
                         FROM account a
                         JOIN ownersFamilyAccount o
                         ON a.accountID=o.familyAccountID
                         WHERE o.familyAccountID = ?`;
-      const [get_owners_query_result] = (await sql_con.query(query, [
-        family_account_id,
-      ])) as unknown as RowDataPacket[][];
+      const [get_owners_query_result] = (await sql_con.query(query, [family_account_id])) as unknown as RowDataPacket[][];
 
       // parse to array of string ids
       return get_owners_query_result.map(owner_id => {
