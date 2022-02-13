@@ -4,6 +4,7 @@ import businessMiddlewares from '../middlewares/businessAccount.middleware.js';
 import accountMiddlewares from '../middlewares/account.middleware.js';
 
 import raw from '../middlewares/route.async.wrapper.js';
+import { authenticateRequest } from '../middlewares/authentication.middleware.js';
 
 class BusinessAccountRouter {
   private readonly businessAccountRouter = express.Router();
@@ -16,6 +17,7 @@ class BusinessAccountRouter {
     );
     this.businessAccountRouter.get(
       '/:account_id',
+      raw(authenticateRequest),
       raw(accountMiddlewares.verifyGetAccount),
       raw(businessController.getBusinessAccount),
     );

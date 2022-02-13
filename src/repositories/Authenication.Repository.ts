@@ -12,8 +12,9 @@ class AuthenticationRepository {
                 query,
                 [accesKey]
             )) as RowDataPacket[][];
-
-            return secret_query_res[0].secertKey ? secret_query_res[0].secertKey : null;
+            const { secretKey } = secret_query_res[0];
+            
+            return secretKey ? secretKey : null;
         } catch (err) {
             throw new DatabaseException("Failed to authenticate request`");
         }
