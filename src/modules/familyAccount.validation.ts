@@ -135,13 +135,14 @@ class FamilyAccountValidator {
       new InvalidArgumentsError('individual_accounts_details list should not be empty'),
     ]);
 
-
     const individual_accounts_ids = (payload.individual_accounts_details as string[]).map(
       individual_id_amount_tuple => individual_id_amount_tuple[0],
     );
     const individual_accounts_amounts = (payload.individual_accounts_details as string[]).map(
       individual_id_amount_tuple => parseInt(individual_id_amount_tuple[1]),
     );
+
+    validationCheck(validation_queue);
 
     const individual_accounts: IIndividualAccount[] =
       await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids);
