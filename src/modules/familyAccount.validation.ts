@@ -123,7 +123,6 @@ class FamilyAccountValidator {
       new InvalidArgumentsError('account_id must be numeric'),
     ]);
 
-
     validation_queue.push([
       Array.isArray(payload.individual_accounts_details),
       new InvalidArgumentsError('individual_accounts_details list must be an array'),
@@ -131,13 +130,11 @@ class FamilyAccountValidator {
 
     validationCheck(validation_queue);
 
-
     validation_queue.push([
-      validator.isEmptyArray(payload.individual_accounts_details as any[]),
+      !validator.isEmptyArray(payload.individual_accounts_details as any[]),
       new InvalidArgumentsError('individual_accounts_details list should not be empty'),
     ]);
 
-    console.log(3);
 
     const individual_accounts_ids = (payload.individual_accounts_details as string[]).map(
       individual_id_amount_tuple => individual_id_amount_tuple[0],
@@ -145,13 +142,13 @@ class FamilyAccountValidator {
     const individual_accounts_amounts = (payload.individual_accounts_details as string[]).map(
       individual_id_amount_tuple => parseInt(individual_id_amount_tuple[1]),
     );
+
     const individual_accounts: IIndividualAccount[] =
       await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids);
     const family_account = await familyAccountService.getFamilyAccountById(
-      String(payload.account_id),
+      payload.account_id as string,
       DetailsLevel.full,
     );
-
 
     validation_queue.push([
       validator.isAllNumbersPositive(individual_accounts_amounts),
@@ -165,7 +162,7 @@ class FamilyAccountValidator {
 
     validation_queue.push([
       accountValidationUtils.isAllWithSameCurrency(
-        String(family_account.currency),
+        family_account.currency as string,
         individual_accounts,
       ),
       new InvalidArgumentsError(
