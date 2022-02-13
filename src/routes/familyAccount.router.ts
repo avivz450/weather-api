@@ -12,27 +12,27 @@ class FamilyAccountRouter {
       raw(familyMiddlewares.verifyCreation),
       raw(familyAccountController.createFamilyAccount),
     );
-    // this.familyAccountRouter.get(
-    //     ":account_id/:details_level",
-    //     raw(familyAccountController.getFamilyAccount)
-    //   );
-    // this.familyAccountRouter.post(
-    //   "/add-accounts/:account_id/:details_level",
-    //   raw(familyAccountController.addAccountsToFamilyAccount)
-    // );
-    // this.familyAccountRouter.patch(
-    //   "/remove-accounts/:account_id/:details_level",
-    //   raw(familyAccountController.removeAccountsFromFamilyAccount)
-    // );
+    this.familyAccountRouter.get(
+        ":account_id/:details_level",
+        raw(familyAccountController.getFamilyAccount)
+      );
+    this.familyAccountRouter.post(
+      "/add-accounts/:account_id/:details_level",
+      raw(familyAccountController.addAccountsToFamilyAccount)
+    );
+    this.familyAccountRouter.patch(
+      "/remove-accounts/:account_id/:details_level",
+      raw(familyAccountController.removeAccountsFromFamilyAccount)
+    );
     this.familyAccountRouter.patch(
       '/close/:account_id',
       raw(familyMiddlewares.verifyCloseAccount),
-      // raw(familyAccountController.closeFamilyAccount)
+      raw(familyAccountController.closeFamilyAccount)
     );
-    // this.familyAccountRouter.post(
-    //   "/family/transfer/bussines",
-    //   raw(familyAccountController.transferFamilyToBusiness)
-    // );
+    this.familyAccountRouter.post(
+      "/family/transfer/bussines",
+      raw(familyAccountController.transferFamilyToBusiness)
+    );
   }
 
   get router() {

@@ -50,8 +50,23 @@ class AccountRepository {
             const errMessasge:string = (err as any).sqlMessage;
             throw new DatabaseException(errMessasge)        }
     }
-  
 
+    async getAccountsByAccountIds(account_ids: string[]) {
+        try {
+            const query = `SELECT * 
+                            FROM account 
+                            WHERE accountID IN WHERE a.accountID IN (${'?,'.repeat(account_ids.length).slice(0, -1)})`
+            const [account_query_result] = (await sql_con.query(
+                query,
+                [account_ids]
+            )) as unknown as RowDataPacket[][];
+    
+            return account_query_result as IIndividualAccount[] || null;
+        } catch (err) {
+            const errMessasge:string = (err as any).sqlMessage;
+            throw new DatabaseException(errMessasge)        }
+    }
+  
     async changeAccountsStatusesByAccountIds(account_ids: string[], status_to_update: AccountStatuses) {  
         try {
             const in_placeholder = account_ids.map(() => "?").join(",")
