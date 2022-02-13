@@ -1,6 +1,6 @@
 import { expect, assert } from 'chai';
 import sinon from 'sinon';
-import PubSub from 'pubsub-js';
+// import PubSub from 'pubsub-js';
 import validator from '../../src/utils/validator.js';
 import { IGeneralObj } from '../../src/types/general.types.js';
 
@@ -19,12 +19,10 @@ describe('#validator module', function () {
         "name":"renana"
       }
       const keys = ["id","name"];
-      const exist = validator.checkRequiredFieldsExist(obj,keys);
-      expect(exist).to.be.true;
+      const exist = validator.checkRequiredFieldsExist(obj,["id","name"]);
+      expect(exist).to.be.eq(true)
     });
-<<<<<<< HEAD
 
-=======
     //    it("should sum of many numbers", ()=> {
     //        const mySum=sum(1,2,3,4);
     //        expect(mySum).to.equal(10);
@@ -45,6 +43,5 @@ describe('#validator module', function () {
     //        expect(mymultiply).to.eql([4,6,8,6]);
 
     //    });
->>>>>>> dd37ca5e153196b124708eef8852f66a00f93b80
   });
 });

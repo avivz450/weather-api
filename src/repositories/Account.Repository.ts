@@ -55,7 +55,7 @@ class AccountRepository {
         try {
             const query = `SELECT * 
                             FROM account 
-                            WHERE accountID IN WHERE a.accountID IN (${'?,'.repeat(account_ids.length).slice(0, -1)})`
+                            WHERE accountID IN WHERE (${'?,'.repeat(account_ids.length).slice(0, -1)})`
             const [account_query_result] = (await sql_con.query(
                 query,
                 [account_ids]
