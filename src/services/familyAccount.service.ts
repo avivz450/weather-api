@@ -11,7 +11,6 @@ export class FamilyAccountService {
     const family_account_id = await familyAccountRepository.createFamilyAccount(payload);
     const individual_ids_to_connect = payload.individual_accounts_details.map(tuple => tuple[0]);
     const family_account = await this.addIndividualAccountsToFamilyAccount(family_account_id, payload.individual_accounts_details, DetailsLevel.full);
-
     return family_account;
   }
 
