@@ -22,9 +22,11 @@ class IndividualAccountValidator {
       new InvalidArgumentsError(`id must be made of ${this.individual_id_length} numbers`),
     ]);
 
+    validationCheck(validation_queue);
+
     const [individualAccount] = await individualAccountService.getIndividualAccountsByIndividualIds([payload.individual_id] as string[]);
 
-    validation_queue.push([accountValidationUtils.isExist([individualAccount.individual_id], 0), new InvalidArgumentsError(`There is already a user with the input id in the system`)]);
+    validation_queue.push([!accountValidationUtils.isExist([individualAccount]), new InvalidArgumentsError(`There is already a user with the input id in the system`)]);
 
     validationCheck(validation_queue);
   }

@@ -35,13 +35,7 @@ class FamilyAccountValidator {
 
     validation_queue.push([accountValidationUtils.isValidArrayOfTransfer(payload.individual_accounts_details as any[]), new InvalidArgumentsError(`Invalid details of individual accounts`)]);
 
-    validation_queue.push([
-      accountValidationUtils.isExist(
-        individual_accounts.map(account => account.individual_id),
-        individual_accounts_details.length,
-      ),
-      new InvalidArgumentsError(`Some of the individual accounts are not exist`),
-    ]);
+    validation_queue.push([accountValidationUtils.isExist(individual_accounts), new InvalidArgumentsError(`Some of the individual accounts are not exist`)]);
 
     validation_queue.push([
       accountValidationUtils.isAllAccountsWithSameStatus(individual_accounts, AccountStatuses.active),
@@ -165,13 +159,10 @@ class FamilyAccountValidator {
 
     const validation_queue: ValidationDetails[] = [];
     const source_account = await familyAccountService.getFamilyAccountById(payload.source_account_id, DetailsLevel.full);
-
     const destination_account = await businessAccountService.getBusinessAccount(payload.destination_account_id);
 
-    validation_queue.push([accountValidationUtils.isExist(source_account.owners as string[], 1), new InvalidArgumentsError(`Source account is not a family account`)]);
-
-    validation_queue.push([accountValidationUtils.isExist([destination_account.company_id], 1), new InvalidArgumentsError(`Destionation account is not a business account`)]);
-
+    validation_queue.push([accountValidationUtils.isExist([source_account]), new InvalidArgumentsError(`Source account is not a family account`)]);
+    validation_queue.push([accountValidationUtils.isExist([destination_account]), new InvalidArgumentsError(`Destionation account is not a business account`)]);
     validation_queue.push([
       accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Family),
       new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of family account`),
@@ -187,8 +178,8 @@ class FamilyAccountValidator {
     const source_account = await familyAccountService.getFamilyAccountById(payload.source_account_id);
     const [destination_account] = await individualAccountService.getIndividualAccountsByAccountIds([payload.destination_account_id]);
 
-    validation_queue.push([accountValidationUtils.isExist(source_account.owners as string[], 1), new InvalidArgumentsError(`Source account is not an family account`)]);
-    validation_queue.push([accountValidationUtils.isExist([destination_account.individual_id], 1), new InvalidArgumentsError(`Destionation account is not an individual account`)]);
+    validation_queue.push([accountValidationUtils.isExist([source_account]), new InvalidArgumentsError(`Source account is not an family account`)]);
+    validation_queue.push([accountValidationUtils.isExist([destination_account]), new InvalidArgumentsError(`Destionation account is not an individual account`)]);
     validation_queue.push([
       accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Family),
       new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of family account`),
