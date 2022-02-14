@@ -17,9 +17,11 @@ class BusinessAccountValidator {
     const validation_queue: ValidationDetails[] = [];
 
     validation_queue.push([validator.checkRequiredFieldsExist(payload, businessRequiredFields), new InvalidArgumentsError('Some of the required values are not inserted')]);
-    validation_queue.push([validator.checkValidAddress(payload.address), new InvalidArgumentsError(`Invalid address input - address must be with country_code, city, street_name, and street_number or not inserted at all`)]);
+    validation_queue.push([
+      validator.checkValidAddress(payload.address),
+      new InvalidArgumentsError(`Invalid address input - address must be with country_code, city, street_name, and street_number or not inserted at all`),
+    ]);
     validation_queue.push([validator.checkFieldsNotExist(payload, ['account_id']), new InvalidArgumentsError('account_id should not be inserted')]);
-
     validation_queue.push([accountValidationUtils.isValidId(String(payload.company_id), this.company_id_length), new InvalidArgumentsError(`id must be made of ${this.company_id_length} numbers`)]);
 
     validationCheck(validation_queue);
@@ -47,7 +49,7 @@ class BusinessAccountValidator {
 
     const validation_queue: ValidationDetails[] = [];
     const source_account = await businessAccountService.getBusinessAccount(payload.source_account_id);
-    const [destination_account ]= await individualAccountService.getIndividualAccountsByAccountIds([payload.destination_account_id]);
+    const [destination_account] = await individualAccountService.getIndividualAccountsByAccountIds([payload.destination_account_id]);
 
     validation_queue.push([accountValidationUtils.isExist([source_account]), new InvalidArgumentsError(`Source account is not a business account`)]);
     validation_queue.push([accountValidationUtils.isExist([destination_account]), new InvalidArgumentsError(`Destionation account is not an individual account`)]);

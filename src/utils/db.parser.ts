@@ -10,6 +10,7 @@ import {
   IIndividualAccountDB,
   IAccountDB,
   AccountStatuses,
+  IFamilyAccountDB,
 } from '../types/account.types.js';
 import { IFamilyAccountParse } from '../types/db.types.js';
 import { IGeneralObj } from '../types/general.types.js';
@@ -101,36 +102,66 @@ export function createAddressPayload(payload: Omit<IBusinessAccount, 'account_id
   };
 }
 
-export function parseFamilyAccountQueryResult(payload: IFamilyAccountParse, details_level: DetailsLevel) {
+export function parseFamilyAccountsQueryResult(payload: IFamilyAccountParse, details_level: DetailsLevel) {
+  const temp_family_object: any = {};
   if (details_level === DetailsLevel.short) {
-    const { accountID, currencyCode, statusName, balance, context } = payload.query_res as RowDataPacket[0];
-    const owners: string[] = [];
-    const output = {
-      account_id: accountID,
-      currency: currencyCode,
-      balance,
-      status: statusName,
-      context,
-      owners,
-    };
+    let owners: string[] = [];
+    (payload.query_res as IFamilyAccountDB[]).forEach(family_account => {
+      const { accountID, currencyCode, statusName, balance, context, individualAccountID } = family_account;
 
-    (payload.query_res as RowDataPacket[]).forEach(row => {
-      const { individualAccountID } = row;
-      output.owners.push(individualAccountID);
+      if (!temp_family_object[`${accountID}`]) {
+        temp_family_object[`${accountID}`] = {} as IFamilyAccount;
+        owners = [];
+      }
+
+      owners.push(String(individualAccountID));
+      temp_family_object[`${accountID}`] = {
+        account_id: accountID,
+        currency: currencyCode,
+        balance,
+        status: statusName,
+        context,
+        owners,
+      };
     });
 
-    return output as IFamilyAccount;
-  } else if (details_level === DetailsLevel.full) {
-    const { accountID, currencyCode, statusName, balance, context } = (payload.query_res as RowDataPacket[])[0];
-    const output = {
-      account_id: accountID,
-      currency: currencyCode,
-      balance,
-      status: statusName,
-      context,
-      owners: payload.owners_full,
-    };
+    const parsed_family_object: IFamilyAccount[] = [];
+    for (let family_account in temp_family_object) {
+      parsed_family_object.push(temp_family_object[family_account]);
+    }
 
-    return output as IFamilyAccount;
+    return parsed_family_object as IFamilyAccount[];
+  } else if (details_level === DetailsLevel.full) {
+    const temp_family_object: any = {};
+    let owners: IIndividualAccount[] = [];
+
+    (payload.query_res as IFamilyAccountDB[]).forEach((family_account, index) => {
+      const { accountID, currencyCode, statusName, balance, context, individualAccountID } = family_account;
+      if (!temp_family_object[`${accountID}`]) {
+        temp_family_object[`${accountID}`] = {} as IFamilyAccount;
+        owners = [];
+      }
+
+      const founded_owner = (payload.owners_full as IIndividualAccount[]).find(owner => owner.account_id.toString() === individualAccountID.toString());
+      if (founded_owner) {
+        owners.push(founded_owner);
+      }
+
+      temp_family_object[`${accountID}`] = {
+        account_id: accountID,
+        currency: currencyCode,
+        balance,
+        status: statusName,
+        context,
+        owners,
+      };
+    });
+
+    const parsed_family_object: IFamilyAccount[] = [];
+    for (let family_account in temp_family_object) {
+      parsed_family_object.push(temp_family_object[family_account]);
+    }
+
+    return parsed_family_object as IFamilyAccount[];
   }
 }

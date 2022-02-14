@@ -6,7 +6,6 @@ class Validator {
       return true;
     } else {
       const address_keys = Object.keys(address);
-      console.log(address_keys);
       return address_keys.includes('country_code') && address_keys.includes('city') && address_keys.includes('street_name') && address_keys.includes('street_number');
     }
   };
@@ -16,7 +15,7 @@ class Validator {
 
   isNumeric = (value: unknown) => /^[0-9]+$/.test(String(value));
 
-  isAllNumbersPositive = (numbersArr: number[]) => numbersArr.every(number => number > 0);
+  isAllNumbersPositive = (numbersArr: number[]) => numbersArr.every(number => !isNaN(number) && number > 0);
 
   isNumberPositive = (number: number) => number > 0;
 

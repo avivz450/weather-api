@@ -28,11 +28,11 @@ class BusinessController {
 
   transferBusinessToBusiness: RequestHandler = async (req, res) => {
     const transfer_data = await businessAccountService.transferBusinessToBusiness(req.body as ITransferRequest);
-    
+
     const response: ResponseMessage = {
       status: 200,
       message: 'success',
-      data:  transfer_data ,
+      data: transfer_data,
     };
     res.status(response.status).json(response);
   };
