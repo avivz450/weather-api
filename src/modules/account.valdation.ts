@@ -14,7 +14,7 @@ class AccountValidator {
   get(payload: IGeneralObj) {
     const validation_queue: ValidationDetails[] = [];
 
-    validation_queue.push([accountValidationUtils.isValidId(String(payload.account_id)), new InvalidArgumentsError(`primary_id must be inserted with numeric characters.`)]);
+    validation_queue.push([accountValidationUtils.isValidId(String(payload.account_id)), new InvalidArgumentsError(`account in must be inserted with numeric characters only.`)]);
 
     validationCheck(validation_queue);
   }
@@ -24,11 +24,8 @@ class AccountValidator {
     const accounts: IAccount[] = await accountRepository.getAccountsByAccountIds(payload.accounts_ids);
 
     validation_queue.push([validator.checkRequiredFieldsExist(payload, ['accounts_ids', 'action']), new InvalidArgumentsError('Some of the required values are not inserted')]);
-
     validation_queue.push([!validator.isEmptyArray(payload.accounts_ids as any[]), new InvalidArgumentsError('accounts_ids list should not be empty')]);
-
     validation_queue.push([accountValidationUtils.isValidIds(payload.accounts_ids as string[]), new InvalidArgumentsError('there is an account id that is not numeric')]);
-
     validation_queue.push([
       accountValidationUtils.isExist(
         accounts.map(account => account.account_id),
