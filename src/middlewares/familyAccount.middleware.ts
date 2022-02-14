@@ -10,7 +10,7 @@ class FamilyMiddlewares {
     next();
   };
 
-  verifyCloseIndividuals: RequestHandler = async (req, res, next) => {
+  verifyRemoveIndividuals: RequestHandler = async (req, res, next) => {
     const payload = { ...req.body, ...req.params } as IGeneralObj;
     await familyAccountValidator.removeIndividualAccount(payload);
     next();
@@ -37,18 +37,6 @@ class FamilyMiddlewares {
     await familyAccountValidator.addIndividualAccounts(payload);
     next();
   };
-
-  // verifyRemoveIndividuals: RequestHandler = async (req, res, next) => {
-  //   const payload = { ...req.body, ...req.params } as IGeneralObj;
-  //   await familyAccountValidator.removeIndividualAccounts(payload);
-  //   next();
-  // };
-
-  // export const verifyTransferToBusiness: RequestHandler = async (req, res, next) => {
-  //   const payload = { ...req.body, ...req.params } as IGeneralObj;
-  //   await familyAccountValidator.transferToBusiness(payload);
-  //   next();
-  // };
 }
 
 const familyMiddlewares = new FamilyMiddlewares();

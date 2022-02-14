@@ -135,12 +135,13 @@ class FamilyAccountValidator {
     validationCheck(validation_queue);
   }
 
-  closeAccount(payload: IGeneralObj) {
+  async closeAccount(payload: IGeneralObj) {
     const validation_queue: ValidationDetails[] = [];
 
-    validation_queue.push([accountValidationUtils.isValidId(String(payload.account_id)), new InvalidArgumentsError(`primary_id must be inserted with numeric characters.`)]);
-
+    validation_queue.push([accountValidationUtils.isValidId(String(payload.account_id)), new InvalidArgumentsError(`account id must be inserted with numeric characters.`)]);
     validationCheck(validation_queue);
+
+    (await familyAccountRepository.getFamilyAccountsByAccountIds([payload.account_id], DetailsLevel.full)) as IFamilyAccount[];
   }
 
   async transferToBusiness(payload: IGeneralObj) {
