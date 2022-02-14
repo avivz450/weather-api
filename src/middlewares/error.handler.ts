@@ -7,12 +7,7 @@ import UrlNotFoundError from '../exceptions/urlNotFound.exception.js';
 
 const { NODE_ENV } = process.env;
 
-type ErrorMiddleware = (
-  err: HttpError,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => ReturnType<RequestHandler>;
+type ErrorMiddleware = (err: HttpError, req: Request, res: Response, next: NextFunction) => ReturnType<RequestHandler>;
 
 export const urlNotFound: RequestHandler = (req, res, next) => {
   next(new UrlNotFoundError(req.originalUrl));

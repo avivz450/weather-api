@@ -5,9 +5,7 @@ import { IBusinessAccount, ITransferRequest } from '../types/account.types.js';
 
 class BusinessController {
   createBusinessAccount: RequestHandler = async (req, res) => {
-    const business_account = await businessAccountService.createBusinessAccount(
-      req.body as IBusinessAccount,
-    );
+    const business_account = await businessAccountService.createBusinessAccount(req.body as IBusinessAccount);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',
@@ -29,9 +27,7 @@ class BusinessController {
   };
 
   transferBusinessToBusiness: RequestHandler = async (req, res) => {
-    const busines_account = await businessAccountService.transferBusinessToBusiness(
-      req.body as ITransferRequest,
-    );
+    const busines_account = await businessAccountService.transferBusinessToBusiness(req.body as ITransferRequest);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',
@@ -41,9 +37,7 @@ class BusinessController {
   };
 
   transferBusinessToIndividual: RequestHandler = async (req, res) => {
-    const busines_account = await businessAccountService.transferBusinessToIndividual(
-      req.body as ITransferRequest,
-    );
+    const busines_account = await businessAccountService.transferBusinessToIndividual(req.body as ITransferRequest);
     //   if (!businessAccount) throw new UrlNotFoundException(req.originalUrl);
     const response: ResponseMessage = {
       status: 200,

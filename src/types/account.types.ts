@@ -71,12 +71,12 @@ export enum DetailsLevel {
 }
 
 export interface IAccountDB {
-  accountID: string,
-  balance: number,
-  currencyCode: string,
-  currencyID?: string,
-  statusName: string,
-  agentID: string
+  accountID: string;
+  balance: number;
+  currencyCode: string;
+  currencyID?: string;
+  statusName: string;
+  agentID: string;
 }
 export interface IIndividualAccountDB {
   accountID: number;

@@ -5,9 +5,7 @@ import { IIndividualAccount, ITransferRequest } from '../types/account.types.js'
 
 class IndividualController {
   createIndividualAccount: RequestHandler = async (req, res) => {
-    const individual_account = await IndividualAccountService.createIndividualAccount(
-      req.body as IIndividualAccount,
-    );
+    const individual_account = await IndividualAccountService.createIndividualAccount(req.body as IIndividualAccount);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',
@@ -18,9 +16,7 @@ class IndividualController {
 
   getIndividualAccount: RequestHandler = async (req, res) => {
     const { account_id } = req.params;
-    const business_account = await IndividualAccountService.getIndividualAccountByAccountId(
-      account_id,
-    );
+    const business_account = await IndividualAccountService.getIndividualAccountByAccountId(account_id);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',
@@ -30,9 +26,7 @@ class IndividualController {
   };
 
   transferIndividualToFamily: RequestHandler = async (req, res) => {
-    const transaction = await IndividualAccountService.transferIndividualToFamily(
-      req.body as ITransferRequest,
-    );
+    const transaction = await IndividualAccountService.transferIndividualToFamily(req.body as ITransferRequest);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',

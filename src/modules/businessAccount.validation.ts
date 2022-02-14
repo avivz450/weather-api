@@ -16,20 +16,11 @@ class BusinessAccountValidator {
     const businessRequiredFields = ['company_id', 'company_name', 'currency', 'agent_id'];
     const validation_queue: ValidationDetails[] = [];
 
-    validation_queue.push([
-      validator.checkRequiredFieldsExist(payload, businessRequiredFields),
-      new InvalidArgumentsError('Some of the required values are not inserted'),
-    ]);
+    validation_queue.push([validator.checkRequiredFieldsExist(payload, businessRequiredFields), new InvalidArgumentsError('Some of the required values are not inserted')]);
 
-    validation_queue.push([
-      validator.checkFieldsNotExist(payload, ['account_id']),
-      new InvalidArgumentsError('account_id should not be inserted'),
-    ]);
+    validation_queue.push([validator.checkFieldsNotExist(payload, ['account_id']), new InvalidArgumentsError('account_id should not be inserted')]);
 
-    validation_queue.push([
-      accountValidationUtils.isValidId(String(payload.company_id), this.company_id_length),
-      new InvalidArgumentsError(`id must be made of ${this.company_id_length} numbers`),
-    ]);
+    validation_queue.push([accountValidationUtils.isValidId(String(payload.company_id), this.company_id_length), new InvalidArgumentsError(`id must be made of ${this.company_id_length} numbers`)]);
 
     validationCheck(validation_queue);
   }
@@ -38,32 +29,16 @@ class BusinessAccountValidator {
     await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
-    const source_account = await businessAccountService.getBusinessAccount(
-      payload.source_account_id,
-    );
-    const destination_account = await businessAccountService.getBusinessAccount(
-      payload.destination_account_id,
-    );
+    const source_account = await businessAccountService.getBusinessAccount(payload.source_account_id);
+    const destination_account = await businessAccountService.getBusinessAccount(payload.destination_account_id);
+
+    validation_queue.push([accountValidationUtils.isExist([source_account.company_id], 1), new InvalidArgumentsError(`Source account is not a business account`)]);
+
+    validation_queue.push([accountValidationUtils.isExist([destination_account.company_id], 1), new InvalidArgumentsError(`Destionation account is not a business account`)]);
 
     validation_queue.push([
-      accountValidationUtils.isExist([source_account.company_id], 1),
-      new InvalidArgumentsError(`Source account is not a business account`),
-    ]);
-
-    validation_queue.push([
-      accountValidationUtils.isExist([destination_account.company_id], 1),
-      new InvalidArgumentsError(`Destionation account is not a business account`),
-    ]);
-
-    validation_queue.push([
-      accountValidationUtils.isBalanceAllowsTransfer(
-        source_account,
-        Number(payload.amount),
-        AccountTypes.Business,
-      ),
-      new InvalidArgumentsError(
-        `Balance after transaction will be below the minimal remiaining balance of business account`,
-      ),
+      accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Business),
+      new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of business account`),
     ]);
 
     validationCheck(validation_queue);
@@ -73,34 +48,18 @@ class BusinessAccountValidator {
     await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
-    const source_account = await businessAccountService.getBusinessAccount(
-      payload.source_account_id,
-    );
-    const destination_account = await individualAccountService.getIndividualAccountByAccountId(
-      payload.destination_account_id,
-    );
+    const source_account = await businessAccountService.getBusinessAccount(payload.source_account_id);
+    const destination_account = await individualAccountService.getIndividualAccountByAccountId(payload.destination_account_id);
 
     console.log(destination_account);
 
-    validation_queue.push([
-      accountValidationUtils.isExist([source_account.company_id], 1),
-      new InvalidArgumentsError(`Source account is not a business account`),
-    ]);
+    validation_queue.push([accountValidationUtils.isExist([source_account.company_id], 1), new InvalidArgumentsError(`Source account is not a business account`)]);
+
+    validation_queue.push([accountValidationUtils.isExist([destination_account.individual_id], 1), new InvalidArgumentsError(`Destionation account is not an individual account`)]);
 
     validation_queue.push([
-      accountValidationUtils.isExist([destination_account.individual_id], 1),
-      new InvalidArgumentsError(`Destionation account is not an individual account`),
-    ]);
-
-    validation_queue.push([
-      accountValidationUtils.isBalanceAllowsTransfer(
-        source_account,
-        Number(payload.amount),
-        AccountTypes.Business,
-      ),
-      new InvalidArgumentsError(
-        `Balance after transaction will be below the minimal remiaining balance of business account`,
-      ),
+      accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Business),
+      new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of business account`),
     ]);
 
     validationCheck(validation_queue);
