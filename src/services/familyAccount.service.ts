@@ -1,7 +1,7 @@
 import { AccountStatuses, DetailsLevel, IFamilyAccount, IFamilyAccountCreationInput, IndividualTransferDetails, ITransferRequest, ITransferResponse } from '../types/account.types.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import transferRepository from '../repositories/transfer.repository.js';
-import transferError from '../exceptions/transfer.exception.js';
+import TransferError from '../exceptions/transfer.exception.js';
 import HttpError from '../exceptions/http.exception.js';
 import logicError from '../exceptions/logic.exception.js';
 import accountRepository from '../repositories/account.repository.js';
@@ -27,11 +27,11 @@ export class FamilyAccountService {
 
   async transferFamilyToBusiness(payload: ITransferRequest): Promise<ITransferResponse> {
     if (payload.amount > 5000) {
-      throw new transferError('transfer amount limit exceeded');
+      throw new TransferError('transfer amount limit exceeded');
     }
     const transaction = await transferRepository.transfer(payload, 1);
     if (!transaction) {
-      throw new transferError('transfer failed');
+      throw new TransferError('transfer failed');
     }
     return transaction;
   }
@@ -54,7 +54,7 @@ export class FamilyAccountService {
     const account = await accountRepository.getAccountByAccountId(family_account_id);
  
     if (amount_to_remove > account.balance) {
-      throw new transferError('balance in family account is not enough');
+      throw new TransferError('balance in family account is not enough');
     }
 
     const owners_id = await familyAccountRepository.getOwnersByFamilyAccountId(family_account_id);
@@ -62,7 +62,7 @@ export class FamilyAccountService {
     const remove_all = individual_accounts_id.sort().join(',') == owners_id.sort().join(',');
 
     if (account.balance - amount_to_remove < 5000 && !remove_all) {
-      throw new transferError('cant leave active account with people under 5000t ');
+      throw new TransferError('cant leave active account with people under 5000t ');
     }
 
     const removal: boolean = await familyAccountRepository.removeIndividualAccountsFromFamilyAccount(family_account_id, individual_accounts_id);

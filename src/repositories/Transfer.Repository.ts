@@ -45,21 +45,20 @@ class TransferRepository {
         };
 
         query = 'INSERT INTO transaction SET ?';
-        const [transaction_insertion] = (await sql_con.query(query, transaction_payload)) as unknown as OkPacket[];
+        (await sql_con.query(query, transaction_payload)) as unknown as OkPacket[];
 
         const transfer_response = {
           source_account: {
-            account_id: (source_account as unknown as IGeneralObj).accountID,
-            currency_id: (source_account as unknown as IGeneralObj).currencyID,
+            account_id: source_account.account_id,
+            currency: source_account.currency,
             balance: source_account.balance,
           },
           destination_account: {
-            account_id: (destination_account as unknown as IGeneralObj).accountID,
-            currency_id: (destination_account as unknown as IGeneralObj).currencyID,
+            account_id: destination_account.account_id,
+            currency: destination_account.currency,
             balance: destination_account.balance,
           },
         };
-
         return transfer_response as ITransferResponse;
       }
     } catch (err) {

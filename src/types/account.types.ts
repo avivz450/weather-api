@@ -63,6 +63,7 @@ export interface ITransferRequest {
 export interface ITransferResponse {
   source_account: Partial<IAccount>;
   destination_account: Partial<IAccount>;
+  rate?: number;
 }
 
 export enum DetailsLevel {

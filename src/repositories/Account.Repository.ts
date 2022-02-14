@@ -66,9 +66,13 @@ class AccountRepository {
         accounts.push(parseAccountQueryResult(account));
       });
 
-      return accounts || null;
+      if (accounts.length !== account_ids.length) {
+        throw new Error(`One or more of the accounts doesn't exists`);
+      }
+
+      return accounts;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as any).sqlMessage || (err as any).message;
       throw new DatabaseException(errMessasge);
     }
   }
