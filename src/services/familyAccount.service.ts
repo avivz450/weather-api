@@ -61,6 +61,7 @@ export class FamilyAccountService {
     const individual_accounts_id = individual_accounts_details.map((individual_accounts: IndividualTransferDetails) => individual_accounts[0]);
     const remove_all = individual_accounts_id.sort().join(',') == owners_id.sort().join(',');
 
+    //isBalanceAllowsTransfer
     if (account.balance - amount_to_remove < 5000 && !remove_all) {
       throw new TransferError('cant leave active account with people under 5000t ');
     }
