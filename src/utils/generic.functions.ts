@@ -9,7 +9,7 @@ class GenericFunctions {
     if (response.success === false) {
       throw new APIError("error accessing 'exchangeratesapi'");
     }
-
+    
     return (response as any).rates[destination_currency];
   };
 }

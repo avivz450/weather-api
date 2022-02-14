@@ -51,7 +51,6 @@ class BusinessAccountService {
       throw new TransferError(`transaction from business account to individual account is limited to ${this.transaction_limit_business_to_individual} coins`);
     }
     const transaction = await TransferRepository.transfer(payload, 1);
-
     return transaction as ITransferResponse;
   }
 }
