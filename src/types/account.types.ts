@@ -2,7 +2,7 @@ export interface IAccount {
   account_id: string;
   currency: string;
   balance: number;
-  status: AccountStatuses;
+  status?: AccountStatuses;
   agent_id?: string;
   currencyID?: string;
 }
