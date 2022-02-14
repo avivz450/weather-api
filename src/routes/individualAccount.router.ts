@@ -10,7 +10,7 @@ class IndividualAccountRouter {
   constructor() {
     this.individualAccountRouter.post('/', raw(individualMiddlewares.verifyCreation), raw(individualController.createIndividualAccount));
     this.individualAccountRouter.get('/:account_id', raw(accountMiddlewares.verifyGetAccount), raw(individualController.getIndividualAccount));
-    this.individualAccountRouter.get('/transfer/individual', raw(individualController.transferIndividualToFamily));
+    this.individualAccountRouter.post('/:transfer/family', raw(individualMiddlewares.transferConnectedFamily), raw(individualController.transferIndividualToConnectedFamily));
   }
 
   get router() {

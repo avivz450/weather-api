@@ -17,15 +17,15 @@ class BusinessAccountService {
   }
 
   async getBusinessAccount(account_id: string): Promise<IBusinessAccount> {
-    const businessAccount: IBusinessAccount = await bussinessAccountRepository.getBusinessAccountByAccountID(account_id);
+    const [businessAccount] = (await bussinessAccountRepository.getBusinessAccountsByAccountIds([account_id])) as IBusinessAccount[];
 
     return businessAccount;
   }
 
   async transferBusinessToBusiness(payload: ITransferRequest): Promise<ITransferResponse> {
     const { source_account_id, destination_account_id, amount } = payload;
-    const source_account_model = await bussinessAccountRepository.getBusinessAccountByAccountID(source_account_id);
-    const destination_account_model = await bussinessAccountRepository.getBusinessAccountByAccountID(destination_account_id);
+    const [source_account_model] = await bussinessAccountRepository.getBusinessAccountsByAccountIds([source_account_id]);
+    const [destination_account_model] = await bussinessAccountRepository.getBusinessAccountsByAccountIds([destination_account_id]);
     const same_company = source_account_model.company_id === destination_account_model.company_id;
     const source_currency = source_account_model.currency;
     const destination_currency = destination_account_model.currency;

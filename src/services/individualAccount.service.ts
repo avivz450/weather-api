@@ -1,5 +1,5 @@
 import logicError from '../exceptions/logic.exception.js';
-import transferError from '../exceptions/transfer.exception.js';
+import TransferError from '../exceptions/transfer.exception.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import individualAccountRepository from '../repositories/individualAccount.repository.js';
 import transferRepository from '../repositories/transfer.repository.js';
@@ -26,15 +26,17 @@ class IndividualAccountService {
     return individual_accounts;
   }
 
-  async transferIndividualToFamily(payload: ITransferRequest): Promise<ITransferResponse> {
+  async transferIndividualToConnectedFamily(payload: ITransferRequest): Promise<ITransferResponse> {
     const { source_account_id, destination_account_id } = payload;
-    // const owners_id = await familyAccountRepository.getOwnersByAccountId(destination_account);
-    // if(!owners_id.includes(source_account)) throw new transferError("the individual account didnt own family account")
-    const transaction = await transferRepository.transfer(payload, 1);
-    if (!transaction) {
-      throw new logicError('transfer faild');
+    const owners_ids = await familyAccountRepository.getOwnersByFamilyAccountId(destination_account_id);
+
+    if (!owners_ids.includes(source_account_id)) {
+      throw new TransferError('the individual account didnt own family account');
     }
-    return transaction;
+
+    const transaction = await transferRepository.transfer(payload, 1);
+
+    return transaction as ITransferResponse;
   }
 
   getIndividualAccountsRemainingBalance(individual_accounts: IIndividualAccount[], individual_accounts_details: IndividualTransferDetails[]) {

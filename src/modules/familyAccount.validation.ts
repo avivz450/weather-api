@@ -57,7 +57,7 @@ class FamilyAccountValidator {
     const validation_queue: ValidationDetails[] = [];
     validation_queue.push([
       validator.checkRequiredFieldsExist(payload, ['account_id', 'details_level', 'individual_accounts_details']),
-      new InvalidArgumentsError('Some of the required fields are not inserted'),
+      new InvalidArgumentsError('some of the required fields are not inserted'),
     ]);
 
     validation_queue.push([accountValidationUtils.isDetailsLevelValid(payload.details_level as string), new InvalidArgumentsError('details_level is not valid')]);
@@ -88,7 +88,7 @@ class FamilyAccountValidator {
 
     validation_queue.push([
       accountValidationUtils.isAllAccountsWithSameStatus(individual_accounts, AccountStatuses.active),
-      new InvalidArgumentsError(`Some of the individual accounts are not active`),
+      new InvalidArgumentsError(`some of the individual accounts are not active`),
     ]);
 
     validationCheck(validation_queue);
@@ -98,7 +98,7 @@ class FamilyAccountValidator {
     const validation_queue: ValidationDetails[] = [];
     validation_queue.push([
       validator.checkRequiredFieldsExist(payload, ['account_id', 'details_level', 'individual_accounts_details']),
-      new InvalidArgumentsError('Some of the required fields are not inserted'),
+      new InvalidArgumentsError('some of the required fields are not inserted'),
     ]);
 
     validation_queue.push([accountValidationUtils.isDetailsLevelValid(payload.details_level as string), new InvalidArgumentsError('details_level is not valid')]);
@@ -155,12 +155,12 @@ class FamilyAccountValidator {
 
     validation_queue.push([
       accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Family),
-      new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of family account`),
+      new InvalidArgumentsError(`balance after transaction will be below the minimal remiaining balance of family account`),
     ]);
 
     validation_queue.push([
       accountValidationUtils.isAllAccountsWithSameStatus(individual_accounts, AccountStatuses.active),
-      new InvalidArgumentsError(`Some of the individual accounts are not active`),
+      new InvalidArgumentsError(`some of the individual accounts are not active`),
     ]);
 
     validationCheck(validation_queue);
@@ -170,14 +170,17 @@ class FamilyAccountValidator {
     await accountValidator.transfer(payload);
 
     const validation_queue: ValidationDetails[] = [];
-    const source_account = await familyAccountService.getFamilyAccountById(payload.source_account_id);
-    const [destination_account] = await individualAccountService.getIndividualAccountsByAccountIds([payload.destination_account_id]);
+    const [source_account] = await individualAccountService.getIndividualAccountsByAccountIds([payload.source_account_id]);
+    const destination_account = await familyAccountService.getFamilyAccountById(payload.destination_account_id);
 
-    validation_queue.push([accountValidationUtils.isExist([source_account]), new InvalidArgumentsError(`Source account is not an family account`)]);
-    validation_queue.push([accountValidationUtils.isExist([destination_account]), new InvalidArgumentsError(`Destionation account is not an individual account`)]);
     validation_queue.push([
-      accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Family),
-      new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of family account`),
+      accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Individual),
+      new InvalidArgumentsError(`balance after transaction will be below the minimal remiaining balance of individual account`),
+    ]);
+
+    validation_queue.push([
+      accountValidationUtils.isAllAccountsWithSameStatus([source_account, destination_account], AccountStatuses.active),
+      new InvalidArgumentsError(`all of the accounts must be active`),
     ]);
 
     validationCheck(validation_queue);

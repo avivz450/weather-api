@@ -25,14 +25,14 @@ class IndividualController {
     res.status(response.status).json(response);
   };
 
-  transferIndividualToFamily: RequestHandler = async (req, res) => {
-    const transaction = await IndividualAccountService.transferIndividualToFamily(req.body as ITransferRequest);
+  transferIndividualToConnectedFamily: RequestHandler = async (req, res) => {
+    const transaction = await IndividualAccountService.transferIndividualToConnectedFamily(req.body as ITransferRequest);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',
       data: { transaction },
     };
-    res.status(response.status).json(transaction);
+    res.status(response.status).json(response);
   };
 }
 const individualController = new IndividualController();
