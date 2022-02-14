@@ -26,13 +26,7 @@ class AccountValidator {
     validation_queue.push([validator.checkRequiredFieldsExist(payload, ['accounts_ids', 'action']), new InvalidArgumentsError('Some of the required values are not inserted')]);
     validation_queue.push([!validator.isEmptyArray(payload.accounts_ids as any[]), new InvalidArgumentsError('accounts_ids list should not be empty')]);
     validation_queue.push([accountValidationUtils.isValidIds(payload.accounts_ids as string[]), new InvalidArgumentsError('there is an account id that is not numeric')]);
-    validation_queue.push([
-      accountValidationUtils.isExist(
-        accounts.map(account => account.account_id),
-        payload.accounts_ids.length,
-      ),
-      new InvalidArgumentsError(`Some of the accounts are not exist`),
-    ]);
+    validation_queue.push([accountValidationUtils.isExist(accounts), new InvalidArgumentsError(`Some of the accounts are not exist`)]);
 
     // validation_queue.push([
     //   !accountValidationUtils.isSomeIsType(accounts, AccountTypes.Family),
@@ -61,13 +55,7 @@ class AccountValidator {
     const is_same_currency_transfer = TransferTypes.same_currency === payload.transfer;
     const is_both_accounts_with_same_currency = accountValidationUtils.isAllWithSameCurrency(accounts[0].currency, accounts);
 
-    validation_queue.push([
-      accountValidationUtils.isExist(
-        accounts.map(account => account.account_id),
-        accounts_ids.length,
-      ),
-      new InvalidArgumentsError(`Some of the accounts are not exist`),
-    ]);
+    validation_queue.push([accountValidationUtils.isExist(accounts), new InvalidArgumentsError(`Some of the accounts are not exist`)]);
 
     validation_queue.push([accountValidationUtils.isAllAccountsWithSameStatus(accounts, AccountStatuses.active), new InvalidArgumentsError(`Some of the accounts are not active`)]);
 

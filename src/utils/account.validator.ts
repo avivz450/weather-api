@@ -43,13 +43,7 @@ class AccountValidationUtils {
 
   isAllWithSameCurrency = (currency: string, accounts: IAccount[]) => accounts.every(account => account.currency === currency);
 
-  isExist = (accounts_ids: string[], amount: number) => {
-    const numberOfExistAccounts: number = accounts_ids.reduce((acc, account_id) => {
-      return account_id !== null ? acc + 1 : acc;
-    }, 0);
-
-    return numberOfExistAccounts === amount;
-  };
+  isExist = (accounts: any[]) => accounts.every(account => account !== undefined);
 }
 
 const accountValidationUtils = new AccountValidationUtils();
