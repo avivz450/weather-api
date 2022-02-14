@@ -34,23 +34,6 @@ class AccountRepository {
     }
   }
 
-  async getAccountByAccountId(account_id: string) {
-    try {
-      const query = `SELECT accountID, balance, currencyCode, curencyID statusName, agentID
-                            FROM account a
-                            JOIN statusAccount s 
-                            JOIN currency c
-                            ON s.statusID=a.statusID AND c.currencyID=a.currencyID
-                            WHERE a.accountID = ?`;
-      const [account_query] = (await sql_con.query(query, [account_id])) as unknown as RowDataPacket[][];
-
-      return parseAccountQueryResult(account_query[0] as IAccountDB) || null;
-    } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
-      throw new DatabaseException(errMessasge);
-    }
-  }
-
   async getAccountsByAccountIds(account_ids: string[], include_currency_id?: boolean) {
     try {
       const query = `SELECT accountID, balance, currencyCode,statusName, agentID ${include_currency_id ? ',c.currencyID' : ''}

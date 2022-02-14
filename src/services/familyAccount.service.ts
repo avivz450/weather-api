@@ -1,10 +1,12 @@
-import { AccountStatuses, DetailsLevel, IFamilyAccount, IFamilyAccountCreationInput, IndividualTransferDetails, ITransferRequest, ITransferResponse } from '../types/account.types.js';
+import { AccountStatuses, AccountTypes, DetailsLevel, IFamilyAccount, IFamilyAccountCreationInput, IndividualTransferDetails, ITransferRequest, ITransferResponse } from '../types/account.types.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import transferRepository from '../repositories/transfer.repository.js';
 import TransferError from '../exceptions/transfer.exception.js';
 import HttpError from '../exceptions/http.exception.js';
 import logicError from '../exceptions/logic.exception.js';
 import accountRepository from '../repositories/account.repository.js';
+import accountValidationUtils from '../utils/account.validator.js';
+import familyAccountValidator from '../modules/familyAccount.validation.js';
 
 export class FamilyAccountService {
   async createFamilyAccount(payload: Omit<IFamilyAccountCreationInput, 'account_id'>): Promise<IFamilyAccount> {
@@ -17,7 +19,7 @@ export class FamilyAccountService {
   async getFamilyAccountById(family_account_id: string, details_level?: DetailsLevel): Promise<IFamilyAccount> {
     details_level = details_level || DetailsLevel.short;
 
-    const family_account: IFamilyAccount | undefined = await familyAccountRepository.getFamilyAccountById(family_account_id, details_level);
+    const [family_account] = (await familyAccountRepository.getFamilyAccountsByAccountIds([family_account_id], details_level)) as IFamilyAccount[];
 
     if (!family_account) {
       throw new logicError('get familys account faild');
@@ -25,58 +27,49 @@ export class FamilyAccountService {
     return family_account;
   }
 
+  private readonly transaction_limit_business_to_individual = 5000;
+
   async transferFamilyToBusiness(payload: ITransferRequest): Promise<ITransferResponse> {
-    if (payload.amount > 5000) {
-      throw new TransferError('transfer amount limit exceeded');
+    if (payload.amount > this.transaction_limit_business_to_individual) {
+      throw new TransferError(`transaction from family account to business account is limited to ${this.transaction_limit_business_to_individual} coins`);
     }
-    const transaction = await transferRepository.transfer(payload, 1);
-    if (!transaction) {
-      throw new TransferError('transfer failed');
-    }
+    const transaction = (await transferRepository.transfer(payload, 1)) as ITransferResponse;
+
     return transaction;
   }
 
   async addIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_details: IndividualTransferDetails[], details_level?: DetailsLevel) {
     const individual_accounts_id = individual_accounts_details.map((individual_accounts: IndividualTransferDetails) => individual_accounts[0]);
 
-    let success: boolean = await familyAccountRepository.addIndividualAccountsToFamilyAccount(family_account_id, individual_accounts_id);
-    if (!success) throw new logicError('faild add individual accounts to family account');
-
-    success = await familyAccountRepository.transferFromIndividualAccountsToFamilyAccount(family_account_id, individual_accounts_details);
-    if (!success) throw new logicError('faild to transfer from individual accounts to familt account');
+    await familyAccountRepository.addIndividualAccountsToFamilyAccount(family_account_id, individual_accounts_id);
+    await familyAccountRepository.transferFromIndividualAccountsToFamilyAccount(family_account_id, individual_accounts_details);
 
     const family_account: IFamilyAccount = await this.getFamilyAccountById(family_account_id, details_level);
+
     return family_account;
   }
 
   async removeIndividualAccountsFromFamilyAccount(family_account_id: string, individual_accounts_details: IndividualTransferDetails[], details_level?: DetailsLevel) {
-    const amount_to_remove = individual_accounts_details.reduce((amount: number, individual_accounts: IndividualTransferDetails) => amount + individual_accounts[1], 0);
-    const account = await accountRepository.getAccountByAccountId(family_account_id);
- 
+    const amount_to_remove = individual_accounts_details.reduce((amount: number, individual_accounts: IndividualTransferDetails) => amount + Number(individual_accounts[1]), 0);
+    const [account] = await accountRepository.getAccountsByAccountIds([family_account_id]);
+
     if (amount_to_remove > account.balance) {
       throw new TransferError('balance in family account is not enough');
     }
 
     const owners_id = await familyAccountRepository.getOwnersByFamilyAccountId(family_account_id);
     const individual_accounts_id = individual_accounts_details.map((individual_accounts: IndividualTransferDetails) => individual_accounts[0]);
-    const remove_all = individual_accounts_id.sort().join(',') == owners_id.sort().join(',');
+    const remove_all = owners_id.length === individual_accounts_details.length;
 
-    //isBalanceAllowsTransfer
-    if (account.balance - amount_to_remove < 5000 && !remove_all) {
-      throw new TransferError('cant leave active account with people under 5000t ');
+    if (!accountValidationUtils.isBalanceAllowsTransfer(account, amount_to_remove, AccountTypes.Family) && !remove_all) {
+      throw new TransferError(`Family account with connected individual accounts must remain with at least ${familyAccountValidator.minAmountOfBalance} coins`);
     }
 
-    const removal: boolean = await familyAccountRepository.removeIndividualAccountsFromFamilyAccount(family_account_id, individual_accounts_id);
-    if (!removal) {
-      throw new logicError('faild remove individual accounts to family account');
-    }
-
-    const transfer = await familyAccountRepository.transferFromFamilyAccountToIndividualAccounts(family_account_id, individual_accounts_details);
-    if (!transfer) {
-      throw new logicError('Failed to transfer from family account to individual accounts');
-    }
+    await familyAccountRepository.removeIndividualAccountsFromFamilyAccount(family_account_id, individual_accounts_id);
+    await familyAccountRepository.transferFromFamilyAccountToIndividualAccounts(family_account_id, individual_accounts_details);
 
     const family_account: IFamilyAccount = await this.getFamilyAccountById(family_account_id, details_level);
+
     return family_account;
   }
 

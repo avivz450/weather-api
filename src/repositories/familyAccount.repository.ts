@@ -1,9 +1,9 @@
 import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
 import DatabaseException from '../exceptions/db.exception.js';
-import { DetailsLevel, IAccount, IFamilyAccountCreationInput, IndividualTransferDetails } from '../types/account.types.js';
+import { DetailsLevel, IAccount, IFamilyAccount, IFamilyAccountCreationInput, IndividualTransferDetails } from '../types/account.types.js';
 import { IFamilyAccountParse } from '../types/db.types.js';
-import { parseFamilyAccountQueryResult } from '../utils/db.parser.js';
+import { parseFamilyAccountsQueryResult } from '../utils/db.parser.js';
 import AccountRepository from './account.repository.js';
 import individualAccountRepository from './individualAccount.repository.js';
 
@@ -22,54 +22,6 @@ class FamilyAccountRepository {
       (await sql_con.query(insert_query, [family_account_payload])) as unknown as OkPacket[];
 
       return new_account_id;
-    } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
-      throw new DatabaseException(errMessasge);
-    }
-  }
-
-  async getFamilyAccountById(family_account_id: string, details_level: DetailsLevel) {
-    try {
-      if (details_level === DetailsLevel.short) {
-        //get family account return after parse
-        let query = `SELECT a.accountID, c.currencyCode, s.statusName, a.balance, fa.context, ow.individualAccountID
-                            FROM account AS a 
-                            JOIN familyAccount AS fa 
-                            JOIN ownersFamilyAccount ow
-                            JOIN statusAccount AS s 
-                            JOIN currency AS c 
-                            ON a.accountID= fa.accountID AND ow.familyAccountID=fa.accountID AND s.statusID=a.statusID AND c.currencyID=a.currencyID 
-                            WHERE a.accountID = ?`;
-        const [account_query_result] = (await sql_con.query(query, [family_account_id])) as unknown as RowDataPacket[][];
-        const payload = {
-          query_res: account_query_result,
-        } as IFamilyAccountParse;
-
-        return parseFamilyAccountQueryResult(payload, details_level);
-      } else if (details_level === DetailsLevel.full) {
-        let query = `SELECT a.accountID, c.currencyCode, s.statusName, a.balance, fa.context, ow.individualAccountID
-                          FROM account AS a 
-                          JOIN familyAccount AS fa 
-                          JOIN ownersFamilyAccount ow
-                          JOIN statusAccount AS s 
-                          JOIN currency AS c 
-                          ON a.accountID= fa.accountID AND ow.familyAccountID=fa.accountID AND s.statusID=a.statusID AND c.currencyID=a.currencyID 
-                          WHERE a.accountID = ?`;
-        const [account_query_result] = (await sql_con.query(query, [family_account_id])) as unknown as RowDataPacket[][];
-        const owners: string[] = [];
-        account_query_result.forEach(row => {
-          const { individualAccountID } = row;
-          owners.push(individualAccountID);
-        });
-
-        const owners_full = await individualAccountRepository.getIndividualAccountsByAccountIds(owners);
-        const payload = {
-          query_res: account_query_result,
-          owners_full,
-        } as IFamilyAccountParse;
-
-        return parseFamilyAccountQueryResult(payload, details_level);
-      }
     } catch (err) {
       const errMessasge: string = (err as any).sqlMessage;
       throw new DatabaseException(errMessasge);
@@ -143,7 +95,8 @@ class FamilyAccountRepository {
     try {
       let in_placeholder = individual_accounts_ids.map(() => '?').join(',');
       let insert_query = `DELETE FROM ownersFamilyAccount
-                               WHERE individualAccountID IN (${in_placeholder})`;
+                               WHERE individualAccountID IN (${in_placeholder})
+                               AND familyAccountID IN (${family_account_id})`;
 
       const [account_deletion_result] = (await sql_con.query(insert_query, [...individual_accounts_ids])) as unknown as OkPacket[];
 
@@ -160,9 +113,10 @@ class FamilyAccountRepository {
     try {
       //iterate over tuples -> calc amount to subtract from family
       const total_transfer_amount = individual_accounts_transfer_details.reduce((total_amount, individual_account_details) => {
-        total_amount += individual_account_details[1];
+        total_amount += Number(individual_account_details[1]);
         return total_amount;
       }, 0);
+
       //subtract from family account the total amount and add to each individual his amount
       let individual_account_when_placeholder = individual_accounts_transfer_details.map(() => 'WHEN accountID = ? THEN balance+?').join('\n\t\t\t\t\t\t\t\t ');
       individual_accounts_transfer_details.push([family_account_id, total_transfer_amount]); //push family account id and total amount to subtract to balance
@@ -216,7 +170,63 @@ class FamilyAccountRepository {
     }
   }
 
-  closeFamilyAccountByAccountId(family_account_id: string) {}
+  async getFamilyAccountsByAccountIds(family_account_ids: string[], details_level: DetailsLevel) {
+    try {
+      let payload = {};
+
+      if (details_level === DetailsLevel.short) {
+        //get family account return after parse
+        let query = `SELECT DISTINCT a.accountID, c.currencyCode, s.statusName, a.balance, fa.context, ow.individualAccountID
+                        FROM account AS a 
+                        JOIN familyAccount AS fa ON a.accountID= fa.accountID
+                        LEFT JOIN ownersFamilyAccount ow ON ow.familyAccountID=fa.accountID
+                        JOIN statusAccount AS s ON s.statusID=a.statusID
+                        JOIN currency AS c ON c.currencyID=a.currencyID 
+                        WHERE a.accountID IN (?)`;
+        const [account_query_result] = (await sql_con.query(query, [family_account_ids])) as unknown as RowDataPacket[][];
+
+        if (account_query_result.length === 0) {
+          throw new Error(`family account with the id of ${family_account_ids} doesn't exists`);
+        }
+
+        payload = {
+          query_res: account_query_result,
+        } as IFamilyAccountParse;
+      } else if (details_level === DetailsLevel.full) {
+        let query = `SELECT DISTINCT a.accountID, c.currencyCode, s.statusName, a.balance, fa.context, ow.individualAccountID
+                      FROM account AS a 
+                      JOIN familyAccount AS fa ON a.accountID= fa.accountID
+                      LEFT JOIN ownersFamilyAccount ow ON ow.familyAccountID=fa.accountID
+                      JOIN statusAccount AS s ON s.statusID=a.statusID
+                      JOIN currency AS c ON c.currencyID=a.currencyID 
+                      WHERE a.accountID IN (?)`;
+        const [account_query_result] = (await sql_con.query(query, [family_account_ids])) as unknown as RowDataPacket[][];
+
+        if (account_query_result.length === 0) {
+          throw new Error(`family account with the id of ${family_account_ids} doesn't exists`);
+        }
+
+        const all_accounts_owners: string[] = account_query_result.map(row => row.individualAccountID);
+        const owners_full = await individualAccountRepository.getIndividualAccountsByAccountIds(all_accounts_owners);
+        payload = {
+          query_res: account_query_result,
+          owners_full,
+        } as IFamilyAccountParse;
+      }
+      const familyAccounts = parseFamilyAccountsQueryResult(payload, details_level) as IFamilyAccount[];
+
+      familyAccounts.forEach(family_account => {
+        if (family_account.owners === null) {
+          throw new Error(`family account with the id ${family_account.account_id} doesn't exists`);
+        }
+      });
+
+      return parseFamilyAccountsQueryResult(payload, details_level);
+    } catch (err) {
+      const errMessasge: string = (err as any).sqlMessage || (err as any).message;
+      throw new DatabaseException(errMessasge);
+    }
+  }
 }
 
 const familyAccountRepository = new FamilyAccountRepository();

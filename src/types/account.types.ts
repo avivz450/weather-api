@@ -13,6 +13,16 @@ export enum AccountTypes {
   Family = 'Family',
 }
 
+export interface IFamilyAccountDB {
+  accountID: number;
+  individualAccountID: number;
+  currencyCode: string;
+  balance: number;
+  statusName: string;
+  agentID: string;
+  context?: string;
+}
+
 export enum AccountStatuses {
   active = 'active',
   inactive = 'inactive',
