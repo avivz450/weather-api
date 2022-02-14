@@ -1,6 +1,6 @@
 import { AccountStatuses, DetailsLevel, IFamilyAccount, IFamilyAccountCreationInput, IndividualTransferDetails, ITransferRequest, ITransferResponse } from '../types/account.types.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
-import TransferRepository from '../repositories/transfer.repository.js';
+import transferRepository from '../repositories/transfer.repository.js';
 import transferError from '../exceptions/transfer.exception.js';
 import HttpError from '../exceptions/http.exception.js';
 import logicError from '../exceptions/logic.exception.js';
@@ -9,7 +9,7 @@ import accountRepository from '../repositories/account.repository.js';
 export class FamilyAccountService {
   async createFamilyAccount(payload: Omit<IFamilyAccountCreationInput, 'account_id'>): Promise<IFamilyAccount> {
     const family_account_id = await familyAccountRepository.createFamilyAccount(payload);
-    const individual_ids_to_connect = payload.individual_accounts_details.map(tuple => tuple[0]);
+    // const individual_ids_to_connect = payload.individual_accounts_details.map(tuple => tuple[0]);
     const family_account = await this.addIndividualAccountsToFamilyAccount(family_account_id, payload.individual_accounts_details, DetailsLevel.full);
     return family_account;
   }
@@ -29,7 +29,7 @@ export class FamilyAccountService {
     if (payload.amount > 5000) {
       throw new transferError('transfer amount limit exceeded');
     }
-    const transaction = await TransferRepository.transfer(payload, 1);
+    const transaction = await transferRepository.transfer(payload, 1);
     if (!transaction) {
       throw new transferError('transfer failed');
     }
@@ -52,16 +52,14 @@ export class FamilyAccountService {
   async removeIndividualAccountsFromFamilyAccount(family_account_id: string, individual_accounts_details: IndividualTransferDetails[], details_level?: DetailsLevel) {
     const amount_to_remove = individual_accounts_details.reduce((amount: number, individual_accounts: IndividualTransferDetails) => amount + individual_accounts[1], 0);
     const account = await accountRepository.getAccountByAccountId(family_account_id);
-
+ 
     if (amount_to_remove > account.balance) {
       throw new transferError('balance in family account is not enough');
     }
 
     const owners_id = await familyAccountRepository.getOwnersByFamilyAccountId(family_account_id);
     const individual_accounts_id = individual_accounts_details.map((individual_accounts: IndividualTransferDetails) => individual_accounts[0]);
-    const remove_all = owners_id.every(own => {
-      individual_accounts_id.includes(own);
-    });
+    const remove_all = individual_accounts_id.sort().join(',') == owners_id.sort().join(',');
 
     if (account.balance - amount_to_remove < 5000 && !remove_all) {
       throw new transferError('cant leave active account with people under 5000t ');

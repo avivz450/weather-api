@@ -22,8 +22,8 @@ export class BusinessAccountService {
     let rate = 1;
     const { source_account_id, destination_account_id, amount } = payload;
 
-    const source_account_model = await bussinessAccountRepository.getBusinessAccountByAccountID(source_account);
-    const destination_account_model =await bussinessAccountRepository.getBusinessAccountByAccountID(destination_account);
+    const source_account_model = await bussinessAccountRepository.getBusinessAccountByAccountID(source_account_id);
+    const destination_account_model =await bussinessAccountRepository.getBusinessAccountByAccountID(destination_account_id);
 
     const same_company = source_account_model.company_id === destination_account_model.company_id;
     if (same_company && amount > 10000) {
