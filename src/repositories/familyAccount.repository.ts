@@ -172,7 +172,8 @@ class FamilyAccountRepository {
 
   async getFamilyAccountsByAccountIds(family_account_ids: string[], details_level: DetailsLevel) {
     try {
-      let payload = {};
+      let payload = {
+      };
 
       if (details_level === DetailsLevel.short) {
         //get family account return after parse
@@ -211,7 +212,7 @@ class FamilyAccountRepository {
         payload = {
           query_res: account_query_result,
           owners_full,
-        } as IFamilyAccountParse;
+        } as unknown as IFamilyAccountParse;
       }
       const familyAccounts = parseFamilyAccountsQueryResult(payload, details_level) as IFamilyAccount[];
 

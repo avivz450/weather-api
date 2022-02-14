@@ -94,6 +94,7 @@ export interface IIndividualAccountDB {
   currencyCode: string;
   balance: number;
   statusName: string;
+  agentID: string
   individualID: number;
   firstName: string;
   lastName: number;
@@ -113,6 +114,7 @@ export interface IBusinessAccountDB {
   currencyCode: string;
   balance: number;
   statusName: string;
+  agentID: string
   companyID: number;
   companyName: string;
   context?: string;
@@ -124,4 +126,14 @@ export interface IBusinessAccountDB {
   region: string;
   streetName: string;
   streetNumber: string;
+}
+
+export interface IFamilyAccountDB {
+  accountID: number;
+  individualAccountID: number;
+  currencyCode: string;
+  balance: number;
+  statusName: string;
+  agentID: string
+  context?: string;
 }

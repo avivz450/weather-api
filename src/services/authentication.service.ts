@@ -3,13 +3,13 @@ import authenticationRepository from '../repositories/authenication.repository.j
 import { IGeneralObj } from '../types/general.types.js';
 
 class AuthenticationService {
-  async getSecretKey(access_key: string) {
-    const secret_key = await authenticationRepository.getSecretKey(access_key);
-    if (!secret_key) {
-      throw new AuthenticationException('Unautherized request denined');
-    }
-    return secret_key;
-  }
+    async getSecretKeyAndAgentIdByAccessKey(access_key: string) {
+        const agent_id_and_secret_key = await authenticationRepository.getSecretKeyAndAgentIdByAccessKey(access_key);
+        if (!agent_id_and_secret_key) {
+            throw new AuthenticationException("Unautherized request denined");
+        }
+        return agent_id_and_secret_key;
+    }   
 
   async validateSignatrues(signature: string, signature2compare: string) {
     if (signature === signature2compare) {
@@ -18,6 +18,7 @@ class AuthenticationService {
     throw new AuthenticationException('Unautherized request denied');
   }
 }
+
 
 const authenticationService = new AuthenticationService();
 export default authenticationService;

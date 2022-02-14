@@ -1,6 +1,7 @@
-import { RowDataPacket } from 'mysql2';
-import { IIndividualAccount } from './account.types.js';
+import { RowDataPacket } from "mysql2";
+import {IIndividualAccountDB} from './account.types.js';
 
 export interface IFamilyAccountParse {
-  [key: string]: RowDataPacket[] | IIndividualAccount[];
+    query_res: RowDataPacket[] | IIndividualAccountDB[],
+    owners_full?: IIndividualAccountDB[]
 }

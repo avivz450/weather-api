@@ -3,7 +3,7 @@ import { sql_con } from '../db/sql/sql.connection.js';
 import DatabaseException from '../exceptions/db.exception.js';
 
 class AuthenticationRepository {
-  async getSecretKey(accesKey: string) {
+  async getSecretKeyAndAgentIdByAccessKey(accesKey: string) {
     try {
       const query = `SELECT secretKey 
                             FROM agent
