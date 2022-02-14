@@ -16,11 +16,11 @@ class IndividualController {
 
   getIndividualAccount: RequestHandler = async (req, res) => {
     const { account_id } = req.params;
-    const business_account = await IndividualAccountService.getIndividualAccountByAccountId(account_id);
+    const individual_account = await IndividualAccountService.getIndividualAccountByAccountId(account_id);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',
-      data: { business_account },
+      data: { individual_account },
     };
     res.status(response.status).json(response);
   };

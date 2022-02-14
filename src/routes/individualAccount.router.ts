@@ -9,7 +9,6 @@ class IndividualAccountRouter {
 
   constructor() {
     this.individualAccountRouter.post('/', raw(individualMiddlewares.verifyCreation), raw(individualController.createIndividualAccount));
-
     this.individualAccountRouter.get('/:account_id', raw(accountMiddlewares.verifyGetAccount), raw(individualController.getIndividualAccount));
     this.individualAccountRouter.get('/transfer/individual', raw(individualController.transferIndividualToFamily));
   }
