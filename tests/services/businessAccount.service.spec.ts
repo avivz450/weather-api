@@ -99,13 +99,13 @@ describe('#business account service module', function () {
 
   context('transferBusinessToBusiness', function () {
     const transfer_request: ITransferRequest = {
-      source_account: '1',
-      destination_account: '2',
+      source_account_id: '1',
+      destination_account_id: '2',
       amount: 500,
     };
     const transfer_request_2: ITransferRequest = {
-      source_account: '1',
-      destination_account: '2',
+      source_account_id: '1',
+      destination_account_id: '2',
       amount: 15000,
     };
     const source_account_model = {
@@ -186,13 +186,13 @@ describe('#business account service module', function () {
 
   context('transferBusinessToIndividual', function () {
     const transfer_request: ITransferRequest = {
-      source_account: '1',
-      destination_account: '2',
+      source_account_id: '1',
+      destination_account_id: '2',
       amount: 500,
     };
     const transfer_request_2: ITransferRequest = {
-      source_account: '1',
-      destination_account: '2',
+      source_account_id: '1',
+      destination_account_id: '2',
       amount: 15000,
     };
 

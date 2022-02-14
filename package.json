@@ -12,16 +12,11 @@
     "format": "prettier src/**/*.ts --write",
     "prepare": "husky install",
     "test": "mocha tests/**/*.spec.ts",
-<<<<<<< HEAD
-    "t1": "mocha tests/services/businessAccount.service.spec.ts",
-    "t2": "mocha tests/validations/validator.spec.ts",
-=======
     "t1":"mocha tests/services/businessAccount.service.spec.ts",
     "t2":"mocha tests/validations/validator.spec.ts",
     "t3":"mocha tests/services/inividualAccount.service.spec.ts",
     "t4":"mocha tests/services/familyAccount.service.spec.ts",
->>>>>>> tests
-    "coverage": "rm -rf coverage && nyc report",
+    "coverage": "rm -rf coverage && nyc mocha",
     "perf-tsc": "tsc --extendedDiagnostics"
   },
   "keywords": [

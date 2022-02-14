@@ -2,9 +2,11 @@ import { expect, assert } from 'chai';
 import sinon from 'sinon';
 import {
   AccountStatuses,
+    IAccount,
     IFamilyAccount,
     IFamilyAccountCreationInput,
   IIndividualAccount,
+  IndividualTransferDetails,
   ITransferRequest,
   ITransferResponse,
 } from '../../src/types/account.types.js';
@@ -33,16 +35,16 @@ describe('#family account service module', function () {
       expect(familyAccountService.createFamilyAccount).to.be.a('function');
     });
 
-    // it('success- return new family account', async () => {
-    //   sinon.stub(familyAccountRepository, 'createFamilyAccount').resolves('1');
-    //   sinon.stub(familyAccountService, 'addIndividualAccountsToFamilyAccount').resolves(obj_output as IFamilyAccount);
-    //   expect(await familyAccountRepository.createFamilyAccount(obj_input as IFamilyAccountCreationInput)).to.deep.equal(obj_output);
-    // });
+    it('success- return new family account', async () => {
+      sinon.stub(familyAccountRepository, 'createFamilyAccount').resolves('1');
+      sinon.stub(familyAccountService, 'addIndividualAccountsToFamilyAccount').resolves(obj_output as IFamilyAccount);
+      expect(await familyAccountService.createFamilyAccount(obj_input as IFamilyAccountCreationInput)).to.deep.equal(obj_output);
+    });
 
     // it('faild- throw error create individual account', async () => {
     //   sinon.stub(familyAccountRepository, 'createFamilyAccount').resolves(undefined);
     //   sinon.stub(familyAccountService, 'addIndividualAccountsToFamilyAccount').resolves(obj_output as IFamilyAccount);
-    //   expect(await familyAccountRepository.createFamilyAccount(obj_input as IFamilyAccountCreationInput)).to.deep.equal(obj_output);
+    //   expect(await familyAccountService.createFamilyAccount(obj_input as IFamilyAccountCreationInput)).to.deep.equal(obj_output);
     //   try {
     //     familyAccountService.createFamilyAccount(obj_input as IFamilyAccountCreationInput)
     //   } catch (error: any) {
@@ -51,130 +53,102 @@ describe('#family account service module', function () {
     // });
   });
 
-//   context('removeIndividualAccountsFromFamilyAccount', function () {
+  context('removeIndividualAccountsFromFamilyAccount', function () {
 
-//     const account = {
-//         balance:400
-//     };
+    const account = {
+        balance:6000
+    };
+    const account_2 = {
+        balance:1000
+    };
+    const owners_id = ["2","7"];
+    const family_account={};
+    const individual_accounts_details:IndividualTransferDetails[] = [["2",300],["7",400]];
 
-//     const individual_accounts_details = [["2",300]];
+    afterEach(() => {
+      // Restore the default sandbox here
+      sinon.restore();
+    });
 
-//     afterEach(() => {
-//       // Restore the default sandbox here
-//       sinon.restore();
-//     });
+    it('should exists', () => {
+      // @ts-ignore
+      expect(familyAccountService.removeIndividualAccountsFromFamilyAccount).to.be.a('function');
+    });
 
-//     it('should exists', () => {
-//       // @ts-ignore
-//       expect(familyAccountService.removeIndividualAccountsFromFamilyAccount).to.be.a('function');
-//     });
+    it('success- remove all individual', async () => {
+      sinon.stub(accountRepository, 'getAccountByAccountId').resolves(account as IAccount);
+      sinon.stub(familyAccountRepository, 'getOwnersByFamilyAccountId').resolves(owners_id);
+      sinon.stub(familyAccountRepository, 'removeIndividualAccountsFromFamilyAccount').resolves(true);
+      sinon.stub(familyAccountRepository, 'transferFromFamilyAccountToIndividualAccounts').resolves(true);
+      sinon.stub(familyAccountService, 'getFamilyAccountById').resolves(family_account as IFamilyAccount);
+      expect(await familyAccountService.removeIndividualAccountsFromFamilyAccount('1',individual_accounts_details)).to.deep.equal(family_account);
+    });
 
-//     it('success- remove all individual', async () => {
-//       sinon.stub(accountRepository, 'getAccountByAccountId').resolves(obj_output as IIndividualAccount);
-//       expect(await familyAccountService.getIndividualAccountByAccountId('1')).to.deep.equal(obj_output);
-//     });
+    // it('faild- amount to remove bigger then the balance in the family account', async () => {
+    //   sinon.stub(individualAccountRepository, 'getIndividualAccountByAccountId').resolves(undefined);
+    //   try {
+    //     await individualAccountService.getIndividualAccountByAccountId('1')
+    //   } catch (error: any) {
+    //     expect(error.message).to.be.equal('Logic Error:get individual account faild');
+    //   }
+    // });
 
-//     it('faild- amount to remove bigger then the balance in the family account', async () => {
-//       sinon.stub(individualAccountRepository, 'getIndividualAccountByAccountId').resolves(undefined);
-//       try {
-//         await individualAccountService.getIndividualAccountByAccountId('1')
-//       } catch (error: any) {
-//         expect(error.message).to.be.equal('Logic Error:get individual account faild');
-//       }
-//     });
+    // it('faild- cant leave active account with people under 5000t', async () => {
 
-//     it('faild- cant leave active account with people under 5000t', async () => {
+    // it('faild - remove individual accounts to family account', async () => {
 
-//     it('faild - remove individual accounts to family account', async () => {
+  });
 
-//   });
+  context('transferFamilyToBusiness', function () {
+    const transfer_request: ITransferRequest = {
+      source_account_id: '1',
+      destination_account_id: '2',
+      amount: 500,
+    };
+    const transfer_request_2: ITransferRequest = {
+      source_account_id: '1',
+      destination_account_id: '2',
+      amount: 6000,
+    };
 
-//   context('getIndividualAccountsByIndividualIds', function () {
-//     const transfer_request: ITransferRequest = {
-//       source_account: '1',
-//       destination_account: '2',
-//       amount: 500,
-//     };
-//     const transfer_request_2: ITransferRequest = {
-//       source_account: '1',
-//       destination_account: '2',
-//       amount: 15000,
-//     };
-//     const source_account_model = {
-//       currency: 'EUR',
-//       company_id: '10000000',
-//     };
+    const transfer_response: ITransferResponse = {
+      source_account: {},
+      destination_account: {},
+    };
 
-//     const destination_account_model = {
-//       currency: 'EUR',
-//       company_id: '10000000',
-//     };
-//     const destination_account_model_2 = {
-//       currency: 'USD',
-//       company_id: '10000001',
-//     };
+    afterEach(() => {
+      // Restore the default sandbox here
+      sinon.restore();
+    });
 
-//     const transfer_response: ITransferResponse = {
-//       source_account: {},
-//       destination_account: {},
-//     };
+    it('should exists', () => {
+      // @ts-ignore
+      expect(familyAccountService.transferFamilyToBusiness).to.be.a('function');
+    });
 
-//     afterEach(() => {
-//       // Restore the default sandbox here
-//       sinon.restore();
-//     });
+    it('success- transfer success', async () => {
+      sinon.stub(transferRepository, 'transfer').resolves(transfer_response);
+      expect(await familyAccountService.transferFamilyToBusiness(transfer_request)).to.deep.equal(transfer_response);
+    });
 
-//     it('should exists', () => {
-//       // @ts-ignore
-//       expect(businessAccountService.transferBusinessToBusiness).to.be.a('function');
-//     });
+    it('faild- amount over 5000', async () => {
+      sinon.stub(transferRepository, 'transfer').resolves(transfer_response);
+      try {
+        await familyAccountService.transferFamilyToBusiness(transfer_request_2);
+      } catch (error: any) {
+        expect(error.message).to.be.equal('Transfer Error:transfer amount limit exceeded');
+      }
+    });
 
-//     it('success- transfer with same currency', async () => {
-//       const getAccount = sinon.stub(bussinessAccountRepository, 'getBusinessAccountByAccountID');
-//       getAccount.onCall(0).resolves(source_account_model as IBusinessAccount);
-//       getAccount.onCall(1).resolves(destination_account_model as IBusinessAccount);
-//       sinon.stub(transferRepository, 'transfer').resolves(transfer_response);
-//       expect(
-//         await businessAccountService.transferBusinessToBusiness(transfer_request),
-//       ).to.deep.equal(transfer_response);
-//     });
-
-//     it('success- transfer with diffrent currency', async () => {
-//       const getAccount = sinon.stub(bussinessAccountRepository, 'getBusinessAccountByAccountID');
-//       getAccount.onCall(0).resolves(source_account_model as IBusinessAccount);
-//       getAccount.onCall(1).resolves(destination_account_model_2 as IBusinessAccount);
-//       sinon.stub(genericFunctions, 'getRate').resolves(3.4);
-//       sinon.stub(transferRepository, 'transfer').resolves(transfer_response);
-//       expect(
-//         await businessAccountService.transferBusinessToBusiness(transfer_request),
-//       ).to.deep.equal(transfer_response);
-//     });
-
-//     it('faild- same company and amount over 10000', async () => {
-//       const getAccount = sinon.stub(bussinessAccountRepository, 'getBusinessAccountByAccountID');
-//       getAccount.onCall(0).resolves(source_account_model as IBusinessAccount);
-//       getAccount.onCall(1).resolves(destination_account_model as IBusinessAccount);
-//       sinon.stub(transferRepository, 'transfer').resolves(transfer_response);
-//       try {
-//         await businessAccountService.transferBusinessToBusiness(transfer_request_2);
-//       } catch (error: any) {
-//         expect(error.message).to.be.equal('Transfer Error:transfer amount limit exceeded');
-//       }
-//     });
-
-//     it('faild- diffrent company and amount over 1000', async () => {
-//       const getAccount = sinon.stub(bussinessAccountRepository, 'getBusinessAccountByAccountID');
-//       getAccount.onCall(0).resolves(source_account_model as IBusinessAccount);
-//       getAccount.onCall(1).resolves(destination_account_model_2 as IBusinessAccount);
-//       sinon.stub(genericFunctions, 'getRate').resolves(3.4);
-//       sinon.stub(transferRepository, 'transfer').resolves(transfer_response);
-//       try {
-//         await businessAccountService.transferBusinessToBusiness(transfer_request_2);
-//       } catch (error: any) {
-//         expect(error.message).to.be.equal('Transfer Error:transfer amount limit exceeded');
-//       }
-//     });
-//   });
+    it('faild- transfer failed', async () => {
+      sinon.stub(transferRepository, 'transfer').resolves(undefined);
+      try {
+        await familyAccountService.transferFamilyToBusiness(transfer_request);
+      } catch (error: any) {
+        expect(error.message).to.be.equal('Transfer Error:transfer failed');
+      }
+    });
+  });
 
 //   context('transferBusinessToIndividual', function () {
 //     const transfer_request: ITransferRequest = {
