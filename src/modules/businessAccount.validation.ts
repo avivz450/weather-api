@@ -36,7 +36,7 @@ class BusinessAccountValidator {
     validation_queue.push([accountValidationUtils.isExist([destination_account]), new InvalidArgumentsError(`Destionation account is not a business account`)]);
     validation_queue.push([
       accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Business),
-      new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of business account`),
+      new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of business account (${this.minAmountOfBalance})`),
     ]);
 
     validationCheck(validation_queue);
@@ -53,7 +53,7 @@ class BusinessAccountValidator {
     validation_queue.push([accountValidationUtils.isExist([destination_account]), new InvalidArgumentsError(`Destionation account is not an individual account`)]);
     validation_queue.push([
       accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Business),
-      new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of business account`),
+      new InvalidArgumentsError(`Balance after transaction will be below the minimal remiaining balance of business account (${this.minAmountOfBalance})`),
     ]);
 
     validationCheck(validation_queue);

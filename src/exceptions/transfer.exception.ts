@@ -1,7 +1,7 @@
 import HttpError from './http.exception.js';
 
-export default class transferError extends HttpError {
+export default class TransferError extends HttpError {
   constructor(errorMessage: string) {
-    super(`Transfer Error:${errorMessage}`, 404);
+    super(`Transfer Error : ${errorMessage}`, 404);
   }
 }

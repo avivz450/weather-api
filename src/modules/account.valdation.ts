@@ -42,6 +42,8 @@ class AccountValidator {
     const validation_queue: ValidationDetails[] = [];
     const accounts_ids: string[] = [payload.source_account_id, payload.destination_account_id];
 
+    validation_queue.push([accounts_ids[0] !== accounts_ids[1], new InvalidArgumentsError(`it's impossible to make a transfer to yourself`)]);
+
     validation_queue.push([
       validator.checkRequiredFieldsExist(payload, ['source_account_id', 'destination_account_id', 'amount', 'transfer']),
       new InvalidArgumentsError('Some of the required values are not inserted'),
@@ -55,9 +57,7 @@ class AccountValidator {
     const is_same_currency_transfer = TransferTypes.same_currency === payload.transfer;
     const is_both_accounts_with_same_currency = accountValidationUtils.isAllWithSameCurrency(accounts[0].currency, accounts);
 
-    validation_queue.push([accountValidationUtils.isExist(accounts), new InvalidArgumentsError(`Some of the accounts are not exist`)]);
-
-    validation_queue.push([accountValidationUtils.isAllAccountsWithSameStatus(accounts, AccountStatuses.active), new InvalidArgumentsError(`Some of the accounts are not active`)]);
+    validation_queue.push([accountValidationUtils.isAllAccountsWithSameStatus(accounts, AccountStatuses.active), new InvalidArgumentsError(`One or more of the accounts are not active`)]);
 
     validation_queue.push([accountValidationUtils.isTransferOptionValid(payload.transfer), new InvalidArgumentsError(`Chosen transfer type is invalid`)]);
 
