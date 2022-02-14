@@ -1,4 +1,3 @@
-import { d } from '@ajar/marker';
 import logicError from '../exceptions/logic.exception.js';
 import transferError from '../exceptions/transfer.exception.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
@@ -10,6 +9,9 @@ import { IGeneralObj } from '../types/general.types.js';
 class IndividualAccountService {
   async createIndividualAccount(payload: Omit<IIndividualAccount, 'accountID'>): Promise<IIndividualAccount> {
     const account_id: string = await individualAccountRepository.createIndividualAccount(payload);
+    if(!account_id) {
+      throw new logicError("create individual account faild")
+    }
     const individual_account = await this.getIndividualAccountByAccountId(account_id);
     return individual_account;
   }
