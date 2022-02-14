@@ -12,12 +12,7 @@ class IndividualAccountService {
     if(!account_id) {
       throw new logicError("create individual account faild")
     }
-    const individual_account = await this.getIndividualAccountByAccountId(account_id);
-    return individual_account;
-  }
-
-  async getIndividualAccountByAccountId(account_id: string): Promise<IIndividualAccount> {
-    const individual_account = await individualAccountRepository.getIndividualAccountByAccountId(account_id);
+    const [individual_account] = await this.getIndividualAccountsByAccountIds([account_id]);
     return individual_account;
   }
 

@@ -14,7 +14,6 @@ export class BusinessAccountService {
 
    async getBusinessAccount(account_id: string): Promise<IBusinessAccount> {
     const businessAccount: IBusinessAccount =await bussinessAccountRepository.getBusinessAccountByAccountID(account_id);
-    if (!businessAccount) throw new logicError('faild get bussines account');
     return businessAccount;
   }
 

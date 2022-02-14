@@ -36,25 +36,6 @@ class IndividualAccountRepository {
     }
   }
 
-  async getIndividualAccountByAccountId(account_id: string) {
-    try {
-      let query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName, ad.countryCode, ad.postalCode, ad.city, ad.region, ad.streetName, ad.streetNumber
-                      FROM account AS a 
-                      LEFT JOIN individualAccount AS ia ON a.accountID= ia.accountID 
-                      LEFT JOIN statusAccount AS s ON s.statusID=a.statusID
-                      LEFT JOIN currency AS c ON c.currencyID=a.currencyID
-                      LEFT JOIN address AS ad ON ad.addressID=ia.addressID
-                      LEFT JOIN country as co ON co.countryCode=ad.countryCode
-                      WHERE a.accountID = ?`;
-      const [account_query_result] = (await sql_con.query(query, [account_id])) as unknown as RowDataPacket[];
-
-      return parseIndividualAccountQueryResult(account_query_result[0]);
-    } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
-      throw new DatabaseException(errMessasge);
-    }
-  }
-
   async getIndividualAccountsByAccountIds(account_ids: string[]) {
     try {
       const query = `SELECT a.accountID, c.currencyCode, a.balance, s.statusName, ia.individualID, ia.firstName, ia.lastName, ia.email, co.countryName ,ad.*
@@ -68,14 +49,20 @@ class IndividualAccountRepository {
 
       const [individual_accounts_result_query] = (await sql_con.query(query, [...account_ids])) as unknown as RowDataPacket[];
 
-      const IndividualAccounts: IIndividualAccount[] = [];
+      const Individual_accounts: IIndividualAccount[] = [];
       (individual_accounts_result_query as IIndividualAccountDB[]).forEach(individualAccount => {
-        IndividualAccounts.push(parseIndividualAccountQueryResult(individualAccount));
+        Individual_accounts.push(parseIndividualAccountQueryResult(individualAccount));
       });
 
-      return IndividualAccounts || null;
+      Individual_accounts.forEach(individual_account => {
+        if (individual_account.individual_id === null) {
+          throw new Error(`individual account with the id ${individual_account.account_id} doesn't exists`);
+        }
+      });
+
+      return Individual_accounts;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as any).sqlMessage || (err as any).message;
       throw new DatabaseException(errMessasge);
     }
   }

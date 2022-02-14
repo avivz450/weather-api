@@ -16,7 +16,7 @@
     "t2":"mocha tests/validations/validator.spec.ts",
     "t3":"mocha tests/services/inividualAccount.service.spec.ts",
     "t4":"mocha tests/services/familyAccount.service.spec.ts",
-    "coverage": "rm -rf coverage && nyc mocha",
+    "coverage": "rm -rf coverage && nyc report",
     "perf-tsc": "tsc --extendedDiagnostics"
   },
   "keywords": [
