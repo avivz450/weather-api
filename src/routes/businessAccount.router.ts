@@ -11,7 +11,7 @@ class BusinessAccountRouter {
 
   constructor() {
     this.businessAccountRouter.post('/', raw(businessMiddlewares.verifyCreation), raw(businessController.createBusinessAccount));
-    this.businessAccountRouter.get('/:account_id', raw(authenticateRequest), raw(accountMiddlewares.verifyGetAccount), raw(businessController.getBusinessAccount));
+    this.businessAccountRouter.get('/:account_id', raw(accountMiddlewares.verifyGetAccount), raw(businessController.getBusinessAccount));
     this.businessAccountRouter.post('/:transfer/business', raw(businessMiddlewares.verifyTransferToBusiness), raw(businessController.transferBusinessToBusiness));
     this.businessAccountRouter.post('/:transfer/individual', raw(businessMiddlewares.verifyTransferToIndividual), raw(businessController.transferBusinessToIndividual));
   }

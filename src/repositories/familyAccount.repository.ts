@@ -41,7 +41,6 @@ class FamilyAccountRepository {
                             ON a.accountID= fa.accountID AND ow.familyAccountID=fa.accountID AND s.statusID=a.statusID AND c.currencyID=a.currencyID 
                             WHERE a.accountID = ?`;
         const [account_query_result] = (await sql_con.query(query, [family_account_id])) as unknown as RowDataPacket[][];
-
         const payload = {
           query_res: account_query_result,
         } as IFamilyAccountParse;
@@ -49,13 +48,13 @@ class FamilyAccountRepository {
         return parseFamilyAccountQueryResult(payload, details_level);
       } else if (details_level === DetailsLevel.full) {
         let query = `SELECT a.accountID, c.currencyCode, s.statusName, a.balance, fa.context, ow.individualAccountID
-                            FROM account AS a 
-                            JOIN familyAccount AS fa 
-                            JOIN ownersFamilyAccount ow
-                            JOIN statusAccount AS s 
-                            JOIN currency AS c 
-                            ON a.accountID= fa.accountID AND ow.familyAccountID=fa.accountID AND s.statusID=a.statusID AND c.currencyID=a.currencyID 
-                            WHERE a.accountID = ?`;
+                          FROM account AS a 
+                          JOIN familyAccount AS fa 
+                          JOIN ownersFamilyAccount ow
+                          JOIN statusAccount AS s 
+                          JOIN currency AS c 
+                          ON a.accountID= fa.accountID AND ow.familyAccountID=fa.accountID AND s.statusID=a.statusID AND c.currencyID=a.currencyID 
+                          WHERE a.accountID = ?`;
         const [account_query_result] = (await sql_con.query(query, [family_account_id])) as unknown as RowDataPacket[][];
         const owners: string[] = [];
         account_query_result.forEach(row => {

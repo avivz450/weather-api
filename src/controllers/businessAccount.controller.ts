@@ -17,7 +17,7 @@ class BusinessController {
   getBusinessAccount: RequestHandler = async (req, res) => {
     const { account_id } = req.params;
     const business_account = await businessAccountService.getBusinessAccount(account_id);
-    //   if (!businessAccount) throw new UrlNotFoundException(req.originalUrl);
+
     const response: ResponseMessage = {
       status: 200,
       message: 'success',

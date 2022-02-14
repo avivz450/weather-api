@@ -14,7 +14,7 @@ class AccountValidator {
   get(payload: IGeneralObj) {
     const validation_queue: ValidationDetails[] = [];
 
-    validation_queue.push([accountValidationUtils.isValidId(String(payload.account_id)), new InvalidArgumentsError(`account in must be inserted with numeric characters only.`)]);
+    validation_queue.push([accountValidationUtils.isValidId(String(payload.account_id)), new InvalidArgumentsError(`account id must be inserted with numeric characters only.`)]);
 
     validationCheck(validation_queue);
   }

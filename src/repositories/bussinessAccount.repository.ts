@@ -35,6 +35,7 @@ class BusinessAccountRepository {
   }
 
   async getBusinessAccountByAccountID(account_id: string) {
+
     try {
       let query = `SELECT a.accountID, ba.companyID,ba.companyName,ba.context ,a.balance,s.statusName as status,c.currencyCode, co.countryName, ad.countryCode, ad.postalCode, ad.city, ad.region, ad.streetName, ad.streetNumber
                   FROM account AS a 
@@ -45,9 +46,15 @@ class BusinessAccountRepository {
                   JOIN country AS co ON co.countryCode=ad.countryCode
                   WHERE a.accountID = ?`;
       const [account_query_result] = (await sql_con.query(query, [account_id])) as unknown as RowDataPacket[][];
+
+      if (account_query_result.length === 0) {
+        throw new Error(`business account with the id ${account_id} doesn't exists`);
+      }
+
       return parseBusinessAccountQueryResult(account_query_result[0] as IBusinessAccountDB);
+
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as any).sqlMessage || (err as any).message;
       throw new DatabaseException(errMessasge);
     }
   }

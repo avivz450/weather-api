@@ -16,7 +16,7 @@ class IndividualController {
 
   getIndividualAccount: RequestHandler = async (req, res) => {
     const { account_id } = req.params;
-    const individual_account = await IndividualAccountService.getIndividualAccountByAccountId(account_id);
+    const [individual_account] = await IndividualAccountService.getIndividualAccountsByAccountIds([account_id]);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',
