@@ -5,17 +5,14 @@ import transferError from '../exceptions/transfer.exception.js';
 import logicError from '../exceptions/logic.exception.js';
 import { getRate } from '../utils/generic.functions.js';
 export class BusinessAccountService {
-  async createBusinessAccount(
-    payload: Omit<IBusinessAccount, 'account_id'>,
-  ): Promise<IBusinessAccount> {
+  async createBusinessAccount(payload: Omit<IBusinessAccount, 'account_id'>): Promise<IBusinessAccount> {
     const account_id: string = await BussinessAccountRepository.createBusinessAccount(payload);
     const business_account = await this.getBusinessAccount(account_id);
     return business_account;
   }
 
   async getBusinessAccount(account_id: string): Promise<IBusinessAccount> {
-    const businessAccount: IBusinessAccount =
-      await BussinessAccountRepository.getBusinessAccountByAccountID(account_id);
+    const businessAccount: IBusinessAccount = await BussinessAccountRepository.getBusinessAccountByAccountID(account_id);
     if (!businessAccount) throw new logicError('faild created bussines account');
     return businessAccount;
   }
@@ -24,11 +21,8 @@ export class BusinessAccountService {
     let rate = 1;
     const { source_account_id, destination_account_id, amount } = payload;
 
-    const source_account_model = await BussinessAccountRepository.getBusinessAccountByAccountID(
-      source_account_id,
-    );
-    const destination_account_model =
-      await BussinessAccountRepository.getBusinessAccountByAccountID(destination_account_id);
+    const source_account_model = await BussinessAccountRepository.getBusinessAccountByAccountID(source_account_id);
+    const destination_account_model = await BussinessAccountRepository.getBusinessAccountByAccountID(destination_account_id);
 
     const same_company = source_account_model.company_id === destination_account_model.company_id;
     if (same_company && amount > 10000) {

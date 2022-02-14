@@ -13,29 +13,18 @@ class IndividualAccountValidator {
     const individual_required_fields = ['individual_id', 'first_name', 'last_name', 'currency', 'agent_id'];
     const validation_queue: ValidationDetails[] = [];
 
-    validation_queue.push([
-      validator.checkRequiredFieldsExist(payload, individual_required_fields),
-      new InvalidArgumentsError('Some of the required values are not inserted'),
-    ]);
+    validation_queue.push([validator.checkRequiredFieldsExist(payload, individual_required_fields), new InvalidArgumentsError('Some of the required values are not inserted')]);
 
-    validation_queue.push([
-      validator.checkFieldsNotExist(payload, ['account_id']),
-      new InvalidArgumentsError('account_id should not be inserted'),
-    ]);
+    validation_queue.push([validator.checkFieldsNotExist(payload, ['account_id']), new InvalidArgumentsError('account_id should not be inserted')]);
 
     validation_queue.push([
       accountValidationUtils.isValidId(String(payload.individual_id), this.individual_id_length),
       new InvalidArgumentsError(`id must be made of ${this.individual_id_length} numbers`),
     ]);
 
-    const [individualAccount] = await individualAccountService.getIndividualAccountsByIndividualIds([
-      payload.individual_id,
-    ] as string[]);
+    const [individualAccount] = await individualAccountService.getIndividualAccountsByIndividualIds([payload.individual_id] as string[]);
 
-    validation_queue.push([
-      accountValidationUtils.isExist([individualAccount.individual_id], 0),
-      new InvalidArgumentsError(`There is already a user with the input id in the system`),
-    ]);
+    validation_queue.push([accountValidationUtils.isExist([individualAccount.individual_id], 0), new InvalidArgumentsError(`There is already a user with the input id in the system`)]);
 
     validationCheck(validation_queue);
   }

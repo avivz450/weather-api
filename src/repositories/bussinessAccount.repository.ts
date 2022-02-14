@@ -25,10 +25,7 @@ class BusinessAccountRepository {
         addressID: address_id,
       };
 
-      const [bussiness_insertion] = (await sql_con.query(
-        'INSERT INTO businessAccount SET ?',
-        business_payload,
-      )) as unknown as OkPacket[];
+      const [bussiness_insertion] = (await sql_con.query('INSERT INTO businessAccount SET ?', business_payload)) as unknown as OkPacket[];
 
       return new_account_id;
     } catch (err) {
@@ -47,9 +44,7 @@ class BusinessAccountRepository {
                   JOIN address AS ad ON ad.addressID=ba.addressID
                   JOIN country AS co ON co.countryCode=ad.countryCode
                   WHERE a.accountID = ?`;
-      const [account_query_result] = (await sql_con.query(query, [
-        account_id,
-      ])) as unknown as RowDataPacket[][];
+      const [account_query_result] = (await sql_con.query(query, [account_id])) as unknown as RowDataPacket[][];
       return parseBusinessAccountQueryResult(account_query_result[0] as IBusinessAccountDB);
     } catch (err) {
       const errMessasge: string = (err as any).sqlMessage;

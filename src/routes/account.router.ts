@@ -6,13 +6,9 @@ import accountMiddlewares from '../middlewares/account.middleware.js';
 class AccountRouter {
   private readonly accountRouter = express.Router();
 
-   constructor() {
-    this.accountRouter.patch(
-      "/status/:action",
-      raw(accountMiddlewares.verifyStatusChange),
-      raw(accountController.changeStatus)
-    );
-   }
+  constructor() {
+    this.accountRouter.patch('/status/:action', raw(accountMiddlewares.verifyStatusChange), raw(accountController.changeStatus));
+  }
 
   get router() {
     return this.accountRouter;

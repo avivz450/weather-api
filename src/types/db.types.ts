@@ -1,6 +1,6 @@
-import { RowDataPacket } from "mysql2";
-import {IIndividualAccount} from './account.types.js';
+import { RowDataPacket } from 'mysql2';
+import { IIndividualAccount } from './account.types.js';
 
 export interface IFamilyAccountParse {
-    [key: string]: RowDataPacket[] | IIndividualAccount[] 
+  [key: string]: RowDataPacket[] | IIndividualAccount[];
 }
