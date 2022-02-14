@@ -67,28 +67,30 @@ export function parseIndividualAccountQueryResult(query_result_obj: IIndividualA
   } as unknown as IIndividualAccount;
 }
 
-export function parseBusinessAccountQueryResult(query_result_obj: IBusinessAccountDB) {
-  const { accountID, currencyCode, balance, statusName, companyID, companyName, context, addressID, countryCode, countryName, postalCode, city, region, streetName, streetNumber } = query_result_obj;
 
-  return {
-    account_id: accountID,
-    currency: currencyCode,
-    balance,
-    status: statusName,
-    company_id: companyID,
-    company_name: companyName,
-    context,
-    address: {
-      address_id: addressID,
-      country: countryCode,
-      country_name: countryName,
-      postal_code: postalCode,
-      city,
-      region,
-      street_name: streetName,
-      street_number: streetNumber,
-    },
-  } as unknown as IBusinessAccount;
+export function parseBusinessAccountsQueryResult(query_result: IBusinessAccountDB[]) {
+  return (query_result as IBusinessAccountDB[]).map(business_account => {
+    const { accountID, currencyCode, balance, statusName, companyID, companyName, context, addressID, countryCode, countryName, postalCode, city, region, streetName, streetNumber } = business_account;
+    return {
+      account_id: accountID,
+      currency: currencyCode,
+      balance,
+      status: statusName,
+      company_id: companyID,
+      company_name: companyName,
+      context,
+      address: {
+        address_id: addressID,
+        country: countryCode,
+        country_name: countryName,
+        postal_code: postalCode,
+        city,
+        region,
+        street_name: streetName,
+        street_number: streetNumber,
+      },
+    } as unknown as IBusinessAccount;
+  });
 }
 
 export function createAddressPayload(payload: Omit<IBusinessAccount, 'account_id'> | Omit<IIndividualAccount, 'account_id'>) {

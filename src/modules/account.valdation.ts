@@ -8,6 +8,7 @@ import validationCheck from '../utils/validation.utils.js';
 import { IAccount, AccountTypes, AccountStatuses, TransferTypes, DetailsLevel } from '../types/account.types.js';
 import accountRepository from '../repositories/account.repository.js';
 import businessAccountService from '../services/businessAccount.service.js';
+import businessAccountRepository from '../repositories/bussinessAccount.repository.js';
 
 class AccountValidator {
   get(payload: IGeneralObj) {
@@ -43,7 +44,7 @@ class AccountValidator {
 
     validationCheck(validation_queue);
 
-    accounts.push(await businessAccountService.getBusinessAccount(business_accounts_ids[0]));
+    accounts = [...accounts, ...(await businessAccountRepository.getBusinessAccountsByAccountIds(business_accounts_ids))];
     accounts = [...accounts, ...(await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids))];
 
     validation_queue.push([accountValidationUtils.isActionOppositeForAll(accounts, payload.action as AccountStatuses), new InvalidArgumentsError(`Some of the accounts has ${payload.action} status`)]);
