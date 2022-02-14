@@ -20,7 +20,7 @@ class FamilyAccountValidator {
     const validation_queue: ValidationDetails[] = [];
 
     validation_queue.push([validator.checkRequiredFieldsExist(payload, familyRequiredFields), new InvalidArgumentsError('Some of the required values are not inserted')]);
-
+    validation_queue.push([validator.checkValidAddress(payload.address), new InvalidArgumentsError(`Invalid address input - address must be with country_code, city, street_name, and street_number or not inserted at all`)]);
     validation_queue.push([validator.checkFieldsNotExist(payload, ['account_id']), new InvalidArgumentsError('account_id should not be inserted')]);
 
     validation_queue.push([Array.isArray(payload.individual_accounts_details), new InvalidArgumentsError('individual_accounts_details must be an array of tupples')]);
