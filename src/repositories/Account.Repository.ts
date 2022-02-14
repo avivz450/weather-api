@@ -73,9 +73,7 @@ class AccountRepository {
                      WHERE accountID IN (${in_placeholder})`;
       const [update_query_result] = (await sql_con.query(query, [statusID, ...account_ids])) as unknown as OkPacket[];
 
-      if (update_query_result.affectedRows) {
-        return true;
-      } else throw new Error('');
+      return status_to_update;
     } catch (err) {
       const errMessasge: string = (err as any).sqlMessage;
       throw new DatabaseException(errMessasge);

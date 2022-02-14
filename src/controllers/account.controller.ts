@@ -4,7 +4,8 @@ import accountService from '../services/account.service.js';
 
 export class AccountController {
   changeStatus: RequestHandler = async (req, res) => {
-    const account_ids_and_status = await accountService.changeStatusAccountsByAccountIds(req.params.action, req.body.accounts_ids);
+    const accounts_ids = (req.body.accounts_details as string[]).map(account_details => account_details[0]);
+    const account_ids_and_status = await accountService.changeStatusAccountsByAccountIds(req.params.action, accounts_ids);
     const response: ResponseMessage = {
       status: 200,
       message: 'success',

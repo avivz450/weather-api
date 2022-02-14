@@ -59,7 +59,7 @@ class FamilyAccountController {
     const response: ResponseMessage = {
       status: 200,
       message: 'success',
-      data: { family_account },
+      data: family_account,
     };
     res.status(response.status).json(response);
   };

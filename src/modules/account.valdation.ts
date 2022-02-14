@@ -5,10 +5,9 @@ import validator from '../utils/validator.js';
 import accountValidationUtils from '../utils/account.validator.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import validationCheck from '../utils/validation.utils.js';
-import { IAccount, AccountTypes, AccountStatuses, TransferTypes } from '../types/account.types.js';
-import accountRepository from '../repositories/Account.repository.js';
-import accountService from '../services/account.service.js';
-import { Console } from 'console';
+import { IAccount, AccountTypes, AccountStatuses, TransferTypes, DetailsLevel } from '../types/account.types.js';
+import accountRepository from '../repositories/account.repository.js';
+import businessAccountService from '../services/businessAccount.service.js';
 
 class AccountValidator {
   get(payload: IGeneralObj) {
@@ -21,17 +20,31 @@ class AccountValidator {
 
   async statusChange(payload: IGeneralObj) {
     const validation_queue: ValidationDetails[] = [];
-    const accounts: IAccount[] = await accountRepository.getAccountsByAccountIds(payload.accounts_ids);
+    let accounts: IAccount[] = [];
+    const accounts_details = payload.accounts_details as any[];
+    const accounts_ids = accounts_details.map(account_details => account_details[0]);
+    const individual_accounts_ids: string[] = accounts_details.reduce((arr, account_details) => {
+      account_details[1] === AccountTypes.Individual ? arr.push(account_details[0]) : arr;
+      return arr;
+    }, []);
+    const business_accounts_ids: string[] = accounts_details.reduce((arr, account_details) => {
+      account_details[1] === AccountTypes.Business ? arr.push(account_details[0]) : arr;
+      return arr;
+    }, []);
+    const family_accounts_ids: string[] = accounts_details.reduce((arr, account_details) => {
+      account_details[1] === AccountTypes.Family ? arr.push(account_details[0]) : arr;
+      return arr;
+    }, []);
 
-    validation_queue.push([validator.checkRequiredFieldsExist(payload, ['accounts_ids', 'action']), new InvalidArgumentsError('Some of the required values are not inserted')]);
-    validation_queue.push([!validator.isEmptyArray(payload.accounts_ids as any[]), new InvalidArgumentsError('accounts_ids list should not be empty')]);
-    validation_queue.push([accountValidationUtils.isValidIds(payload.accounts_ids as string[]), new InvalidArgumentsError('there is an account id that is not numeric')]);
-    validation_queue.push([accountValidationUtils.isExist(accounts), new InvalidArgumentsError(`Some of the accounts are not exist`)]);
+    validation_queue.push([validator.checkRequiredFieldsExist(payload, ['accounts_details', 'action']), new InvalidArgumentsError('Some of the required values are not inserted')]);
+    validation_queue.push([!validator.isEmptyArray(accounts_details), new InvalidArgumentsError('accounts_ids list should not be empty')]);
+    validation_queue.push([accountValidationUtils.isValidIds(accounts_ids), new InvalidArgumentsError('there is an account id that is not numeric')]);
+    validation_queue.push([family_accounts_ids.length === 0, new InvalidArgumentsError(`it's impossible to change status of family accounts`)]);
 
-    // validation_queue.push([
-    //   !accountValidationUtils.isSomeIsType(accounts, AccountTypes.Family),
-    //   new InvalidArgumentsError(`Some of the accounts are family accounts`),
-    // ]);
+    validationCheck(validation_queue);
+
+    accounts.push(await businessAccountService.getBusinessAccount(business_accounts_ids[0]));
+    accounts = [...accounts, ...(await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids))];
 
     validation_queue.push([accountValidationUtils.isActionOppositeForAll(accounts, payload.action as AccountStatuses), new InvalidArgumentsError(`Some of the accounts has ${payload.action} status`)]);
 

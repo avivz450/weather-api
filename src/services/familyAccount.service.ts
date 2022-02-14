@@ -2,32 +2,27 @@ import { AccountStatuses, AccountTypes, DetailsLevel, IFamilyAccount, IFamilyAcc
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import transferRepository from '../repositories/transfer.repository.js';
 import TransferError from '../exceptions/transfer.exception.js';
-import HttpError from '../exceptions/http.exception.js';
-import logicError from '../exceptions/logic.exception.js';
+import LogicError from '../exceptions/logic.exception.js';
 import accountRepository from '../repositories/account.repository.js';
 import accountValidationUtils from '../utils/account.validator.js';
 import familyAccountValidator from '../modules/familyAccount.validation.js';
 
 export class FamilyAccountService {
+  private readonly transaction_limit_business_to_individual = 5000;
+
   async createFamilyAccount(payload: Omit<IFamilyAccountCreationInput, 'account_id'>): Promise<IFamilyAccount> {
     const family_account_id = await familyAccountRepository.createFamilyAccount(payload);
-    // const individual_ids_to_connect = payload.individual_accounts_details.map(tuple => tuple[0]);
     const family_account = await this.addIndividualAccountsToFamilyAccount(family_account_id, payload.individual_accounts_details, DetailsLevel.full);
+
     return family_account;
   }
 
   async getFamilyAccountById(family_account_id: string, details_level?: DetailsLevel): Promise<IFamilyAccount> {
     details_level = details_level || DetailsLevel.short;
-
     const [family_account] = (await familyAccountRepository.getFamilyAccountsByAccountIds([family_account_id], details_level)) as IFamilyAccount[];
 
-    if (!family_account) {
-      throw new logicError('get familys account faild');
-    }
     return family_account;
   }
-
-  private readonly transaction_limit_business_to_individual = 5000;
 
   async transferFamilyToBusiness(payload: ITransferRequest): Promise<ITransferResponse> {
     if (payload.amount > this.transaction_limit_business_to_individual) {
@@ -52,17 +47,14 @@ export class FamilyAccountService {
   async removeIndividualAccountsFromFamilyAccount(family_account_id: string, individual_accounts_details: IndividualTransferDetails[], details_level?: DetailsLevel) {
     const amount_to_remove = individual_accounts_details.reduce((amount: number, individual_accounts: IndividualTransferDetails) => amount + Number(individual_accounts[1]), 0);
     const [account] = await accountRepository.getAccountsByAccountIds([family_account_id]);
-
-    if (amount_to_remove > account.balance) {
-      throw new TransferError('balance in family account is not enough');
-    }
-
     const owners_id = await familyAccountRepository.getOwnersByFamilyAccountId(family_account_id);
     const individual_accounts_id = individual_accounts_details.map((individual_accounts: IndividualTransferDetails) => individual_accounts[0]);
     const remove_all = owners_id.length === individual_accounts_details.length;
 
     if (!accountValidationUtils.isBalanceAllowsTransfer(account, amount_to_remove, AccountTypes.Family) && !remove_all) {
-      throw new TransferError(`Family account with connected individual accounts must remain with at least ${familyAccountValidator.minAmountOfBalance} coins`);
+      throw new TransferError(`family account with connected individual accounts must remain with at least ${familyAccountValidator.minAmountOfBalance} coins`);
+    } else if (amount_to_remove > account.balance) {
+      throw new TransferError(`family account can't remain with negative amount of coins`);
     }
 
     await familyAccountRepository.removeIndividualAccountsFromFamilyAccount(family_account_id, individual_accounts_id);
@@ -77,11 +69,11 @@ export class FamilyAccountService {
     const owners_id = await familyAccountRepository.getOwnersByFamilyAccountId(account_id);
 
     if (owners_id.length !== 0) {
-      throw new logicError(`family account can't be closed with individual accounts connected to it`);
+      throw new LogicError(`family account can't be closed with individual accounts connected to it`);
     }
     await accountRepository.changeAccountsStatusesByAccountIds([account_id], AccountStatuses.inactive);
 
-    return true;
+    return ((await familyAccountRepository.getFamilyAccountsByAccountIds([account_id], DetailsLevel.full)) as IFamilyAccount[])[0];
   }
 }
 
