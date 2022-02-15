@@ -86,25 +86,38 @@ describe('#business account service module', function () {
     const transfer_request: ITransferRequest = {
       source_account_id: '1',
       destination_account_id: '2',
-      amount: 500,
+      amount: 500
     };
     const transfer_request_2: ITransferRequest = {
       source_account_id: '1',
       destination_account_id: '2',
-      amount: 15000,
+      amount: 15000
+    };
+
+    const transfer_request_3: ITransferRequest = {
+      source_account_id: '1',
+      destination_account_id: '2',
+      amount: 1500
     };
     const source_account_model = {
       currency: 'EUR',
       company_id: '10000000',
+      balance: 15000
     };
-
+    const source_account_model_2 = {
+      currency: 'EUR',
+      company_id: '10000000',
+      balance: 35000
+    };
     const destination_account_model = {
       currency: 'EUR',
       company_id: '10000000',
+      balance:5000
     };
     const destination_account_model_2 = {
       currency: 'USD',
       company_id: '10000001',
+      balance:5000
     };
 
     const rate = 3.4;
@@ -126,29 +139,23 @@ describe('#business account service module', function () {
     });
 
     it('success- transfer with same currency', async () => {
-      const getAccount = sinon.stub(businessAccountService, 'getBusinessAccount');
-      getAccount.onCall(0).resolves(source_account_model as IBusinessAccount);
-      getAccount.onCall(1).resolves(destination_account_model as IBusinessAccount);
+      sinon.stub(bussinessAccountRepository, 'getBusinessAccountsByAccountIds').resolves([source_account_model,destination_account_model] as IBusinessAccount[]);
       sinon.stub(transferRepository, 'transfer').resolves(transfer_response as ITransferResponse);
       expect(await businessAccountService.transferBusinessToBusiness(transfer_request)).to.deep.equal(transfer_response);
     });
 
     it('success- transfer with diffrent currency', async () => {
-      const getAccount = sinon.stub(businessAccountService, 'getBusinessAccount');
-      getAccount.onCall(0).resolves(source_account_model as IBusinessAccount);
-      getAccount.onCall(1).resolves(destination_account_model_2 as IBusinessAccount);
+      sinon.stub(bussinessAccountRepository, 'getBusinessAccountsByAccountIds').resolves([source_account_model,destination_account_model_2] as IBusinessAccount[]);
       sinon.stub(genericFunctions, 'getRate').resolves(rate);
       sinon.stub(transferRepository, 'transfer').resolves(transfer_response);
       expect(await businessAccountService.transferBusinessToBusiness(transfer_request)).to.deep.equal({rate,...transfer_response});
     });
 
     it('failed- same company and amount over 10000', async () => {
-      const getAccount = sinon.stub(businessAccountService, 'getBusinessAccount');
-      getAccount.onCall(0).resolves(source_account_model as IBusinessAccount);
-      getAccount.onCall(1).resolves(destination_account_model as IBusinessAccount);
+      sinon.stub(bussinessAccountRepository, 'getBusinessAccountsByAccountIds').resolves([source_account_model_2,destination_account_model] as IBusinessAccount[]);
       sinon.stub(transferRepository, 'transfer').resolves(transfer_response as ITransferResponse);
       try {
-        await businessAccountService.transferBusinessToBusiness(transfer_request_2);
+        await businessAccountService.transferBusinessToBusiness(transfer_request_3);
       } catch (error: any) {
         expect(error.message).to.be.equal(
           `Transfer Error : transaction between business accounts with same owning company is limited to ${businessAccountService.transaction_limit_businesses_same_company} coins`,
@@ -157,13 +164,11 @@ describe('#business account service module', function () {
     });
 
     it('failed- diffrent company and amount over 1000', async () => {
-      const getAccount = sinon.stub(businessAccountService, 'getBusinessAccount');
-      getAccount.onCall(0).resolves(source_account_model as IBusinessAccount);
-      getAccount.onCall(1).resolves(destination_account_model_2 as IBusinessAccount);
+      sinon.stub(bussinessAccountRepository, 'getBusinessAccountsByAccountIds').resolves([source_account_model,destination_account_model_2] as IBusinessAccount[]);
       sinon.stub(genericFunctions, 'getRate').resolves(3.4);
       sinon.stub(transferRepository, 'transfer').resolves(transfer_response as ITransferResponse);
       try {
-        await businessAccountService.transferBusinessToBusiness(transfer_request_2);
+        await businessAccountService.transferBusinessToBusiness(transfer_request_3);
       } catch (error: any) {
         expect(error.message).to.be.equal(`Transfer Error : transaction between business accounts with diferrent owning companies is limited to ${businessAccountService.transaction_limit_businesses_different_company} coins`);
       }

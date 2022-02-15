@@ -84,6 +84,7 @@ class FamilyAccountController {
   };
 
   transferFamilyToIndividual: RequestHandler = async (req, res) => {
+    console.log("before send request")
     const send_request_transfer = await familyAccountService.sendRequestForTransferToIndividual(req.body);
     const response: ResponseMessage = {
       status: 200,
@@ -93,6 +94,7 @@ class FamilyAccountController {
     await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
+
   confirmTransferFromFamily: RequestHandler = async (req, res) => {
     const { source_account_id, destination_account_id, approver_account_id, amount } = req.params;
     const response_transfer = await familyAccountService.confirmTransferFromFamily(source_account_id, destination_account_id, approver_account_id, amount);

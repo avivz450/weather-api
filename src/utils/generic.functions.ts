@@ -16,6 +16,7 @@ class GenericFunctions {
 
     return (response as IGeneralObj).rates[destination_currency];
   };
+
   sendTransferRequestEmail(owner: Partial<IIndividualAccount>, payload: ITransferRequest) {
     let transporter = nodemailer.createTransport({
       host: 'smtp-mail.outlook.com',
@@ -28,9 +29,10 @@ class GenericFunctions {
     const url = `http://localhost:8080/api/account/family/confirm-transfer/${payload.source_account_id}/${payload.amount}/${payload.destination_account_id}/${owner.account_id}`;
     const options = {
       from: 'rapyd@hotmail.com', // sender address
-      to: `${owner.email}`, // list of receivers
+      to: `${owner.email}`, // receivers
       subject: `Transfer request`, // Subject line
-      html: `transfer amount ${payload.amount} from your family account "${payload.destination_account_id}" to the owner "${payload.source_account_id}" account <br>    
+      html: `<h1 style="background-color:DodgerBlue;">Transfer request</h1>
+      transfer amount ${payload.amount} from your family account "${payload.destination_account_id}" to the owner "${payload.source_account_id}" account <br>    
       Please send a (post) request to confirm the transfer to the attached link <a href="${url}">${url}</a>`, // html bosdy
     };
 
