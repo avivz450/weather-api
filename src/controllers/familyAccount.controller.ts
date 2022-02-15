@@ -73,6 +73,26 @@ class FamilyAccountController {
     };
     res.status(response.status).json(response);
   };
+
+  transferFamilyToIndividual: RequestHandler = async (req, res) => {
+    const send_request_transfer = await familyAccountService.sendRequestForTransferToIndividual(req.body);
+    const response: ResponseMessage = {
+      status: 200,
+      message: 'success',
+      data: { send_request_transfer },
+    };
+    res.status(response.status).json(response);
+  };
+  confirmTransferFromFamily: RequestHandler = async (req, res) => {
+    const {source_account_id,destination_account_id,approver_account_id,amount} = req.params;
+    const response_transfer = await familyAccountService.confirmTransferFromFamily(source_account_id,destination_account_id,approver_account_id,amount);
+    const response: ResponseMessage = {
+      status: 200,
+      message: 'success',
+      data: { response_transfer },
+    };
+    res.status(response.status).json(response);
+  };
 }
 
 const familyAccountController = new FamilyAccountController();

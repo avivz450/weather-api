@@ -32,7 +32,7 @@ class IndividualAccountValidator {
     const [individualAccount] = await individualAccountService.getIndividualAccountsByIndividualIds([payload.individual_id] as string[]);
 
     validation_queue.push([!accountValidationUtils.isExist([individualAccount]), new InvalidArgumentsError(`There is already a user with the input id in the system`)]);
-
+                                  
     validationCheck(validation_queue);
   }
 

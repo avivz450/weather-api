@@ -5,9 +5,19 @@ import TransferError from '../exceptions/transfer.exception.js';
 import logicError from '../exceptions/logic.exception.js';
 import genericFunctions from '../utils/generic.functions.js';
 class BusinessAccountService {
-  private readonly transaction_limit_businesses_same_company = 10000;
-  private readonly transaction_limit_businesses_different_company = 1000;
-  private readonly transaction_limit_business_to_individual = 1000;
+  private readonly _transaction_limit_businesses_same_company = 10000;
+  private readonly _transaction_limit_businesses_different_company = 1000;
+  private readonly _transaction_limit_business_to_individual = 1000;
+
+  get transaction_limit_businesses_same_company(){
+    return this._transaction_limit_businesses_same_company;
+  }
+  get transaction_limit_businesses_different_company(){
+    return this._transaction_limit_businesses_different_company;
+  }
+  get transaction_limit_business_to_individual(){
+    return this._transaction_limit_business_to_individual;
+  }
 
   async createBusinessAccount(payload: Omit<IBusinessAccount, 'account_id'>): Promise<IBusinessAccount> {
     const account_id: string = await bussinessAccountRepository.createBusinessAccount(payload);
@@ -39,11 +49,13 @@ class BusinessAccountService {
     }
     if (source_currency !== destination_currency) {
       rate = await genericFunctions.getRate(source_currency, destination_currency);
+      console.log(rate);
     }
 
     const transaction = await TransferRepository.transfer(payload, rate);
-
-    return (rate !== 1 ? { rate, ...transaction } : transaction) as ITransferResponse;
+    const transfer_response = (rate !== 1 ? { rate, ...transaction } : transaction) as ITransferResponse;
+    console.log(transfer_response)
+    return transfer_response;
   }
 
   async transferBusinessToIndividual(payload: ITransferRequest): Promise<ITransferResponse> {
@@ -51,7 +63,6 @@ class BusinessAccountService {
       throw new TransferError(`transaction from business account to individual account is limited to ${this.transaction_limit_business_to_individual} coins`);
     }
     const transaction = await TransferRepository.transfer(payload, 1);
-
     return transaction as ITransferResponse;
   }
 }

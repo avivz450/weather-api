@@ -18,7 +18,7 @@ describe('#validator module', function () {
       expect(validator.checkRequiredFieldsExist(obj, keys)).to.be.true;
     });
 
-    it('faild - return false if all required fields not exist', () => {
+    it('failed - return false if all required fields not exist', () => {
       const obj: IGeneralObj = {
         id: 123,
         name: 'renana',
@@ -42,7 +42,7 @@ describe('#validator module', function () {
       expect(validator.checkFieldsNotExist(obj, keys)).to.be.true;
     });
 
-    it('faild- should return false if at least one required fields exist', () => {
+    it('failed- should return false if at least one required fields exist', () => {
       const obj: IGeneralObj = {
         id: 123,
         name: 'renana',
@@ -63,7 +63,7 @@ describe('#validator module', function () {
     it('success- return true if number value is numeric', () => {
         expect(validator.isNumeric(87532)).to.be.true;
       });
-    it('faild- should return false if value is not numeric', () => {
+    it('failed- should return false if value is not numeric', () => {
       expect(validator.isNumeric("jh898")).to.be.false;
     });
   });
@@ -77,7 +77,7 @@ describe('#validator module', function () {
       expect(validator.isAllNumbersPositive([1,2,3])).to.be.true;
     });
    
-    it('faild- should return false if not all numbers in array positive', () => {
+    it('failed- should return false if not all numbers in array positive', () => {
       expect(validator.isAllNumbersPositive([-1,3,5])).to.be.false;
     });
   });
@@ -91,7 +91,7 @@ describe('#validator module', function () {
       expect(validator.isNumberPositive(234)).to.be.true;
     });
 
-    it('faild- should return false if value is not positive', () => {
+    it('failed- should return false if value is not positive', () => {
       expect(validator.isNumberPositive(-2383)).to.be.false;
     });
   });
@@ -104,7 +104,7 @@ describe('#validator module', function () {
     it('success- return true if input value is empty array', () => {
       expect(validator.isEmptyArray([])).to.be.true;
     });
-    it('faild -return true if input value is not empty array', () => {
+    it('failed -return true if input value is not empty array', () => {
         expect(validator.isEmptyArray([3,33])).to.be.false;
       });
   });
@@ -118,7 +118,7 @@ describe('#validator module', function () {
       expect(validator.isSumAboveMinAmount(10,[1,2,3,10])).to.be.true;
     });
   
-    it('faild- return false if array sum not above min amount', () => {
+    it('failed- return false if array sum not above min amount', () => {
       expect(validator.isSumAboveMinAmount(10,[1,2,3])).to.be.false;
     });
   });
@@ -133,7 +133,7 @@ describe('#validator module', function () {
       expect(validator.isEachAboveMinAmount(5,[6,7,8])).to.be.true;
     });
  
-    it('faild- should return false if exist array value not above min amount', () => {
+    it('failed- should return false if exist array value not above min amount', () => {
       expect(validator.isEachAboveMinAmount(5,[4,5,7])).to.be.false;
     });
   });
