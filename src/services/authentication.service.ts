@@ -10,7 +10,7 @@ class AuthenticationService {
     return agent_id_and_secret_key;
   }
 
-  async validateSignatrues(signature: string, signature2compare: string) {
+  validateSignatrues(signature: string, signature2compare: string) {
     if (signature === signature2compare) {
       return true;
     }

@@ -81,7 +81,7 @@ class FamilyAccountValidator {
     const family_account = await familyAccountService.getFamilyAccountById(payload.account_id as string, DetailsLevel.full);
 
     validation_queue.push([
-      accountValidationUtils.isAllWithSameCurrency(family_account.currency as string, individual_accounts),
+      accountValidationUtils.isAllWithSameCurrency(family_account.currency, individual_accounts),
       new InvalidArgumentsError(`some of the accounts don't have the same currency as the currency in the family account`),
     ]);
 
@@ -121,8 +121,8 @@ class FamilyAccountValidator {
 
     validationCheck(validation_queue);
 
-    const individual_accounts: IIndividualAccount[] = await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids);
-    const family_account = await familyAccountService.getFamilyAccountById(payload.account_id as string, DetailsLevel.full);
+    await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids);
+    await familyAccountService.getFamilyAccountById(payload.account_id as string, DetailsLevel.full);
 
     const connected_individuals_to_family = (await familyAccountRepository.getOwnersByFamilyAccountId(payload.account_id)).map(id => String(id));
 
@@ -150,7 +150,7 @@ class FamilyAccountValidator {
     const [source_account] = (await familyAccountRepository.getFamilyAccountsByAccountIds([payload.source_account_id], DetailsLevel.full)) as IFamilyAccount[];
     const individual_accounts_ids = await familyAccountRepository.getOwnersByFamilyAccountId(payload.source_account_id);
     const individual_accounts = await individualAccountService.getIndividualAccountsByAccountIds(individual_accounts_ids);
-    const destination_account = await businessAccountService.getBusinessAccount(payload.destination_account_id);
+    await businessAccountService.getBusinessAccount(payload.destination_account_id);
 
     validation_queue.push([
       accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Family),

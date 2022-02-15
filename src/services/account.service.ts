@@ -1,6 +1,5 @@
 import accountRepository from '../repositories/account.repository.js';
-import { AccountStatuses, IAccount, IIndividualAccount } from '../types/account.types.js';
-import { IGeneralObj } from '../types/general.types.js';
+import { AccountStatuses } from '../types/account.types.js';
 
 class AccountService {
   async changeStatusAccountsByAccountIds(new_status: string, accounts_ids: string[]) {

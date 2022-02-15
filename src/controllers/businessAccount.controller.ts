@@ -2,8 +2,6 @@ import { RequestHandler } from 'express';
 import { ResponseMessage } from '../types/messages.types.js';
 import businessAccountService from '../services/businessAccount.service.js';
 import { IBusinessAccount, ITransferRequest } from '../types/account.types.js';
-import { IIdempotencyRequest } from '../types/idempotency.types.js';
-import idempotencyService from '../services/idempotency.service.js';
 import saveResponseData from '../utils/idemoptency.utils.js';
 
 class BusinessController {

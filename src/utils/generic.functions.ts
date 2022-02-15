@@ -14,7 +14,7 @@ class GenericFunctions {
       throw new APIError("error accessing 'exchangeratesapi'");
     }
 
-    return (response as IGeneralObj).rates[destination_currency];
+    return response.rates[destination_currency];
   };
 
   sendTransferRequestEmail(owner: Partial<IIndividualAccount>, payload: ITransferRequest) {

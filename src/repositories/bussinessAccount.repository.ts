@@ -6,6 +6,7 @@ import AccountRepository from './account.repository.js';
 import { createAddressPayload } from '../utils/db.parser.js';
 import DatabaseException from '../exceptions/db.exception.js';
 import addressRepository from './address.repository.js';
+import { IGeneralObj } from '../types/general.types.js';
 class BusinessAccountRepository {
   async createBusinessAccount(payload: Omit<IBusinessAccount, 'account_id'>) {
     //create an account
@@ -25,11 +26,11 @@ class BusinessAccountRepository {
         addressID: address_id,
       };
 
-      const [bussiness_insertion] = (await sql_con.query('INSERT INTO businessAccount SET ?', business_payload)) as unknown as OkPacket[];
+      (await sql_con.query('INSERT INTO businessAccount SET ?', business_payload)) as unknown as OkPacket[];
 
       return new_account_id;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -55,7 +56,7 @@ class BusinessAccountRepository {
 
       return business_accounts;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage || (err as any).message;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage || (err as IGeneralObj).message;
       throw new DatabaseException(errMessasge);
     }
   }

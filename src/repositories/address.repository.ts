@@ -1,6 +1,7 @@
 import { OkPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
 import DatabaseException from '../exceptions/db.exception.js';
+import { IGeneralObj } from '../types/general.types.js';
 
 class AddressRepository {
   async createAddress(payload: any) {
@@ -11,7 +12,7 @@ class AddressRepository {
 
       return address_insertion.insertId ? address_insertion.insertId : null;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
