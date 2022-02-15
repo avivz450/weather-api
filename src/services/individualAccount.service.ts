@@ -15,13 +15,11 @@ class IndividualAccountService {
 
   async getIndividualAccountsByIndividualIds(individual_ids: string[]): Promise<IIndividualAccount[]> {
     const individual_account = await individualAccountRepository.getIndividualAccountsByIndividualIds(individual_ids);
-
     return individual_account;
   }
 
   async getIndividualAccountsByAccountIds(account_ids: string[]): Promise<IIndividualAccount[]> {
     const individual_accounts = await individualAccountRepository.getIndividualAccountsByAccountIds(account_ids);
-
     return individual_accounts;
   }
 
@@ -41,7 +39,6 @@ class IndividualAccountService {
   getIndividualAccountsRemainingBalance(individual_accounts: IIndividualAccount[], individual_accounts_details: IndividualTransferDetails[]) {
     const individual_accounts_remaining_balance: IGeneralObj = individual_accounts.reduce((obj, account) => {
       obj[account.account_id] = account.balance;
-
       return obj;
     }, {} as IGeneralObj);
 

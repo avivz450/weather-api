@@ -89,7 +89,7 @@ describe('#family account service module', function () {
       try {
         await familyAccountService.removeIndividualAccountsFromFamilyAccount('1', individual_accounts_details);
       } catch (error: any) {
-        expect(error.message).to.be.equal('Transfer Error:balance in family account is not enough');
+        expect(error.message).to.be.equal('Transfer Error : balance in family account is not enough');
       }
     });
 
@@ -102,7 +102,7 @@ describe('#family account service module', function () {
       try {
         await familyAccountService.removeIndividualAccountsFromFamilyAccount('1', individual_accounts_details);
       } catch (error: any) {
-        expect(error.message).to.be.equal('Transfer Error:cant leave active account with people under 5000t');
+        expect(error.message).to.be.equal('Transfer Error : cant leave active account with people under 5000t');
       }
     });
   });
@@ -144,7 +144,7 @@ describe('#family account service module', function () {
       try {
         await familyAccountService.transferFamilyToBusiness(transfer_request_2);
       } catch (error: any) {
-        expect(error.message).to.be.equal('Transfer Error:transfer amount limit exceeded');
+        expect(error.message).to.be.equal('Transfer Error : transfer amount limit exceeded');
       }
     });
 
@@ -153,7 +153,7 @@ describe('#family account service module', function () {
       try {
         await familyAccountService.transferFamilyToBusiness(transfer_request);
       } catch (error: any) {
-        expect(error.message).to.be.equal('Transfer Error:transfer failed');
+        expect(error.message).to.be.equal('Transfer Error : transfer failed');
       }
     });
   });

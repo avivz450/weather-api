@@ -34,6 +34,8 @@ class IndividualController {
     };
     res.status(response.status).json(response);
   };
+
+  
 }
 const individualController = new IndividualController();
 export default individualController;

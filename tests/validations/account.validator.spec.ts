@@ -144,12 +144,12 @@ describe('#Validation account module', function () {
 
     it('success- return true ', () => {
       const accounts_ids = ["1","2","3"]
-      expect(accountValidationUtils.isExist(accounts_ids,3)).to.be.true;
+      expect(accountValidationUtils.isExist(accounts_ids)).to.be.true;
     });
  
     it('failed- should return false ', () => {
-      const accounts_ids = ["1","2","3"]
-      expect(accountValidationUtils.isExist(accounts_ids,4)).to.be.false;
+      const accounts_ids = ["1","2",undefined]
+      expect(accountValidationUtils.isExist(accounts_ids)).to.be.false;
     });
   });
 

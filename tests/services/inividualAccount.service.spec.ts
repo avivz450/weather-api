@@ -45,32 +45,22 @@ describe('#individual account service module', function () {
     });
   });
 
-  // context('getIndividualAccountByAccountId', function () {
-  //   const obj_output = {
-  //   };
+  context('getIndividualAccountByAccountIds', function () {
+    const accounts_output = [{},{}];
 
-  //   afterEach(() => {
-  //     // Restore the default sandbox here
-  //     sinon.restore();
-  //   });
+    afterEach(() => {
+      // Restore the default sandbox here
+      sinon.restore();
+    });
 
-  //   it('should exists', () => {
-  //     // @ts-ignore
-  //     expect(individualAccountRepository.getIndividualAccountByAccountId).to.be.a('function');
-  //   });
+    it('should exists', () => {
+      // @ts-ignore
+      expect(individualAccountRepository.getIndividualAccountsByAccountIds).to.be.a('function');
+    });
 
-  //   it('success- return business account', async () => {
-  //     sinon.stub(individualAccountRepository, 'getIndividualAccountByAccountId').resolves(obj_output as IIndividualAccount);
-  //     expect(await individualAccountService.getIndividualAccountByAccountId('1')).to.deep.equal(obj_output);
-  //   });
-
-  //   it('failed- throw error get business account', async () => {
-  //     sinon.stub(individualAccountRepository, 'getIndividualAccountByAccountId').resolves(undefined);
-  //     try {
-  //       await individualAccountService.getIndividualAccountByAccountId('1')
-  //     } catch (error: any) {
-  //       expect(error.message).to.be.equal('Logic Error:get individual account failed');
-  //     }
-  //   });
-  // });
+    it('success- return business account', async () => {
+      sinon.stub(individualAccountRepository, 'getIndividualAccountsByAccountIds').resolves(accounts_output as IIndividualAccount[]);
+      expect(await individualAccountService.getIndividualAccountsByAccountIds(["1","2"])).to.deep.equal(accounts_output);
+    });
+  });
 });
