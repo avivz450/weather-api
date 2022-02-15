@@ -1,9 +1,7 @@
 import { RequestHandler } from 'express';
 import { ResponseMessage } from '../types/messages.types.js';
 import familyAccountService from '../services/familyAccount.service.js';
-import { DetailsLevel, IFamilyAccount, IFamilyAccountCreationInput, IndividualTransferDetails, ITransferRequest } from '../types/account.types.js';
-import { IIdempotencyRequest } from '../types/idempotency.types.js';
-import idempotencyService from '../services/idempotency.service.js';
+import { DetailsLevel, IFamilyAccountCreationInput, IndividualTransferDetails } from '../types/account.types.js';
 import saveResponseData from '../utils/idemoptency.utils.js';
 
 class FamilyAccountController {
