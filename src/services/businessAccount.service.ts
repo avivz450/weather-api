@@ -29,7 +29,6 @@ class BusinessAccountService {
 
   async getBusinessAccount(account_id: string): Promise<IBusinessAccount> {
     const [businessAccount] = (await bussinessAccountRepository.getBusinessAccountsByAccountIds([account_id])) as IBusinessAccount[];
-
     return businessAccount;
   }
 
