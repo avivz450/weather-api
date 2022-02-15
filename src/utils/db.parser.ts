@@ -144,7 +144,7 @@ export function parseFamilyAccountsQueryResult(payload: IFamilyAccountParse, det
         owners = [];
       }
 
-      const founded_owner = (payload.owners_full as IIndividualAccount[]).find(owner => owner.account_id.toString() === individualAccountID.toString());
+      const founded_owner = (payload.owners_full as unknown as IIndividualAccount[]).find(owner => owner.account_id.toString() === individualAccountID.toString());
       if (founded_owner) {
         owners.push(founded_owner);
       }

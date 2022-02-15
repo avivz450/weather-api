@@ -5,13 +5,16 @@ import CryptoJS from 'crypto-js';
 import { sign } from 'jsonwebtoken';
 
 export const authenticateRequest: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-  const http_method = req.method;
-  const url_path = req.originalUrl;
-  const salt = req.headers['x-salt'] as string;
-  const timestamp = req.headers['x-timestamp'] as string;
-  const signature = req.headers['x-signature'] as string;
-  const access_key = req.headers['x-access-key'] as string;
-  const secret_key = await authenticationService.getSecretKey(access_key);
+    const http_method = req.method;               
+    const url_path = req.originalUrl;  
+    const salt = req.headers['x-salt'] as string; 
+    const timestamp = req.headers['x-timestamp'] as string;                  
+    const signature = req.headers['x-signature'] as string;
+    const access_key  = req.headers['x-access-key'] as string;
+    const { agent_id, secret_key } = await authenticationService.getSecretKeyAndAgentIdByAccessKey(access_key);
+
+    // for idempotency enforcement
+    req.agent_id = agent_id.toString();
 
   let body = '';
 
