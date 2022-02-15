@@ -5,7 +5,7 @@ import validator from '../utils/validator.js';
 import accountValidationUtils from '../utils/account.validator.js';
 import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import validationCheck from '../utils/validation.utils.js';
-import { IAccount, AccountTypes, AccountStatuses, TransferTypes, DetailsLevel } from '../types/account.types.js';
+import { IAccount, AccountTypes, AccountStatuses, TransferTypes } from '../types/account.types.js';
 import accountRepository from '../repositories/account.repository.js';
 import businessAccountRepository from '../repositories/bussinessAccount.repository.js';
 
