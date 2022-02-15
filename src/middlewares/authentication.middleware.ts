@@ -12,8 +12,8 @@ export default async function authenticateRequest(req: Request, res: Response, n
     const access_key  = req.headers['x-access-key'] as string;
     const { agent_id, secret_key } = await authenticationService.getSecretKeyAndAgentIdByAccessKey(access_key);
 
-    // for idempotency enforcement
-    req.agent_id = agent_id.toString();
+  // for idempotency enforcement
+  req.agent_id = agent_id.toString();
 
   let body = '';
 

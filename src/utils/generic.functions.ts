@@ -2,17 +2,19 @@ import fetch from 'node-fetch';
 import { APIError } from '../exceptions/api.exception.js';
 import { IIndividualAccount, ITransferRequest } from '../types/account.types.js';
 import nodemailer, { SentMessageInfo } from 'nodemailer';
+import { IGeneralObj } from '../../src/types/general.types.js';
 class GenericFunctions {
   getRate = async (source_currency: string, destination_currency: string) => {
     const base_url = `http://api.exchangeratesapi.io/latest`;
     const url = `${base_url}?base=${source_currency}&symbols=${destination_currency}&access_key=78ca52413fb26cdc4a99ec638fa21db7`;
-    const response: any = await (await fetch(url)).json();
+    const response = (await (await fetch(url)).json()) as IGeneralObj;
+    const is_success_response: boolean = response.success;
 
-    if (response.success === false) {
+    if (is_success_response === false) {
       throw new APIError("error accessing 'exchangeratesapi'");
     }
 
-    return (response as any).rates[destination_currency];
+    return (response as IGeneralObj).rates[destination_currency];
   };
   sendTransferRequestEmail(owner: Partial<IIndividualAccount>, payload: ITransferRequest) {
     let transporter = nodemailer.createTransport({

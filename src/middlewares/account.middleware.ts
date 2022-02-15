@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import accountValidator from '../modules/account.valdation.js';
-import familyAccountValidator from '../modules/familyAccount.validation';
 
 class AccountMiddlewares {
   verifyGetAccount: RequestHandler = (req, res, next) => {

@@ -1,8 +1,6 @@
-import { RowDataPacket } from 'mysql2';
 import {
   DetailsLevel,
   IAccount,
-  IAddress,
   IBusinessAccount,
   IBusinessAccountDB,
   IFamilyAccount,
@@ -13,7 +11,6 @@ import {
   IFamilyAccountDB,
 } from '../types/account.types.js';
 import { IFamilyAccountParse } from '../types/db.types.js';
-import { IGeneralObj } from '../types/general.types.js';
 
 export function parseAccountQueryResult(query_result_obj: IAccountDB): IAccount {
   const { accountID, balance, currencyCode, currencyID, statusName, agentID } = query_result_obj;
@@ -29,19 +26,19 @@ export function parseAccountQueryResult(query_result_obj: IAccountDB): IAccount 
   return result;
 }
 
-export function parseAccountQueryResultForTransferResponse(query_result_obj: IAccountDB) {
+export function parseAccountQueryResultForTransferResponse(query_result_obj: IAccountDB): IAccount {
   const { accountID, balance, currencyID, statusName, agentID } = query_result_obj;
 
   return {
     account_id: accountID,
     balance,
-    currency: currencyID,
-    status: statusName,
+    currency: String(currencyID),
+    status: statusName as AccountStatuses,
     agent_id: agentID,
   };
 }
 
-export function parseIndividualAccountQueryResult(query_result_obj: IIndividualAccountDB) {
+export function parseIndividualAccountQueryResult(query_result_obj: IIndividualAccountDB): IIndividualAccount {
   const { accountID, currencyCode, balance, statusName, individualID, firstName, lastName, email, addressID, countryCode, countryName, postalCode, city, region, streetName, streetNumber } =
     query_result_obj;
 
@@ -67,9 +64,8 @@ export function parseIndividualAccountQueryResult(query_result_obj: IIndividualA
   } as unknown as IIndividualAccount;
 }
 
-
 export function parseBusinessAccountsQueryResult(query_result: IBusinessAccountDB[]) {
-  return (query_result as IBusinessAccountDB[]).map(business_account => {
+  return query_result.map(business_account => {
     const { accountID, currencyCode, balance, statusName, companyID, companyName, context, addressID, countryCode, countryName, postalCode, city, region, streetName, streetNumber } = business_account;
     return {
       account_id: accountID,
@@ -164,6 +160,6 @@ export function parseFamilyAccountsQueryResult(payload: IFamilyAccountParse, det
       parsed_family_object.push(temp_family_object[family_account]);
     }
 
-    return parsed_family_object as IFamilyAccount[];
+    return parsed_family_object;
   }
 }

@@ -11,7 +11,6 @@ import validationCheck from '../utils/validation.utils.js';
 import accountValidator from './account.valdation.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import businessAccountService from '../services/businessAccount.service.js';
-import { Console } from 'console';
 class FamilyAccountValidator {
   private readonly min_amount_of_balance = 5000;
 
@@ -31,7 +30,7 @@ class FamilyAccountValidator {
     const individual_accounts_balance_after_transfer: IGeneralObj = individualAccountService.getIndividualAccountsRemainingBalance(individual_accounts, individual_accounts_details);
 
     validation_queue.push([payload.individual_accounts_details.length !== 0, new InvalidArgumentsError('individual_accounts_details must have at lease one tupple')]);
-    validation_queue.push([accountValidationUtils.isValidArrayOfTransfer(payload.individual_accounts_details as any[]), new InvalidArgumentsError(`Invalid details of individual accounts`)]);
+    validation_queue.push([accountValidationUtils.isValidArrayOfTransfer(payload.individual_accounts_details), new InvalidArgumentsError(`Invalid details of individual accounts`)]);
     validation_queue.push([individual_accounts.length === individual_accounts_ids.length, new InvalidArgumentsError(`Some of the individual accounts are not exist`)]);
     validation_queue.push([
       accountValidationUtils.isAllAccountsWithSameStatus(individual_accounts, AccountStatuses.active),

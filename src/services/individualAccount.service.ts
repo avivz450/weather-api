@@ -1,4 +1,3 @@
-import logicError from '../exceptions/logic.exception.js';
 import TransferError from '../exceptions/transfer.exception.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import individualAccountRepository from '../repositories/individualAccount.repository.js';
