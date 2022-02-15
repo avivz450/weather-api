@@ -36,6 +36,7 @@ export const errorLogger = (filepath: string): ErrorMiddleware => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const errorResponse: ErrorMiddleware = (err, req, res, next) => {
   const { message, status, stack } = err;
+
   const response: ErrorMessage = {
     message: message || 'something went wrong...',
     status: status || 500,

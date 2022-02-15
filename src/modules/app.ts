@@ -18,16 +18,16 @@ class App {
 
   readonly API_PATH = '/api/account';
 
-  // static readonly ERRORS_LOG_PATH = path.join(process.cwd(), 'logs', 'errors.log');
+  static readonly ERRORS_LOG_PATH = path.join(process.cwd(), 'logs', 'errors.log');
 
-  // static readonly REQUESTS_LOG_PATH = path.join(process.cwd(), 'logs', 'requests.log');
+  static readonly REQUESTS_LOG_PATH = path.join(process.cwd(), 'logs', 'requests.log');
 
   constructor() {
     this.configEnvVariables();
     this.app = express();
     this.initializeMiddlewares();
     this.initializeRoutes();
-    // this.initializeErrorMiddlewares();
+    this.initializeErrorMiddlewares();
   }
 
   private configEnvVariables() {
@@ -37,7 +37,7 @@ class App {
   private initializeMiddlewares() {
     this.app.use(attachRequestId);
     this.app.use(cors());
-    // this.app.use(logger(App.REQUESTS_LOG_PATH));
+    this.app.use(logger(App.REQUESTS_LOG_PATH));
     this.app.use(express.json());
   }
 
@@ -51,7 +51,7 @@ class App {
   private initializeErrorMiddlewares() {
     this.app.use(urlNotFound);
     this.app.use(printError);
-    // this.app.use(errorLogger(App.ERRORS_LOG_PATH));
+    this.app.use(errorLogger(App.ERRORS_LOG_PATH));
     this.app.use(errorResponse);
   }
 
