@@ -51,6 +51,11 @@ export class FamilyAccountService {
   async addIndividualAccountsToFamilyAccount(family_account_id: string, individual_accounts_details: IndividualTransferDetails[], details_level?: DetailsLevel): Promise<IFamilyAccount> {
     const individual_accounts_id = individual_accounts_details.map((individual_accounts: IndividualTransferDetails) => individual_accounts[0]);
 
+    const owners_account = (await familyAccountRepository.getOwnersByFamilyAccountId(family_account_id)).map(owner=>String(owner));
+    if(individual_accounts_id.some((account:string)=>owners_account.includes(account))){
+      throw new LogicError("individual account id is already exist in family account")
+    }
+
     await familyAccountRepository.addIndividualAccountsToFamilyAccount(family_account_id, individual_accounts_id);
     await familyAccountRepository.transferFromIndividualAccountsToFamilyAccount(family_account_id, individual_accounts_details);
 
