@@ -212,9 +212,9 @@ class FamilyAccountRepository {
         payload = {
           query_res: account_query_result,
           owners_full,
-        } as unknown as IFamilyAccountParse;
+        };
       }
-      const familyAccounts = parseFamilyAccountsQueryResult(payload, details_level) as IFamilyAccount[];
+      const familyAccounts = parseFamilyAccountsQueryResult((payload as IFamilyAccountParse), details_level) as IFamilyAccount[];
 
       familyAccounts.forEach(family_account => {
         if (family_account.owners === null) {
@@ -222,7 +222,7 @@ class FamilyAccountRepository {
         }
       });
 
-      return parseFamilyAccountsQueryResult(payload, details_level);
+      return parseFamilyAccountsQueryResult((payload as IFamilyAccountParse), details_level);
     } catch (err) {
       const errMessasge: string = (err as any).sqlMessage || (err as any).message;
       throw new DatabaseException(errMessasge);
