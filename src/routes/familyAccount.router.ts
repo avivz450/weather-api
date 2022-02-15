@@ -16,7 +16,6 @@ class FamilyAccountRouter {
     this.familyAccountRouter.post('/:transfer/business', raw(familyMiddlewares.verifyTransferToBusiness), raw(familyAccountController.transferFamilyToBusiness));
     this.familyAccountRouter.post('/:transfer/individual', raw(familyAccountController.transferFamilyToIndividual));
     this.familyAccountRouter.post('/confirm-transfer/:source_account_id/:amount/:destination_account_id/:approver_account_id', raw(familyAccountController.confirmTransferFromFamily));
-
   }
 
   get router() {

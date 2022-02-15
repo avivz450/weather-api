@@ -9,8 +9,11 @@ import familyAccountValidator from '../modules/familyAccount.validation.js';
 import genericFunctions from '../utils/generic.functions.js';
 
 export class FamilyAccountService {
-  private readonly transaction_limit_business_to_individual = 5000;
+  private readonly _transaction_limit_business_to_individual = 5000;
 
+  get transaction_limit_business_to_individual(){
+    return this._transaction_limit_business_to_individual;
+  }
   async createFamilyAccount(payload: Omit<IFamilyAccountCreationInput, 'account_id'>): Promise<IFamilyAccount> {
     const family_account_id = await familyAccountRepository.createFamilyAccount(payload);
     const family_account = await this.addIndividualAccountsToFamilyAccount(family_account_id, payload.individual_accounts_details, DetailsLevel.full);
@@ -26,8 +29,8 @@ export class FamilyAccountService {
   }
 
   async transferFamilyToBusiness(payload: ITransferRequest): Promise<ITransferResponse> {
-    if (payload.amount > this.transaction_limit_business_to_individual) {
-      throw new TransferError(`transaction from family account to business account is limited to ${this.transaction_limit_business_to_individual} coins`);
+    if (payload.amount > this._transaction_limit_business_to_individual) {
+      throw new TransferError(`transaction from family account to business account is limited to ${this._transaction_limit_business_to_individual} coins`);
     }
     const transaction = (await transferRepository.transfer(payload, 1)) as ITransferResponse;
 
@@ -47,10 +50,9 @@ export class FamilyAccountService {
 
   async removeIndividualAccountsFromFamilyAccount(family_account_id: string, individual_accounts_details: IndividualTransferDetails[], details_level?: DetailsLevel) {
     const amount_to_remove = individual_accounts_details.reduce((amount: number, individual_accounts: IndividualTransferDetails) => amount + Number(individual_accounts[1]), 0);
-    const [account] = await accountRepository.getAccountsByAccountIds([family_account_id]);
-    const owners_id = await familyAccountRepository.getOwnersByFamilyAccountId(family_account_id);
+    const account = await this.getFamilyAccountById(family_account_id);
     const individual_accounts_id = individual_accounts_details.map((individual_accounts: IndividualTransferDetails) => individual_accounts[0]);
-    const remove_all = owners_id.length === individual_accounts_details.length;
+    const remove_all = account.owners.length === individual_accounts_details.length;
 
     if (!accountValidationUtils.isBalanceAllowsTransfer(account, amount_to_remove, AccountTypes.Family) && !remove_all) {
       throw new TransferError(`family account with connected individual accounts must remain with at least ${familyAccountValidator.minAmountOfBalance} coins`);
@@ -74,7 +76,7 @@ export class FamilyAccountService {
     }
     await accountRepository.changeAccountsStatusesByAccountIds([account_id], AccountStatuses.inactive);
 
-    return ((await familyAccountRepository.getFamilyAccountsByAccountIds([account_id], DetailsLevel.full)) as IFamilyAccount[])[0];
+    return {status: "success"}
   }
 
   async sendRequestForTransferToIndividual(payload:ITransferRequest){
@@ -86,7 +88,7 @@ export class FamilyAccountService {
       }
     });
     owners.forEach((owner)=> genericFunctions.sendTransferRequestEmail(owner,payload));
-    return "email will sent to destenition account owner when all owners family account approve the transfer"
+    return "The transfer will only take place after one of the family members will approve it"
   }
 
   async confirmTransferFromFamily(source_account_id:string,destination_account_id:string,approver_account_id:string,amountTransfer:string){
