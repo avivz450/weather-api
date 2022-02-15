@@ -1,4 +1,14 @@
-import { AccountStatuses, AccountTypes, DetailsLevel, IFamilyAccount, IFamilyAccountCreationInput, IIndividualAccount, IndividualTransferDetails, ITransferRequest, ITransferResponse } from '../types/account.types.js';
+import {
+  AccountStatuses,
+  AccountTypes,
+  DetailsLevel,
+  IFamilyAccount,
+  IFamilyAccountCreationInput,
+  IIndividualAccount,
+  IndividualTransferDetails,
+  ITransferRequest,
+  ITransferResponse,
+} from '../types/account.types.js';
 import familyAccountRepository from '../repositories/familyAccount.repository.js';
 import transferRepository from '../repositories/transfer.repository.js';
 import TransferError from '../exceptions/transfer.exception.js';
@@ -73,34 +83,32 @@ export class FamilyAccountService {
       throw new LogicError(`family account can't be closed with individual accounts connected to it`);
     }
     await accountRepository.changeAccountsStatusesByAccountIds([account_id], AccountStatuses.inactive);
-
-    return ((await familyAccountRepository.getFamilyAccountsByAccountIds([account_id], DetailsLevel.full)) as IFamilyAccount[])[0];
   }
 
-  async sendRequestForTransferToIndividual(payload:ITransferRequest){
-    const family_account = await this.getFamilyAccountById(payload.source_account_id,DetailsLevel.full);
-    let owners :Partial<IIndividualAccount>[]=[];
-    (family_account.owners as IIndividualAccount[]).forEach((owner:IIndividualAccount)=>{
-      if(owner.account_id != payload.destination_account_id){
-        owners.push({account_id:owner.account_id ,email: owner.email })
+  async sendRequestForTransferToIndividual(payload: ITransferRequest) {
+    const family_account = await this.getFamilyAccountById(payload.source_account_id, DetailsLevel.full);
+    let owners: Partial<IIndividualAccount>[] = [];
+    (family_account.owners as IIndividualAccount[]).forEach((owner: IIndividualAccount) => {
+      if (owner.account_id != payload.destination_account_id) {
+        owners.push({ account_id: owner.account_id, email: owner.email });
       }
     });
-    owners.forEach((owner)=> genericFunctions.sendTransferRequestEmail(owner,payload));
-    return "email will sent to destenition account owner when all owners family account approve the transfer"
+    owners.forEach(owner => genericFunctions.sendTransferRequestEmail(owner, payload));
+    return 'email will sent to destenition account owner when all owners family account approve the transfer';
   }
 
-  async confirmTransferFromFamily(source_account_id:string,destination_account_id:string,approver_account_id:string,amountTransfer:string){
+  async confirmTransferFromFamily(source_account_id: string, destination_account_id: string, approver_account_id: string, amountTransfer: string) {
     const owners_id = await familyAccountRepository.getOwnersByFamilyAccountId(source_account_id);
 
-    if(!owners_id.some(item => item == approver_account_id)) {
-      throw new LogicError("You arn't authorized to submit that transfer")
+    if (!owners_id.some(item => item == approver_account_id)) {
+      throw new LogicError("You arn't authorized to submit that transfer");
     }
-    const payload:ITransferRequest={
-      source_account_id:source_account_id,
-      destination_account_id:destination_account_id,
-      amount:parseInt(amountTransfer)
-    }
-    
+    const payload: ITransferRequest = {
+      source_account_id: source_account_id,
+      destination_account_id: destination_account_id,
+      amount: parseInt(amountTransfer),
+    };
+
     const transaction = await transferRepository.transfer(payload, 1);
     if (!transaction) {
       throw new TransferError('transfer failed');
