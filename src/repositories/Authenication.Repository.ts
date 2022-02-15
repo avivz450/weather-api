@@ -14,7 +14,7 @@ class AuthenticationRepository {
 
       return secretKey && agentID ? { secret_key: secretKey, agent_id: agentID } as IAuthenticationQueryRes : null;
     } catch (err) {
-      throw new DatabaseException('Failed to authenticate request`');
+      throw new DatabaseException("failed to validate authentication");
     }
   }
 }
