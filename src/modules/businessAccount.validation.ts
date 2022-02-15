@@ -36,7 +36,7 @@ class BusinessAccountValidator {
 
     const validation_queue: ValidationDetails[] = [];
     const source_account = await businessAccountService.getBusinessAccount(payload.source_account_id);
-    const [destination_account] = await individualAccountService.getIndividualAccountsByAccountIds([payload.destination_account_id]);
+    await individualAccountService.getIndividualAccountsByAccountIds([payload.destination_account_id]);
 
     validation_queue.push([
       accountValidationUtils.isBalanceAllowsTransfer(source_account, Number(payload.amount), AccountTypes.Business),
