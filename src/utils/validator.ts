@@ -1,7 +1,8 @@
 import { IGeneralObj } from '../types/general.types.js';
+import { IAddress } from '../types/account.types';
 
 class Validator {
-  checkValidAddress = (address: any) => {
+  checkValidAddress = (address: IAddress) => {
     if (address === undefined) {
       return true;
     } else {

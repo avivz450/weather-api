@@ -1,10 +1,10 @@
-import { IAccount, AccountStatuses, DetailsLevel, AccountTypes, TransferTypes } from '../types/account.types.js';
+import { IAccount, AccountStatuses, DetailsLevel, AccountTypes, TransferTypes, IndividualTransferDetails } from '../types/account.types.js';
 import familyAccountValidator from '../modules/familyAccount.validation.js';
 import individualAccountValidator from '../modules/individualAccount.validation.js';
 import businessAccountValidator from '../modules/businessAccount.validation.js';
 
 class AccountValidationUtils {
-  isValidArrayOfTransfer = (individual_accounts_details: any[]) =>
+  isValidArrayOfTransfer = (individual_accounts_details: IndividualTransferDetails[]) =>
     individual_accounts_details.every(account_details => typeof account_details[0] === 'string' && typeof account_details[1] === 'number');
 
   isBalanceAllowsTransfer(account: IAccount, transfer_amount: number, account_type: AccountTypes): boolean {

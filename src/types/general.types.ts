@@ -4,9 +4,9 @@ export interface IGeneralObj {
 
 declare global {
   namespace Express {
-       interface Request {
-          agent_id: string,
-          idempotency_key: string
-      }
+    interface Request {
+      agent_id: string;
+      idempotency_key: string;
+    }
   }
 }

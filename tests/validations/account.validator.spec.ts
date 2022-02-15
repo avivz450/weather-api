@@ -1,8 +1,6 @@
 import { expect, assert } from 'chai';
 import accountValidationUtils from '../../src/utils/account.validator.js';
-import { IGeneralObj } from '../../src/types/general.types.js';
-import { AccountStatuses, AccountTypes, IAccount } from '../../src/types/account.types.js';
-import businessAccountValidator from '../../src/modules/businessAccount.validation.js';
+import { AccountStatuses, AccountTypes, IAccount, IndividualTransferDetails } from '../../src/types/account.types.js';
 import sinon from 'sinon';
 
 describe('#Validation account module', function () {
@@ -13,7 +11,7 @@ describe('#Validation account module', function () {
     });
 
     it('success- return true if array input is valid array of transfer', () => {
-        const individual_accounts_details=[["1",300],["2",400]];
+        const individual_accounts_details:IndividualTransferDetails[]=[["1",300],["2",400]];
         expect(accountValidationUtils.isValidArrayOfTransfer(individual_accounts_details)).to.be.true;
     });
 

@@ -1,9 +1,9 @@
-import { OkPacket, RowDataPacket } from 'mysql2';
+import { OkPacket, RowDataPacket, QueryError } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
 import DatabaseException from '../exceptions/db.exception.js';
-import { IIndividualAccount, IAccount, AccountStatuses, IAccountDB } from '../types/account.types.js';
+import { IAccount, AccountStatuses, IAccountDB } from '../types/account.types.js';
 import { IGeneralObj } from '../types/general.types.js';
-import { parseAccountQueryResult, parseAccountQueryResultForTransferResponse } from '../utils/db.parser.js';
+import { parseAccountQueryResult } from '../utils/db.parser.js';
 
 class AccountRepository {
   async createAccount(payload: IAccount) {
@@ -29,7 +29,7 @@ class AccountRepository {
 
       return account_insertion_result.insertId.toString();
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -55,7 +55,7 @@ class AccountRepository {
 
       return accounts;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage || (err as any).message;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage || (err as IGeneralObj).message;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -75,7 +75,7 @@ class AccountRepository {
 
       return status_to_update;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }

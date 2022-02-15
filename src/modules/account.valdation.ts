@@ -7,7 +7,6 @@ import InvalidArgumentsError from '../exceptions/InvalidArguments.exception.js';
 import validationCheck from '../utils/validation.utils.js';
 import { IAccount, AccountTypes, AccountStatuses, TransferTypes, DetailsLevel } from '../types/account.types.js';
 import accountRepository from '../repositories/account.repository.js';
-import businessAccountService from '../services/businessAccount.service.js';
 import businessAccountRepository from '../repositories/bussinessAccount.repository.js';
 
 class AccountValidator {

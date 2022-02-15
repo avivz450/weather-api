@@ -1,10 +1,11 @@
-import { OkPacket, RowDataPacket } from 'mysql2';
+import { RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
 import DatabaseException from '../exceptions/db.exception.js';
 import { IIndividualAccount, IIndividualAccountDB, IAccount } from '../types/account.types';
 import addressRepository from './address.repository.js';
 import { createAddressPayload, parseIndividualAccountQueryResult } from '../utils/db.parser.js';
 import accountRepository from './account.repository.js';
+import { IGeneralObj } from '../types/general.types.js';
 
 class IndividualAccountRepository {
   async createIndividualAccount(payload: Omit<IIndividualAccount, 'account_id'>) {
@@ -31,7 +32,7 @@ class IndividualAccountRepository {
 
       return new_account_id;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -62,7 +63,7 @@ class IndividualAccountRepository {
 
       return Individual_accounts;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage || (err as any).message;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage || (err as IGeneralObj).message;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -88,7 +89,7 @@ class IndividualAccountRepository {
 
       return IndividualAccounts;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }

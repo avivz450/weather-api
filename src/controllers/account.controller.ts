@@ -7,7 +7,8 @@ import saveResponseData from '../utils/idemoptency.utils.js';
 
 export class AccountController {
   changeStatus: RequestHandler = async (req, res) => {
-    const accounts_ids = (req.body.accounts_details as string[]).map(account_details => account_details[0]);
+    const account_details: string[] = req.body.accounts_details;
+    const accounts_ids = account_details.map(account_details => account_details[0]);
     const account_ids_and_status = await accountService.changeStatusAccountsByAccountIds(req.params.action, accounts_ids);
     
     const response: ResponseMessage = {

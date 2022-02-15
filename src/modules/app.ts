@@ -12,6 +12,7 @@ import businessAccountRouter from '../routes/businessAccount.router.js';
 import familyAccountRouter from '../routes/familyAccount.router.js';
 import fs from 'fs';
 import { enforceIdempotency } from '../middlewares/idempotency.middleware.js';
+import raw from '../middlewares/route.async.wrapper.js';
 
 const { PORT = 8080, HOST = 'localhost' } = process.env;
 
@@ -41,8 +42,8 @@ class App {
     this.app.use(cors());
     this.app.use(logger(App.REQUESTS_LOG_PATH));
     this.app.use(express.json());
-    this.app.use(authenticateRequest);
-    this.app.use(enforceIdempotency);
+    this.app.use(raw(authenticateRequest));
+    this.app.use(raw(enforceIdempotency));
 
   }
 

@@ -1,9 +1,9 @@
-import { OkPacket, RowDataPacket } from 'mysql2';
+import { OkPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
-import { IBusinessAccount, ITransferRequest, ITransferResponse } from '../types/account.types.js';
+import { ITransferRequest, ITransferResponse } from '../types/account.types.js';
 import accountRepository from './account.repository.js';
-import { IGeneralObj } from '../types/general.types.js';
 import DatabaseException from '../exceptions/db.exception.js';
+import { IGeneralObj } from '../types/general.types.js';
 
 class TransferRepository {
   async transfer(payload: ITransferRequest, rate: number) {
@@ -38,8 +38,8 @@ class TransferRepository {
         const transaction_payload = {
           sourceAccountID: payload.source_account_id,
           destinationAccountID: payload.destination_account_id,
-          sourceCurrencyID: (source_account as any).currencyID,
-          destinationCurrencyID: (destination_account as any).currencyID,
+          sourceCurrencyID: (source_account as IGeneralObj).currencyID,
+          destinationCurrencyID: (destination_account as IGeneralObj).currencyID,
           amount: payload.amount,
           // date: new Date().toISOString().slice(0, 19).replace('T', ' ')
         };
@@ -62,7 +62,7 @@ class TransferRepository {
         return transfer_response as ITransferResponse;
       }
     } catch (err) {
-      throw new DatabaseException((err as any).message);
+      throw new DatabaseException((err as IGeneralObj).message);
     }
   }
 }
