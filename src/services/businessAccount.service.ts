@@ -51,12 +51,10 @@ class BusinessAccountService {
     }
     if (source_currency !== destination_currency) {
       rate = await genericFunctions.getRate(source_currency, destination_currency);
-      console.log(rate);
     }
 
     const transaction = await TransferRepository.transfer(payload, rate);
     const transfer_response = (rate !== 1 ? { rate, ...transaction } : transaction) as ITransferResponse;
-
     return transfer_response;
   }
 

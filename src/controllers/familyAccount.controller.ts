@@ -2,6 +2,9 @@ import { RequestHandler } from 'express';
 import { ResponseMessage } from '../types/messages.types.js';
 import familyAccountService from '../services/familyAccount.service.js';
 import { DetailsLevel, IFamilyAccount, IFamilyAccountCreationInput, IndividualTransferDetails, ITransferRequest } from '../types/account.types.js';
+import { IIdempotencyRequest } from '../types/idempotency.types.js';
+import idempotencyService from '../services/idempotency.service.js';
+import saveResponseData from '../utils/idemoptency.utils.js';
 
 class FamilyAccountController {
   createFamilyAccount: RequestHandler = async (req, res) => {
@@ -11,6 +14,7 @@ class FamilyAccountController {
       message: 'success',
       data: { family_account },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 
@@ -22,6 +26,7 @@ class FamilyAccountController {
       message: 'success',
       data: { family_account },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 
@@ -35,6 +40,7 @@ class FamilyAccountController {
       message: 'success',
       data: { family_account },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 
@@ -50,6 +56,7 @@ class FamilyAccountController {
       message: 'success',
       data: { family_account },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 
@@ -61,6 +68,7 @@ class FamilyAccountController {
       message: 'success',
       data: family_account,
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 
@@ -71,6 +79,7 @@ class FamilyAccountController {
       message: 'success',
       data: { family_account },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 
@@ -81,6 +90,7 @@ class FamilyAccountController {
       message: 'success',
       data: { send_request_transfer },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
   confirmTransferFromFamily: RequestHandler = async (req, res) => {
@@ -91,6 +101,7 @@ class FamilyAccountController {
       message: 'success',
       data: { response_transfer },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 }

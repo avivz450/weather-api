@@ -2,9 +2,8 @@ import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { AuthenticationException } from '../exceptions/authentication.exception.js';
 import authenticationService from '../services/authentication.service.js';
 import CryptoJS from 'crypto-js';
-import { sign } from 'jsonwebtoken';
 
-export const authenticateRequest: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+export default async function authenticateRequest(req: Request, res: Response, next: NextFunction): Promise<void> {
     const http_method = req.method;               
     const url_path = req.originalUrl;  
     const salt = req.headers['x-salt'] as string; 
