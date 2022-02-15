@@ -128,12 +128,12 @@ export function parseFamilyAccountsQueryResult(payload: IFamilyAccountParse, det
       parsed_family_object.push(temp_family_object[family_account]);
     }
 
-    return parsed_family_object as IFamilyAccount[];
+    return parsed_family_object;
   } else if (details_level === DetailsLevel.full) {
     const temp_family_object: any = {};
     let owners: IIndividualAccount[] = [];
 
-    (payload.query_res as IFamilyAccountDB[]).forEach((family_account, index) => {
+    (payload.query_res as IFamilyAccountDB[]).forEach((family_account) => {
       const { accountID, currencyCode, statusName, balance, context, individualAccountID } = family_account;
       if (!temp_family_object[`${accountID}`]) {
         temp_family_object[`${accountID}`] = {} as IFamilyAccount;

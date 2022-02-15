@@ -3,6 +3,7 @@ import { sql_con } from '../db/sql/sql.connection.js';
 import DatabaseException from '../exceptions/db.exception.js';
 import { DetailsLevel, IAccount, IFamilyAccount, IFamilyAccountCreationInput, IndividualTransferDetails } from '../types/account.types.js';
 import { IFamilyAccountParse } from '../types/db.types.js';
+import { IGeneralObj } from '../types/general.types.js';
 import { parseFamilyAccountsQueryResult } from '../utils/db.parser.js';
 import AccountRepository from './account.repository.js';
 import individualAccountRepository from './individualAccount.repository.js';
@@ -23,7 +24,7 @@ class FamilyAccountRepository {
 
       return new_account_id;
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -48,7 +49,7 @@ class FamilyAccountRepository {
         return true;
       } else throw Error('');
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -86,7 +87,7 @@ class FamilyAccountRepository {
         return true;
       } else throw Error('');
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -104,7 +105,7 @@ class FamilyAccountRepository {
         return true;
       } else throw Error('');
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -143,7 +144,7 @@ class FamilyAccountRepository {
         return true;
       } else throw Error('');
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -165,7 +166,7 @@ class FamilyAccountRepository {
         })
         .filter((value, index, self) => self.indexOf(value) === index);
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage;
       throw new DatabaseException(errMessasge);
     }
   }
@@ -223,7 +224,7 @@ class FamilyAccountRepository {
 
       return parseFamilyAccountsQueryResult(payload as IFamilyAccountParse, details_level);
     } catch (err) {
-      const errMessasge: string = (err as any).sqlMessage || (err as any).message;
+      const errMessasge: string = (err as IGeneralObj).sqlMessage || (err as IGeneralObj).message;
       throw new DatabaseException(errMessasge);
     }
   }

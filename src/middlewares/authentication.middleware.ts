@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { AuthenticationException } from '../exceptions/authentication.exception.js';
 import authenticationService from '../services/authentication.service.js';
 import CryptoJS from 'crypto-js';

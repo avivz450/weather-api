@@ -2,8 +2,6 @@ import { RequestHandler } from 'express';
 import { ResponseMessage } from '../types/messages.types.js';
 import IndividualAccountService from '../services/individualAccount.service.js';
 import { IIndividualAccount, ITransferRequest } from '../types/account.types.js';
-import idempotencyService from '../services/idempotency.service.js';
-import { IIdempotencyRequest } from '../types/idempotency.types.js';
 import saveResponseData from '../utils/idemoptency.utils.js';
 
 class IndividualController {

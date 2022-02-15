@@ -23,7 +23,7 @@ class TransferRepository {
                                  WHEN accountID = ? THEN ?
                             END)
                             WHERE accountID in (?, ?)`;
-        const [transfer_update] = (await sql_con.query(query, [
+        (await sql_con.query(query, [
           payload.source_account_id,
           updated_source_account_balance,
           payload.destination_account_id,

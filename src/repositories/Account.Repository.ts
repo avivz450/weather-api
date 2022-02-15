@@ -1,4 +1,4 @@
-import { OkPacket, RowDataPacket, QueryError } from 'mysql2';
+import { OkPacket, RowDataPacket } from 'mysql2';
 import { sql_con } from '../db/sql/sql.connection.js';
 import DatabaseException from '../exceptions/db.exception.js';
 import { IAccount, AccountStatuses, IAccountDB } from '../types/account.types.js';
@@ -71,7 +71,7 @@ class AccountRepository {
       query = `UPDATE account 
                      SET statusID = ?
                      WHERE accountID IN (${in_placeholder})`;
-      const [update_query_result] = (await sql_con.query(query, [statusID, ...account_ids])) as unknown as OkPacket[];
+      (await sql_con.query(query, [statusID, ...account_ids])) as unknown as OkPacket[];
 
       return status_to_update;
     } catch (err) {
