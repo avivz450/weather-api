@@ -7,9 +7,9 @@ class IdempotencyService {
         return original_response ? original_response : null;
     }   
 
-    async insertRequestData(idempotency_key: IIdempotencyRequest) {
-        const inserted_request = await idempotencyRepository.insertResponseData(idempotency_key);
-        return inserted_request ? true : null;
+    async saveResponsetData(idempotency_key: IIdempotencyRequest) {
+        const inserted_response = await idempotencyRepository.saveResponseData(idempotency_key);
+        return inserted_response ? true : null;
     }   
 }
 

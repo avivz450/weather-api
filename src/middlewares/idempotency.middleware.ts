@@ -13,6 +13,5 @@ export const enforceIdempotency: RequestHandler = async (req: Request, res: Resp
       const original_response = await idempotencyService.getReponseByIdempotencyKey(idempotency_request);
       return original_response ? res.send(original_response.data) : next();
     }
-
-    next(new IdempotencyException(`Must provide x-idempotency-key header`));
+    next();
 }

@@ -2,6 +2,9 @@ import { RequestHandler } from 'express';
 import { ResponseMessage } from '../types/messages.types.js';
 import IndividualAccountService from '../services/individualAccount.service.js';
 import { IIndividualAccount, ITransferRequest } from '../types/account.types.js';
+import idempotencyService from '../services/idempotency.service.js';
+import { IIdempotencyRequest } from '../types/idempotency.types.js';
+import saveResponseData from '../utils/idemoptency.utils.js';
 
 class IndividualController {
   createIndividualAccount: RequestHandler = async (req, res) => {
@@ -11,6 +14,7 @@ class IndividualController {
       message: 'success',
       data: { individual_account },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 
@@ -22,6 +26,7 @@ class IndividualController {
       message: 'success',
       data: { individual_account },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 
@@ -32,6 +37,7 @@ class IndividualController {
       message: 'success',
       data: { transaction },
     };
+    await saveResponseData(req, response);
     res.status(response.status).json(response);
   };
 

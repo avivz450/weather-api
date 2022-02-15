@@ -15,8 +15,8 @@ const timestamp = Date.now().toString();
 const http_method = pm.request.method;
 const path = request.url.split(8080)[1];
 const salt = JSON.stringify(CryptoJS.lib.WordArray.random(12));
-const secret_key = "my-secret-key";
-const access_key = "my-access-key";
+const secret_key = "fgdvhgf";
+const access_key = "dssgbtg";
 const signature = createSignture( http_method, path, reqData, secret_key, access_key, salt, timestamp);
 
 pm.request.headers.add({
