@@ -1,5 +1,5 @@
 {
-    "PORT" : "8080",
+    "PORT" : "8000",
     "HOST" : "localhost",
     "NODE_ENV": "development",
     "DB_NAME": "bank_db",

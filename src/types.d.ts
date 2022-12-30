@@ -6,8 +6,8 @@ export declare global {
         correlation_id: string;
       }
         interface Response {
-            error(error: Error, http_status?: HttpStatusCodes):void;
-            done(data: any = null):void
+            error(error: Error, http_status?: HttpStatusCodes):void,
+            done(data: any):void
         }
     }
   }

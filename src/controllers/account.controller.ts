@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
-import accountService from '../services/account';
+import accountService from '../services/account.js';
 import logger from "@ajar/marker";
-import {Account} from "../modules/account";
+import {Account} from "../modules/account.js";
 
 export class AccountController {
 

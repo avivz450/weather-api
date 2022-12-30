@@ -1,7 +1,7 @@
 import {RequestHandler} from "express";
-import {Account} from "../modules/account";
+import {Account} from "../modules/account.js";
 import logger from "@ajar/marker";
-import {HttpStatusCodes} from "../types/http_status_codes";
+import {HttpStatusCodes} from "../types/http_status_codes.js";
 
 const validateAccountTypes: RequestHandler = (req, res, next) => {
     const method_name = "Account/validateTypes";

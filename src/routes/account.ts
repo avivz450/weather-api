@@ -1,6 +1,6 @@
 import express from 'express';
 import accountController from '../controllers/account.controller.js';
-import validateAccountTypes from "../middlewares/account";
+import validateAccountTypes from "../middlewares/account.js";
 
 class Account {
   private readonly accountRouter = express.Router();

@@ -1,5 +1,5 @@
 import logger from "@ajar/marker";
-import {Account} from "../../modules/account";
+import {Account} from "../../modules/account.js";
 
 export class AccountMongoProvider {
     async createAccount(correlation_id:string, account: Account) {

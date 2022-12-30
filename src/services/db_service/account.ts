@@ -1,6 +1,6 @@
 import logger from "@ajar/marker";
-import {Account} from "../../modules/account";
-import accountMongoProvider from "../../providers/mongo-provider/account";
+import {Account} from "../../modules/account.js";
+import accountMongoProvider from "../../providers/mongo-provider/account.js";
 
 export class AccountDBService {
   async createAccount(correlation_id:string, account: Account): Promise<Account> {

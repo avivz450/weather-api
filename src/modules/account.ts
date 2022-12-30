@@ -1,6 +1,6 @@
 import logger from "@ajar/marker";
-import {BooleanUtility} from "../utils/boolean-utility";
-import {EmailUtility} from "../utils/email-utility";
+import {BooleanUtility} from "../utils/boolean-utility.js";
+import {EmailUtility} from "../utils/email-utility.js";
 
 export class Account {
     id: string = "";

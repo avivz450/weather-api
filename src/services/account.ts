@@ -1,7 +1,7 @@
-import {Account} from "../modules/account";
+import {Account} from "../modules/account.js";
 import logger from "@ajar/marker";
 import pkg from 'uuid';
-import accountDBService from "./db_service/account";
+import accountDBService from "./db_service/account.js";
 
 class AccountService {
   async createAccount(correlation_id:string, account: Account) {
