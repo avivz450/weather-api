@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import accountRepository from "../../src/repositories/account.repository.js";
-import accountService from "../../src/services/account.service.js";
+import accountRepository from "../../src/services/db_service/account";
+import accountService from "../../src/services/account";
 import { AccountStatuses } from "../../src/types/account.types.js";
 
 describe('#account service module', function () {

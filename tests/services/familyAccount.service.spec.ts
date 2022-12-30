@@ -15,7 +15,7 @@ import genericFunctions from '../../src/utils/generic.functions.js';
 import transferRepository from '../../src/repositories/transfer.repository.js';
 import familyAccountRepository from '../../src/repositories/familyAccount.repository.js';
 import familyAccountService, { FamilyAccountService } from '../../src/services/familyAccount.service.js';
-import accountRepository from '../../src/repositories/account.repository.js';
+import accountRepository from '../../src/services/db_service/account';
 import familyAccountValidator from '../../src/modules/familyAccount.validation.js';
 
 describe('#family account service module', function () {

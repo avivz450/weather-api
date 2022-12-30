@@ -1,10 +1,5 @@
-interface BaseMessage {
-  status: number;
+export interface BaseMessage {
   message: string;
-}
-
-export interface ErrorMessage extends BaseMessage {
-  stack?: string;
 }
 
 export interface ResponseMessage extends BaseMessage {

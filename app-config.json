@@ -9,5 +9,6 @@
     "SQL_PASSWORD": "qwerty",
     "APP_SECRET": "AvivRenanaYair",
     "HTTP_LOG_PATH": "./logs/http.log",
-    "ERRORS_LOG_PATH": "./logs/errors.log"
+    "ERRORS_LOG_PATH": "./logs/errors.log",
+    "API_PATH": "/api"
 }

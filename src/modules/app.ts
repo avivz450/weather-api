@@ -1,33 +1,18 @@
-import path from 'path';
 import express, { Application } from 'express';
 import cors from 'cors';
 import log from '@ajar/marker';
-import { errorLogger, errorResponse, printError, urlNotFound } from '../middlewares/error.handler.js';
-import authenticateRequest from "../middlewares/authentication.middleware.js";
-import logger from '../middlewares/logger.middleware.js';
-import attachRequestId from '../middlewares/attachRequestId.middleware.js';
-import accountRouter from '../routes/account.router.js';
-import individualAccountRouter from '../routes/IndividualAccount.router.js';
-import businessAccountRouter from '../routes/businessAccount.router.js';
-import familyAccountRouter from '../routes/familyAccount.router.js';
+import {urlNotFound } from '../middlewares/error.handler.js';
+import attachRequestId from '../middlewares/attach_request_id';
+import accountRouter from '../routes/account';
 import fs from 'fs';
-import { enforceIdempotency } from '../middlewares/idempotency.middleware.js';
-import raw from '../middlewares/route.async.wrapper.js';
-
-const { PORT = 8080, HOST = 'localhost' } = process.env;
+import setDoneErrorMethods from "../middlewares/set_done_error";
 
 class App {
   private readonly app: Application;
 
-  readonly API_PATH = '/api/account';
-
-  static readonly ERRORS_LOG_PATH = path.join(process.cwd(), 'logs', 'errors.log');
-
-  static readonly REQUESTS_LOG_PATH = path.join(process.cwd(), 'logs', 'requests.log');
-
   constructor() {
-    this.configEnvVariables();
     this.app = express();
+    this.configEnvVariables();
     this.initializeMiddlewares();
     this.initializeRoutes();
     this.initializeErrorMiddlewares();
@@ -39,31 +24,22 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(attachRequestId);
+    this.app.use(setDoneErrorMethods);
     this.app.use(cors());
-    this.app.use(logger(App.REQUESTS_LOG_PATH));
     this.app.use(express.json());
-    this.app.use(raw(authenticateRequest));
-    this.app.use(raw(enforceIdempotency));
-
   }
 
   private initializeRoutes() {
-    this.app.use(`${this.API_PATH}/individual`, individualAccountRouter.router);
-    this.app.use(`${this.API_PATH}/business`, businessAccountRouter.router);
-    this.app.use(`${this.API_PATH}/family`, familyAccountRouter.router);
-    this.app.use(`${this.API_PATH}`, accountRouter.router);
+    this.app.use(`${process.env.API_PATH}/account`, accountRouter.router);
   }
 
   private initializeErrorMiddlewares() {
     this.app.use(urlNotFound);
-    this.app.use(printError);
-    this.app.use(errorLogger(App.ERRORS_LOG_PATH));
-    this.app.use(errorResponse);
   }
 
   async start() {
-    this.app.listen(Number(PORT), HOST as string, () => {
-      log.magenta('api is live on', ` ✨⚡  http://${HOST}:${PORT} ✨⚡`);
+    this.app.listen(Number(process.env.PORT), process.env.HOST as string, () => {
+      log.magenta('api is live on', ` ✨⚡  http://${process.env.HOST}:${process.env.PORT} ✨⚡`);
     });
   }
 }

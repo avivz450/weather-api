@@ -3,7 +3,7 @@ import accountValidationUtils from '../../src/utils/account.validator.js';
 import { AccountStatuses, AccountTypes, IAccount, IndividualTransferDetails } from '../../src/types/account.types.js';
 import sinon from 'sinon';
 
-describe('#Validation account module', function () {
+describe('#Validation account modulenpm ', function () {
 
   context('isValidArrayOfTransfer', () => {
     it('should exists', () => {
