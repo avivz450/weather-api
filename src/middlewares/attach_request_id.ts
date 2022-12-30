@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import pkg from 'uuid';
+import * as pkg from 'uuid';
 
 const attachRequestId: RequestHandler = (req, res, next) => {
   const { v4: uuid } = pkg;

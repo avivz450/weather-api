@@ -1,15 +1,14 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
-    "target": "es2020",
-    "module": "es2020",
+    "target": "ES2020",
+    "module": "commonjs",
+    "watch": false,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "declarationDir": "./typings",
-    "sourceMap": true
+    "sourceMap": true,
+    "typeRoots": ["./node_modules/@types"],
+    "lib": ["DOM", "ES2015", "ES2015.core", "ES2017", "ES2020", "ScriptHost", "DOM.Iterable", "ES6", "ES2019", "ES2018"],
+    "incremental": true
   },
+  "exclude": ["node_modules"]
 }

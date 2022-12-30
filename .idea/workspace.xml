@@ -2,84 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0cc7159e-8a48-4552-ab7d-5fe5e6999d08" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/middlewares/set_done_error.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/account.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/providers/mongo-provider/account.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/account.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/http_status_codes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/boolean-utility.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/email-utility.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tsconfig.tsbuildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintignore" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.swcrc" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app-config.json" beforeDir="false" afterPath="$PROJECT_DIR$/app-config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nodemon.json" beforeDir="false" afterPath="$PROJECT_DIR$/nodemon.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postmanScript.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/account.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/account.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/businessAccount.controller.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/familyAccount.controller.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/individualAccount.controller.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/db/sql/sql.connection.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/InvalidArguments.exception.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/api.exception.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/authentication.exception.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/db.exception.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/http.exception.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/idempotency.exception.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/logic.exception.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/transfer.exception.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/urlNotFound.exception.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/account.middleware.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/attachRequestId.middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/attach_request_id.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/authentication.middleware.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/businessAccount.middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/attach_request_id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/attach_request_id.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/middlewares/error.handler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/error.handler.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/familyAccount.middleware.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/idempotency.middleware.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/individualAccount.middleware.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/logger.middleware.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/route.async.wrapper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/account.valdation.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/set_done_error.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/set_done_error.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/account.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/businessAccount.validation.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/familyAccount.validation.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/individualAccount.validation.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/Account.Repository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/db_service/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/Authenication.Repository.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/Transfer.Repository.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/address.repository.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/bussinessAccount.repository.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/familyAccount.repository.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/idempotency.repository.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/individualAccount.repository.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/account.router.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/businessAccount.router.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/familyAccount.router.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/individualAccount.router.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/account.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/authentication.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/businessAccount.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/familyAccount.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/idempotency.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/individualAccount.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/providers/mongo-provider/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/mongo-provider/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/db_service/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/db_service/account.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types/account.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/account.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/athentication.types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/db.types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/idempotency.types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/http_status_codes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/http_status_codes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types/messages.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/messages.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/validation.types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/account.validator.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/db.parser.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/generic.functions.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/idemoptency.utils.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/validation.utils.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/validator.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/services/account.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/services/account.service.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/services/familyAccount.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/services/familyAccount.service.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/validations/account.validator.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/validations/account.validator.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/boolean-utility.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/boolean-utility.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/email-utility.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/email-utility.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.eslint.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,12 +60,12 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/avivz/src/ts-node-eslint-mocha-starter",
+    "last_opened_file_path": "C:/Users/avivz/src/ts-node-eslint-mocha-starter/tsconfig.json",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "ts.external.directory.path": "C:\\Users\\avivz\\src\\ts-node-eslint-mocha-starter\\node_modules\\typescript\\lib"
+    "settings.editor.selected.configurable": "settings.typescriptcompiler",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.4\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -128,6 +78,44 @@
       <recent name="C:\Users\avivz\src\ts-node-eslint-mocha-starter\src\routes\db_service" />
     </key>
   </component>
+  <component name="RunManager" selected="npm.nodemon">
+    <configuration name="index.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="src/index.js" working-dir="$PROJECT_DIR$">
+      <method v="2">
+        <option name="TypeScript.Before.Run" enabled="true" FAIL_ON_ERROR="true" CONFIG_PATH="C:\Users\avivz\src\ts-node-eslint-mocha-starter\tsconfig.json" />
+      </method>
+    </configuration>
+    <configuration name="debug" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="debug" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="nodemon" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="nodemon" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Node.js.index.js" />
+      <item itemvalue="npm.debug" />
+      <item itemvalue="npm.nodemon" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.nodemon" />
+        <item itemvalue="npm.debug" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -138,6 +126,7 @@
       <updated>1672231369313</updated>
       <workItem from="1672231370760" duration="29312000" />
       <workItem from="1672399812884" duration="69000" />
+      <workItem from="1672399900059" duration="9584000" />
     </task>
     <servers />
   </component>
@@ -157,12 +146,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/middlewares/attach_request_id.ts</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="javascript-exception" />
+      </default-breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -1,14 +1,14 @@
-import express, { Application } from 'express';
-import cors from 'cors';
-import log from '@ajar/marker';
-import {urlNotFound } from '../middlewares/error.handler.js';
+import * as express from 'express';
+import * as cors from 'cors';
+import * as log from '@ajar/marker';
+import { urlNotFound } from '../middlewares/error.handler.js';
 import attachRequestId from '../middlewares/attach_request_id.js';
 import accountRouter from '../routes/account.js';
-import fs from 'fs';
-import setDoneErrorMethods from "../middlewares/set_done_error.js";
+import * as fs from 'fs';
+import setDoneErrorMethods from '../middlewares/set_done_error.js';
 
 class App {
-  private readonly app: Application;
+  private readonly app;
 
   constructor() {
     this.app = express();
@@ -39,7 +39,7 @@ class App {
 
   async start() {
     this.app.listen(Number(process.env.PORT), process.env.HOST as string, () => {
-      log.magenta('api is live onnnn', ` ✨⚡  http://${process.env.HOST}:${process.env.PORT} ✨⚡`);
+      log.magenta('api is live on', ` ✨⚡  http://${process.env.HOST}:${process.env.PORT} ✨⚡`);
     });
   }
 }

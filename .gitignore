@@ -1,7 +1,7 @@
 node_modules
-dist
 coverage
 .nyc_output
-typings
 logs
-.idea
+.idea/
+src/**/*.js
+src/**/*.js.map
