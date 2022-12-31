@@ -1,6 +1,5 @@
 import { Account } from '../modules/account.js';
 import * as logger from '@ajar/marker';
-import * as pkg from 'uuid';
 import accountDBService from './db_service/account.js';
 
 class AccountService {
@@ -11,8 +10,6 @@ class AccountService {
 
     try {
       this.validateCreateAccount(correlation_id, account);
-      const { v4: uuid } = pkg;
-      account.id = uuid();
 
       logger.verbose(correlation_id, `${method_name} - calling AccountDBService/createAccount`);
       let result = await accountDBService.createAccount(correlation_id, account);
@@ -98,7 +95,9 @@ class AccountService {
       if (!account.name) {
         throw new Error('ACCOUNT_NAME_NOT_INSERTED');
       }
-
+      if (!account.email) {
+        throw new Error('ACCOUNT_EMAIL_NOT_INSERTED');
+      }
       account.validateAccount(correlation_id);
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);

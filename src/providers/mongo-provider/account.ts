@@ -1,5 +1,6 @@
 import * as logger from '@ajar/marker';
 import { Account } from '../../modules/account.js';
+import { AccountMongoose } from './modules/account.js';
 
 export class AccountMongoProvider {
   async createAccount(correlation_id: string, account: Account) {
@@ -7,15 +8,14 @@ export class AccountMongoProvider {
       logger.info(correlation_id, `${method_name} - start`);
       logger.obj(account,`${correlation_id} ${method_name} - input: `);
     try {
-      const result = {
-        account_id: account.id,
-        account_name: account.name,
-        account_email: account.email,
-        account_is_active: account.is_active,
-        account_is_deleted: account.is_deleted,
-        account_created_at: 1213213,
-        account_updated_at: 1213213,
-      };
+          const new_account = new AccountMongoose({
+            name: account.name,
+            email: account.email,
+            is_active: account.is_active,
+            is_deleted: account.is_deleted
+          })
+
+      const result = await new_account.save();
 
         logger.obj(result,`${correlation_id} ${method_name} - result: `);
         logger.info(correlation_id, `${method_name} - end`);
@@ -31,22 +31,15 @@ export class AccountMongoProvider {
     logger.info(correlation_id, `${method_name} - start`);
     logger.verbose(correlation_id, `${method_name} - input: `, account_id);
     try {
-      const result = {
-        account_id: 343453,
-        account_name: 'Aviv',
-        account_email: 'Avivz450@gmail.com',
-        account_is_active: true,
-        account_is_deleted: false,
-        account_created_at: 1213213,
-        account_updated_at: 1213213,
-      };
+
+      const result = await AccountMongoose.findById(account_id);
 
         logger.obj(result,`${correlation_id} ${method_name} - result: `);
         logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
-      logger.err(correlation_id, `AccountMongoProvider/getAccount error: `, err);
-      throw err;
+      logger.err(correlation_id, `${method_name} - error: `, err);
+      throw new Error("INVALID_ACCOUNT_ID");
     }
   }
 
@@ -56,15 +49,7 @@ export class AccountMongoProvider {
       logger.obj(account,`${correlation_id} ${method_name} - input: `);
 
     try {
-      const result = {
-        account_id: 343453,
-        account_name: 'Aviv',
-        account_email: 'Avivz450@gmail.com',
-        account_is_active: true,
-        account_is_deleted: false,
-        account_created_at: 1213213,
-        account_updated_at: 1213213,
-      };
+        const result = await AccountMongoose.findOneAndUpdate(account.id,account, {new: true});
 
         logger.obj(result,`${correlation_id} ${method_name} - result: `);
         logger.info(correlation_id, `${method_name} - end`);
@@ -80,21 +65,14 @@ export class AccountMongoProvider {
     logger.info(correlation_id, `${method_name} - start`);
     logger.verbose(correlation_id, `${method_name} - input: `, account_id);
     try {
-      const result = {
-        account_id: 343453,
-        account_name: 'Aviv',
-        account_email: 'Avivz450@gmail.com',
-        account_is_active: true,
-        account_created_at: 1213213,
-        account_updated_at: 1213213,
-        account_is_deleted: true,
-      };
 
-        logger.obj(result,`${correlation_id} ${method_name} - result: `);
+      const result = await AccountMongoose.findOneAndUpdate(account_id, {is_deleted:true}, {new: true});
+
+      logger.obj(result,`${correlation_id} ${method_name} - result: `);
         logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
-      logger.err(correlation_id, `AccountMongoProvider/getAccount error: `, err);
+      logger.err(correlation_id, `${method_name} - error: `, err);
       throw err;
     }
   }

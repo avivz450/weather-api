@@ -17,17 +17,18 @@ function error(error: Error, http_status?: HttpStatusCodes): void {
   res.status(response_status).json(response);
 }
 
-function done(data: any = null): void {
+function done(data: any = null, http_status?: HttpStatusCodes): void {
   // @ts-ignore
   // eslint-disable-next-line no-invalid-this
   const res = this.req.res;
+  const response_status = http_status || HttpStatusCodes.OK;
 
   const response: SuccessMessage = {
     status: 'SUCCESS',
     data,
   };
 
-  res.status(HttpStatusCodes.OK).json(response);
+  res.status(response_status).json(response);
 }
 
 const setDoneErrorMethods: RequestHandler = (req, res, next) => {

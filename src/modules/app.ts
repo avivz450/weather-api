@@ -6,6 +6,7 @@ import attachRequestId from '../middlewares/attach_request_id.js';
 import accountRouter from '../routes/account.js';
 import * as fs from 'fs';
 import setDoneErrorMethods from '../middlewares/set_done_error.js';
+const mongoose = require('mongoose')
 
 class App {
   private readonly app;
@@ -16,6 +17,13 @@ class App {
     this.initializeMiddlewares();
     this.initializeRoutes();
     this.initializeErrorMiddlewares();
+    this.connectMongoDB();
+  }
+
+  connectMongoDB() {
+    mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.DB_NAME}`, {
+      useNewUrlParser: true
+    })
   }
 
   private configEnvVariables() {

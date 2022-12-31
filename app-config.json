@@ -1,14 +1,8 @@
 {
     "PORT" : "3000",
-    "HOST" : "localhost",
-    "NODE_ENV": "development",
-    "DB_NAME": "bank_db",
-    "SQL_HOST": "localhost",
-    "SQL_PORT": "3306",
-    "SQL_USER": "root",
-    "SQL_PASSWORD": "qwerty",
-    "APP_SECRET": "AvivRenanaYair",
-    "HTTP_LOG_PATH": "./logs/http.log",
-    "ERRORS_LOG_PATH": "./logs/errors.log",
+    "HOST" : "127.0.0.1",
+    "DB_NAME": "account_service",
+    "MONGO_HOST": "127.0.0.1",
+    "MONGO_PORT": "27017",
     "API_PATH": "/api"
 }

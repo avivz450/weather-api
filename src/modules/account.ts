@@ -7,7 +7,7 @@ export class Account {
   name: string = '';
   email: string = '';
   is_active: boolean = true;
-  is_deleted: boolean = true;
+  is_deleted: boolean = false;
   created_at: number = 0;
   updated_at: number = 0;
 
@@ -31,7 +31,7 @@ export class Account {
 
     account.name = req.body['name'] || '';
     account.email = req.body['email'] || '';
-    account.id = req.params['id'] || '';
+    account.id = req.params['account_id'] || '';
 
     return account;
   }
@@ -43,13 +43,13 @@ export class Account {
     let account = new Account();
 
     if (data) {
-      account.id = data['account_id'] || '';
-      account.name = data['account_name'] || '';
-      account.email = data['account_email'] || '';
-      account.is_active = data['account_is_active'] ? BooleanUtility.parseToBoolean(correlation_id, data['account_is_active']) : true;
-      account.is_deleted = data['account_is_deleted'] ? BooleanUtility.parseToBoolean(correlation_id, data['account_is_deleted']) : false;
-      account.created_at = data['account_created_at'] ? Number(data['account_created_at']) : 0;
-      account.updated_at = data['account_updated_at'] ? Number(data['account_updated_at']) : 0;
+      account.id = data['id'] || '';
+      account.name = data['name'] || '';
+      account.email = data['email'] || '';
+      account.is_active = data['is_active'] ? BooleanUtility.parseToBoolean(correlation_id, data['is_active']) : true;
+      account.is_deleted = data['is_deleted'] ? BooleanUtility.parseToBoolean(correlation_id, data['is_deleted']) : false;
+      account.created_at = data['created_at'] ? Number(data['created_at']) : 0;
+      account.updated_at = data['updated_at'] ? Number(data['updated_at']) : 0;
     }
 
     logger.obj(account,`${correlation_id} ${method_name} - output: `);

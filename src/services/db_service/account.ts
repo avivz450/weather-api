@@ -51,10 +51,10 @@ export class AccountDBService {
 
     try {
       logger.verbose(correlation_id, `${method_name} - calling MySQLProvider/updateAccount`);
-      let created_Account = await accountMongoProvider.updateAccount(correlation_id, account);
+      let updated_account = await accountMongoProvider.updateAccount(correlation_id, account);
 
       logger.verbose(correlation_id, `${method_name} - calling Account/parseObjectFromDb`);
-      let result = Account.parseObjectFromDb(correlation_id, created_Account);
+      let result = Account.parseObjectFromDb(correlation_id, updated_account);
 
       logger.obj(result,`${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);

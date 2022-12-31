@@ -8,7 +8,7 @@ export declare global {
     }
     interface Response {
       error(error: Error, http_status?: HttpStatusCodes): void;
-      done(data: any): void;
+      done(data: any, http_status?: HttpStatusCodes): void;
     }
   }
 }

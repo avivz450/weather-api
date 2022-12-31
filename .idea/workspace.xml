@@ -2,34 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0cc7159e-8a48-4552-ab7d-5fe5e6999d08" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/tsconfig.tsbuildinfo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintignore" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/providers/mongo-provider/modules/account.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.swcrc" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app-config.json" beforeDir="false" afterPath="$PROJECT_DIR$/app-config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nodemon.json" beforeDir="false" afterPath="$PROJECT_DIR$/nodemon.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/account.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/account.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/attach_request_id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/attach_request_id.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/error.handler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/error.handler.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/middlewares/set_done_error.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/set_done_error.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/account.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/app.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/providers/mongo-provider/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/mongo-provider/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/account.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/account.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/db_service/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/db_service/account.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/account.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/account.types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types/http_status_codes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/http_status_codes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/messages.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/messages.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/boolean-utility.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/boolean-utility.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/email-utility.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/email-utility.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.eslint.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.tsbuildinfo" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,19 +42,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/avivz/src/ts-node-eslint-mocha-starter/tsconfig.json",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.typescriptcompiler",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.4\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/avivz/src/ts-node-eslint-mocha-starter/tsconfig.json&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.typescriptcompiler&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.4\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\avivz\src\ts-node-eslint-mocha-starter\src\utils" />
@@ -126,7 +113,8 @@
       <updated>1672231369313</updated>
       <workItem from="1672231370760" duration="29312000" />
       <workItem from="1672399812884" duration="69000" />
-      <workItem from="1672399900059" duration="9584000" />
+      <workItem from="1672399900059" duration="11467000" />
+      <workItem from="1672427942542" duration="6745000" />
     </task>
     <servers />
   </component>
@@ -146,9 +134,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <default-breakpoints>
-        <breakpoint enabled="true" type="javascript-exception" />
-      </default-breakpoints>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/utils/boolean-utility.ts</url>
+          <line>2</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">

@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import accountService from '../services/account.js';
 import * as logger from '@ajar/marker';
 import { Account } from '../modules/account.js';
+import { HttpStatusCodes } from '../types/http_status_codes.js';
 
 export class AccountController {
   createAccount: RequestHandler = async function (req: any, res: any) {
@@ -17,7 +18,7 @@ export class AccountController {
       let result = Account.parseObjectToResponse(req.correlation_id, account_creation_result);
       logger.obj(result,`${req.correlation_id} ${method_name} - result: `);
       logger.info(req.correlation_id, `${method_name} - end`);
-      return res.done(result);
+      return res.done(result, HttpStatusCodes.CREATED);
     } catch (err: any) {
       logger.err(req.correlation_id, `${method_name} - error: `, err);
       err.message = err.message ? err.message : 'ERROR_CREATE_ACCOUNT';
