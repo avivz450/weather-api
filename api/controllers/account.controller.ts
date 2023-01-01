@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import accountService from '../services/account.js';
-import * as logger from '@ajar/marker';
 import { Account } from '../modules/account.js';
 import { HttpStatusCodes } from '../types/http_status_codes.js';
 
@@ -16,7 +15,7 @@ export class AccountController {
       let account_creation_result: Account = await accountService.createAccount(req.correlation_id, account);
       logger.verbose(req.correlation_id, `${method_name} - calling Account/parseObjectToResponse`);
       let result = Account.parseObjectToResponse(req.correlation_id, account_creation_result);
-      logger.obj(result,`${req.correlation_id} ${method_name} - result: `);
+      logger.obj(result, `${req.correlation_id} ${method_name} - result: `);
       logger.info(req.correlation_id, `${method_name} - end`);
       return res.done(result, HttpStatusCodes.CREATED);
     } catch (err: any) {
@@ -36,7 +35,7 @@ export class AccountController {
       let account: Account = await accountService.getAccount(req.correlation_id, account_id);
       logger.verbose(req.correlation_id, `${method_name} - calling Account/parseObjectToResponse `);
       let result = Account.parseObjectToResponse(req.correlation_id, account);
-      logger.obj(result,`${req.correlation_id} ${method_name} - result: `);
+      logger.obj(result, `${req.correlation_id} ${method_name} - result: `);
       logger.info(req.correlation_id, `${method_name} - end`);
       return res.done(result);
     } catch (err: any) {
@@ -57,7 +56,7 @@ export class AccountController {
       let account_creation_result: Account = await accountService.updateAccount(req.correlation_id, account);
       logger.verbose(req.correlation_id, `${method_name} - calling Account/parseObjectToResponse`);
       let result = Account.parseObjectToResponse(req.correlation_id, account_creation_result);
-      logger.obj(result,`${req.correlation_id} ${method_name} - result: `);
+      logger.obj(result, `${req.correlation_id} ${method_name} - result: `);
       logger.info(req.correlation_id, `${method_name} - end`);
       return res.done(result);
     } catch (err: any) {
@@ -77,7 +76,7 @@ export class AccountController {
       let deleted_account: Account = await accountService.deleteAccount(req.correlation_id, account_id);
       logger.verbose(req.correlation_id, `${method_name} - calling Account/parseObjectToResponse`);
       let result = Account.parseDeletedObjectToResponse(req.correlation_id, deleted_account);
-      logger.obj(result,`${req.correlation_id} ${method_name} - result: `);
+      logger.obj(result, `${req.correlation_id} ${method_name} - result: `);
       logger.info(req.correlation_id, `${method_name} - end`);
       return res.done(result);
     } catch (err: any) {

@@ -1,4 +1,3 @@
-import * as logger from '@ajar/marker';
 import { Account } from '../../modules/account.js';
 import accountMongoProvider from '../../providers/mongo-provider/account.js';
 
@@ -6,7 +5,7 @@ export class AccountDBService {
   async createAccount(correlation_id: string, account: Account): Promise<Account> {
     const method_name = 'AccountDBService/createAccount';
     logger.info(correlation_id, `${method_name} - start`);
-    logger.obj(account,`${correlation_id} ${method_name} - input: `);
+    logger.obj(account, `${correlation_id} ${method_name} - input: `);
 
     try {
       logger.verbose(correlation_id, `${method_name} - calling MySQLProvider/createAccount`);
@@ -15,7 +14,7 @@ export class AccountDBService {
       logger.verbose(correlation_id, `${method_name} - calling Account/parseObjectFromDb`);
       let result = Account.parseObjectFromDb(correlation_id, created_Account);
 
-      logger.obj(result,`${correlation_id} ${method_name} - result: `);
+      logger.obj(result, `${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
@@ -35,7 +34,7 @@ export class AccountDBService {
       logger.verbose(correlation_id, `${method_name} - calling Account/parseObjectFromDb`);
       let result = Account.parseObjectFromDb(correlation_id, retrieved_Account_db);
 
-      logger.obj(result,`${correlation_id} ${method_name} - result: `);
+      logger.obj(result, `${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
@@ -44,19 +43,19 @@ export class AccountDBService {
     }
   }
 
-  async updateAccount(correlation_id: string, account: Partial<Account>): Promise<Account> {
+  async updateAccount(correlation_id: string, account_id: string, account_to_update: Partial<Account>): Promise<Account> {
     const method_name = 'AccountDBService/updateAccount';
     logger.info(correlation_id, `${method_name} - start`);
-    logger.obj(account,`${correlation_id} ${method_name} - input: `);
+    logger.obj({ account_id, account_to_update }, `${correlation_id} ${method_name} - input: `);
 
     try {
       logger.verbose(correlation_id, `${method_name} - calling MySQLProvider/updateAccount`);
-      let updated_account = await accountMongoProvider.updateAccount(correlation_id, account);
+      let updated_account = await accountMongoProvider.updateAccount(correlation_id, account_id, account_to_update);
 
       logger.verbose(correlation_id, `${method_name} - calling Account/parseObjectFromDb`);
       let result = Account.parseObjectFromDb(correlation_id, updated_account);
 
-      logger.obj(result,`${correlation_id} ${method_name} - result: `);
+      logger.obj(result, `${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
@@ -76,7 +75,7 @@ export class AccountDBService {
       logger.verbose(correlation_id, `${method_name} - calling Account/parseObjectFromDb`);
       let result = Account.parseObjectFromDb(correlation_id, retrieved_Account_db);
 
-      logger.obj(result,`${correlation_id} ${method_name} - result: `);
+      logger.obj(result, `${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {

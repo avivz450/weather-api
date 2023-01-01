@@ -1,8 +1,8 @@
 {
     "extends": "@istanbuljs/nyc-config-typescript",
-    "include": ["src/**/*.ts"],
+    "include": ["api/**/*.ts"],
     "exclude": [
-        "src/myModule.ts"
+        "api/myModule.ts"
     ],
     "extension": [".ts"],
     "reporter": ["text","html"],

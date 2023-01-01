@@ -2,21 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0cc7159e-8a48-4552-ab7d-5fe5e6999d08" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/providers/mongo-provider/modules/account.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/unit/api/services/account.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/utils/mock/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintignore" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-config.json" beforeDir="false" afterPath="$PROJECT_DIR$/app-config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mocharc.cjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.nycrc" beforeDir="false" afterPath="$PROJECT_DIR$/.nycrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodemon.json" beforeDir="false" afterPath="$PROJECT_DIR$/nodemon.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/account.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/account.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middlewares/set_done_error.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/set_done_error.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/providers/mongo-provider/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/mongo-provider/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/db_service/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/db_service/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/http_status_codes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/http_status_codes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.tsbuildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/account.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/account.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/middlewares/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/attach_request_id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/middlewares/attach_request_id.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/error.handler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/middlewares/error.handler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/set_done_error.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/middlewares/set_done_error.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/modules/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/modules/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/providers/mongo-provider/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/providers/mongo-provider/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/providers/mongo-provider/modules/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/providers/mongo-provider/modules/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/services/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/db_service/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/services/db_service/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/types.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/account.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/types/account.types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/general.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/types/general.types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/http_status_codes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/types/http_status_codes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/messages.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/types/messages.types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/boolean-utility.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/boolean-utility.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/email-utility.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/email-utility.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.tsbuildinfo" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,8 +81,8 @@
       <recent name="C:\Users\avivz\src\ts-node-eslint-mocha-starter\src\routes\db_service" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.nodemon">
-    <configuration name="index.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="src/index.js" working-dir="$PROJECT_DIR$">
+  <component name="RunManager" selected="npm.test">
+    <configuration name="index.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/api/index.js" working-dir="$PROJECT_DIR$">
       <method v="2">
         <option name="TypeScript.Before.Run" enabled="true" FAIL_ON_ERROR="true" CONFIG_PATH="C:\Users\avivz\src\ts-node-eslint-mocha-starter\tsconfig.json" />
       </method>
@@ -91,15 +107,27 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Node.js.index.js" />
+      <item itemvalue="npm.test" />
       <item itemvalue="npm.debug" />
       <item itemvalue="npm.nodemon" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.nodemon" />
+        <item itemvalue="npm.test" />
         <item itemvalue="npm.debug" />
+        <item itemvalue="npm.nodemon" />
       </list>
     </recent_temporary>
   </component>
@@ -114,7 +142,8 @@
       <workItem from="1672231370760" duration="29312000" />
       <workItem from="1672399812884" duration="69000" />
       <workItem from="1672399900059" duration="11467000" />
-      <workItem from="1672427942542" duration="6745000" />
+      <workItem from="1672427942542" duration="19001000" />
+      <workItem from="1672575622770" duration="9013000" />
     </task>
     <servers />
   </component>
@@ -136,10 +165,10 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/utils/boolean-utility.ts</url>
-          <line>2</line>
+          <url>file://$PROJECT_DIR$/test/unit/api/services/account.test.ts</url>
+          <line>285</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="15" />
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

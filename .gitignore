@@ -3,5 +3,5 @@ coverage
 .nyc_output
 logs
 .idea/
-src/**/*.js
-src/**/*.js.map
+api/**/*.js
+api/**/*.js.map

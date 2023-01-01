@@ -1,24 +1,23 @@
-import * as logger from '@ajar/marker';
 import { Account } from '../../modules/account.js';
 import { AccountMongoose } from './modules/account.js';
 
 export class AccountMongoProvider {
   async createAccount(correlation_id: string, account: Account) {
     const method_name = 'AccountMongoProvider/createAccount';
-      logger.info(correlation_id, `${method_name} - start`);
-      logger.obj(account,`${correlation_id} ${method_name} - input: `);
+    logger.info(correlation_id, `${method_name} - start`);
+    logger.obj(account, `${correlation_id} ${method_name} - input: `);
     try {
-          const new_account = new AccountMongoose({
-            name: account.name,
-            email: account.email,
-            is_active: account.is_active,
-            is_deleted: account.is_deleted
-          })
+      const new_account = new AccountMongoose({
+        name: account.name,
+        email: account.email,
+        is_active: account.is_active,
+        is_deleted: account.is_deleted,
+      });
 
       const result = await new_account.save();
 
-        logger.obj(result,`${correlation_id} ${method_name} - result: `);
-        logger.info(correlation_id, `${method_name} - end`);
+      logger.obj(result, `${correlation_id} ${method_name} - result: `);
+      logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);
@@ -31,28 +30,27 @@ export class AccountMongoProvider {
     logger.info(correlation_id, `${method_name} - start`);
     logger.verbose(correlation_id, `${method_name} - input: `, account_id);
     try {
-
       const result = await AccountMongoose.findById(account_id);
 
-        logger.obj(result,`${correlation_id} ${method_name} - result: `);
-        logger.info(correlation_id, `${method_name} - end`);
+      logger.obj(result, `${correlation_id} ${method_name} - result: `);
+      logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);
-      throw new Error("INVALID_ACCOUNT_ID");
+      throw new Error('INVALID_ACCOUNT_ID');
     }
   }
 
-  async updateAccount(correlation_id: string, account: Partial<Account>) {
+  async updateAccount(correlation_id: string, account_id: string, account_to_update: Partial<Account>) {
     const method_name = 'AccountMongoProvider/updateAccount';
-      logger.info(correlation_id, `${method_name} - start`);
-      logger.obj(account,`${correlation_id} ${method_name} - input: `);
+    logger.info(correlation_id, `${method_name} - start`);
+    logger.obj({ account_id, account_to_update }, `${correlation_id} ${method_name} - input: `);
 
     try {
-        const result = await AccountMongoose.findOneAndUpdate(account.id,account, {new: true});
+      const result = await AccountMongoose.findByIdAndUpdate(account_id, account_to_update, { new: true, runValidators: true });
 
-        logger.obj(result,`${correlation_id} ${method_name} - result: `);
-        logger.info(correlation_id, `${method_name} - end`);
+      logger.obj(result, `${correlation_id} ${method_name} - result: `);
+      logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);
@@ -65,11 +63,10 @@ export class AccountMongoProvider {
     logger.info(correlation_id, `${method_name} - start`);
     logger.verbose(correlation_id, `${method_name} - input: `, account_id);
     try {
+      const result = await AccountMongoose.findByIdAndUpdate(account_id, { is_deleted: true }, { new: true, runValidators: true });
 
-      const result = await AccountMongoose.findOneAndUpdate(account_id, {is_deleted:true}, {new: true});
-
-      logger.obj(result,`${correlation_id} ${method_name} - result: `);
-        logger.info(correlation_id, `${method_name} - end`);
+      logger.obj(result, `${correlation_id} ${method_name} - result: `);
+      logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);

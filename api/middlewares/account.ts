@@ -1,13 +1,12 @@
 import { RequestHandler } from 'express';
 import { Account } from '../modules/account.js';
-import * as logger from '@ajar/marker';
 import { HttpStatusCodes } from '../types/http_status_codes.js';
 
 const validateAccountTypes: RequestHandler = (req, res, next) => {
   const method_name = 'Account/validateAccountTypes';
   logger.info(req.correlation_id, `${method_name} - start`);
   const data_to_validate = { ...req.body, ...req.params };
-  logger.obj(data_to_validate,`${req.correlation_id} ${method_name} - input: `);
+  logger.obj(data_to_validate, `${req.correlation_id} ${method_name} - input: `);
   try {
     const data_to_validate = { ...req.body, ...req.params };
     Account.validateTypes(req.correlation_id, data_to_validate);

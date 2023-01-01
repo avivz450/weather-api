@@ -6,7 +6,8 @@ import attachRequestId from '../middlewares/attach_request_id.js';
 import accountRouter from '../routes/account.js';
 import * as fs from 'fs';
 import setDoneErrorMethods from '../middlewares/set_done_error.js';
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+import * as ajarLogger from '@ajar/marker';
 
 class App {
   private readonly app;
@@ -22,12 +23,13 @@ class App {
 
   connectMongoDB() {
     mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.DB_NAME}`, {
-      useNewUrlParser: true
-    })
+      useNewUrlParser: true,
+    });
   }
 
   private configEnvVariables() {
     process.env = JSON.parse(fs.readFileSync('./app-config.json', 'utf8'));
+    global["logger"] = ajarLogger;
   }
 
   private initializeMiddlewares() {

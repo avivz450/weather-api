@@ -10,8 +10,8 @@ function error(error: Error, http_status?: HttpStatusCodes): void {
   const response_status = http_status || HttpStatusCodes.INTERNAL_SERVER_ERROR;
 
   const response: ErrorMessage = {
-      status: "ERROR",
-    message
+    status: 'ERROR',
+    message,
   };
 
   res.status(response_status).json(response);

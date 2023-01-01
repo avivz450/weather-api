@@ -2,7 +2,7 @@ interface BaseMessage {
   status: string;
 }
 
-export interface ErrorMessage extends BaseMessage{
+export interface ErrorMessage extends BaseMessage {
   message: string;
 }
 

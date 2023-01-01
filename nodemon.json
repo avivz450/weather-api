@@ -1,6 +1,6 @@
 {
-  "watch": ["src"],
-  "ignore": ["src/**/*.test.ts", "src/**/*.spec.ts"],
+  "watch": ["api"],
+  "ignore": ["api/**/*.test.ts", "api/**/*.spec.ts"],
   "ext": "ts",
   "exec": "npm run debug"
 }
