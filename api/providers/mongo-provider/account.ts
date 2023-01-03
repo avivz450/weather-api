@@ -7,6 +7,7 @@ export class AccountMongoProvider {
     logger.info(correlation_id, `${method_name} - start`);
     logger.obj(account, `${correlation_id} ${method_name} - input: `);
     try {
+
       const new_account = new AccountMongoose({
         name: account.name,
         email: account.email,
