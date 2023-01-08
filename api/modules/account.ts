@@ -9,6 +9,7 @@ export class Account {
   is_deleted: boolean = false;
   created_at: number = 0;
   updated_at: number = 0;
+  static updateable_fields: string[] = ['name'];
 
   constructor(account?: Account) {
     if (account) {
@@ -190,22 +191,5 @@ export class Account {
       logger.err(correlation_id, `${method_name} - error: `, err);
       throw err;
     }
-  }
-
-  getUpdatetableObject(correlation_id: string) {
-    const method_name = 'Account/getUpdatetableObject';
-    logger.info(correlation_id, `${method_name} - start`);
-    logger.obj(this, `${correlation_id} ${method_name} - input: `);
-    const updatetable_object: { [key: string]: any } = {};
-    const updateable_fields: string[] = ['name'];
-
-    for (const field in this) {
-      if (updateable_fields.includes(field)) {
-        updatetable_object[field] = this[field];
-      }
-    }
-    logger.obj(updatetable_object, `${correlation_id} ${method_name} - result: `);
-    logger.info(correlation_id, `${method_name} - end`);
-    return updatetable_object;
   }
 }

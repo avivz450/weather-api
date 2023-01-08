@@ -64,7 +64,7 @@ export class AccountService {
       account_in.validateAccount(correlation_id);
 
       logger.verbose(correlation_id, `${method_name} - calling AccountDBService/updateAccount`);
-      let account_after_update: Account = await accountDBService.updateAccount(correlation_id, account_in.id, account_in.getUpdatetableObject(correlation_id));
+      let account_after_update: Account = await accountDBService.updateAccount(correlation_id, account_in.id, account_in);
 
       logger.obj(account_after_update, `${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);

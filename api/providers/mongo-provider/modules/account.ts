@@ -1,3 +1,4 @@
+import { Account } from '../../../modules/account';
 import { EmailUtility } from '../../../utils/email-utility';
 const mongoose = require('mongoose');
 
@@ -39,9 +40,18 @@ const account_schema = new mongoose.Schema(
   },
 );
 
-// account_schema.pre("save", function(next){
-//     console.log(this);
-//     next();
-// })
+account_schema.pre("findOneAndUpdate", function(next){
+    this._update = Object.keys(this._update).reduce(
+        (accumulator, key) => {
+            if(Account.updateable_fields.includes(key)){
+                accumulator[key] = this._update[key];
+            }
+            return accumulator;
+        },
+        {}
+    )
+    
+    next();
+})
 
 export const AccountMongoose = mongoose.model('Account', account_schema);

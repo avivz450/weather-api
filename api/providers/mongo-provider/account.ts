@@ -7,12 +7,7 @@ export class AccountMongoProvider {
     logger.info(correlation_id, `${method_name} - start`);
     logger.obj(account, `${correlation_id} ${method_name} - input: `);
     try {
-      const new_account = new AccountMongoose({
-        name: account.name,
-        email: account.email,
-        is_active: account.is_active,
-        is_deleted: account.is_deleted,
-      });
+      const new_account = new AccountMongoose(account);
 
       const result = await new_account.save();
 
@@ -67,7 +62,7 @@ export class AccountMongoProvider {
     logger.obj({ account_id, account_to_update }, `${correlation_id} ${method_name} - input: `);
 
     try {
-      const result = await AccountMongoose.findByIdAndUpdate(account_id, account_to_update, { new: true });
+      const result = await AccountMongoose.findOneAndUpdate({_id: account_id}, account_to_update, { new: true });
 
       logger.obj(result, `${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);
