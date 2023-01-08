@@ -119,7 +119,7 @@ export class Account {
     if (data) {
       let result = {
         id: data['account_id'] || '',
-        is_deleted: data['account_is_deleted'] ? BooleanUtility.parseToBoolean(correlation_id, data['account_is_deleted']) : false,
+        is_deleted: data['is_deleted'] ? BooleanUtility.parseToBoolean(correlation_id, data['is_deleted']) : false,
       };
 
       logger.obj(result, `${correlation_id} ${method_name} - output: `);
@@ -160,8 +160,17 @@ export class Account {
       if (data['email'] && typeof data['email'] !== 'string') {
         throw new Error('INVALID_EMAIL_TYPE');
       }
-      if (data['is_active'] && typeof data['is_active'] !== 'boolean') {
+
+      try {
+        BooleanUtility.parseToBoolean(correlation_id, data['is_active']);
+      } catch (e) {
         throw new Error('INVALID_IS_ACTIVE_TYPE');
+      }
+
+      try {
+        BooleanUtility.parseToBoolean(correlation_id, data['is_deleted']);
+      } catch (e) {
+        throw new Error('INVALID_IS_DELETED_TYPE');
       }
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);

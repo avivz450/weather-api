@@ -5,10 +5,9 @@ import { HttpStatusCodes } from '../types/http_status_codes.js';
 const validateAccountTypes: RequestHandler = (req, res, next) => {
   const method_name = 'Account/validateAccountTypes';
   logger.info(req.correlation_id, `${method_name} - start`);
-  const data_to_validate = { ...req.body, ...req.params };
+  const data_to_validate = { ...req.body, ...req.params, ...req.query };
   logger.obj(data_to_validate, `${req.correlation_id} ${method_name} - input: `);
   try {
-    const data_to_validate = { ...req.body, ...req.params };
     Account.validateTypes(req.correlation_id, data_to_validate);
     next();
   } catch (err: any) {

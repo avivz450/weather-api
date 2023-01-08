@@ -92,7 +92,7 @@ describe("Services/AccountService", () => {
             context("fails when id is invalid", () => {
                 before(async () => {
                     try {
-                        getAccount_stub.throws(new Error("INVALID_ACCOUNT_ID"));
+                        deleteAccount_stub.throws(new Error("INVALID_ACCOUNT_ID"));
                         result = await accountService.deleteAccount("cor_123", MOCK_DATA.account.deleted.id);
                     } catch (err) {
                         error = err;
@@ -143,8 +143,7 @@ describe("Services/AccountService", () => {
                         fields_to_update = {name: "Lior"};
                         updated_account = {...MOCK_DATA.account.valid, ...fields_to_update};
                         validateAccount_stub.resolves();
-                        getAccount_stub.throws(new Error("INVALID_ACCOUNT_ID"));
-                        updateAccount_stub.resolves(updated_account);
+                        updateAccount_stub.throws(new Error("INVALID_ACCOUNT_ID"));
                         result = await accountService.updateAccount("cor_123", new Account(MOCK_DATA.account.valid as Account));
                     } catch (err) {
                         error = err;
@@ -282,8 +281,8 @@ describe("Services/AccountService", () => {
                     }
                 });
 
-                it("should throw ACCOUNT_NAME_NOT_INSERTED", () => {
-                    expect(error.message).to.equal("ACCOUNT_NAME_NOT_INSERTED");
+                it("should throw MISSING_ACCOUNT_NAME", () => {
+                    expect(error.message).to.equal("MISSING_ACCOUNT_NAME");
                 });
             });
 
@@ -300,8 +299,8 @@ describe("Services/AccountService", () => {
                     }
                 });
 
-                it("should throw ACCOUNT_EMAIL_NOT_INSERTED", () => {
-                    expect(error.message).to.equal("ACCOUNT_EMAIL_NOT_INSERTED");
+                it("should throw MISSING_ACCOUNT_EMAIL", () => {
+                    expect(error.message).to.equal("MISSING_ACCOUNT_EMAIL");
                 });
             });
 

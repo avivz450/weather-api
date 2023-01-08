@@ -7,7 +7,6 @@ export class AccountMongoProvider {
     logger.info(correlation_id, `${method_name} - start`);
     logger.obj(account, `${correlation_id} ${method_name} - input: `);
     try {
-
       const new_account = new AccountMongoose({
         name: account.name,
         email: account.email,
@@ -38,7 +37,27 @@ export class AccountMongoProvider {
       return result;
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);
-      throw new Error('INVALID_ACCOUNT_ID');
+      if(err.kind === "ObjectId"){
+        throw new Error('INVALID_ACCOUNT_ID');
+      }else{
+        throw err;
+      }
+    }
+  }
+
+  async getAccounts(correlation_id: string, filters: object) {
+    const method_name = 'AccountMongoProvider/getAccounts';
+    logger.info(correlation_id, `${method_name} - start`);
+    logger.obj(filters, correlation_id, `${method_name} - input: `);
+    try {
+      const result = await AccountMongoose.find(filters);
+
+      logger.obj(result, `${correlation_id} ${method_name} - result: `);
+      logger.info(correlation_id, `${method_name} - end`);
+      return result;
+    } catch (err) {
+      logger.err(correlation_id, `${method_name} - error: `, err);
+      throw err;
     }
   }
 
@@ -48,14 +67,18 @@ export class AccountMongoProvider {
     logger.obj({ account_id, account_to_update }, `${correlation_id} ${method_name} - input: `);
 
     try {
-      const result = await AccountMongoose.findByIdAndUpdate(account_id, account_to_update, { new: true, runValidators: true });
+      const result = await AccountMongoose.findByIdAndUpdate(account_id, account_to_update, { new: true });
 
       logger.obj(result, `${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);
-      throw err;
+      if(err.kind === "ObjectId"){
+        throw new Error('INVALID_ACCOUNT_ID');
+      }else{
+        throw  err;
+      }
     }
   }
 
@@ -71,8 +94,11 @@ export class AccountMongoProvider {
       return result;
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);
-      throw err;
-    }
+      if(err.kind === "ObjectId"){
+        throw new Error('INVALID_ACCOUNT_ID');
+      }else{
+        throw  err;
+      }     }
   }
 }
 

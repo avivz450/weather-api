@@ -4,6 +4,26 @@ import { Account } from '../modules/account.js';
 import { HttpStatusCodes } from '../types/http_status_codes.js';
 
 export class AccountController {
+  getAccounts: RequestHandler = async function (req, res) {
+    const method_name = 'AccountController/getAccounts';
+    logger.info(req.correlation_id, `${method_name} - start`);
+
+    try {
+      let filters = req.query;
+      logger.verbose(req.correlation_id, `${method_name} - calling AccountService/getAccounts`);
+      let accounts: Account[] = await accountService.getAccounts(req.correlation_id, filters);
+      logger.verbose(req.correlation_id, `${method_name} - calling Account/parseObjectToResponse `);
+      let result = Account.parseListToResponse(req.correlation_id, accounts);
+      logger.obj(result, `${req.correlation_id} ${method_name} - result: `);
+      logger.info(req.correlation_id, `${method_name} - end`);
+      return res.done(result);
+    } catch (err: any) {
+      logger.err(req.correlation_id, `${method_name} - error: `, err);
+      err.message = err.message ? err.message : 'ERROR_GET_ACCOUNTS';
+      return res.error(err);
+    }
+  };
+
   createAccount: RequestHandler = async function (req: any, res: any) {
     const method_name = 'AccountController/createAccount';
     logger.info(req.correlation_id, `${method_name} - start`);
@@ -33,7 +53,7 @@ export class AccountController {
       let account_id = req.params['account_id'] || '';
       logger.verbose(req.correlation_id, `${method_name} - calling AccountService/getAccount`);
       let account: Account = await accountService.getAccount(req.correlation_id, account_id);
-      logger.verbose(req.correlation_id, `${method_name} - calling Account/parseObjectToResponse `);
+      logger.verbose(req.correlation_id, `${method_name} - calling Account/parseObjectToResponse`);
       let result = Account.parseObjectToResponse(req.correlation_id, account);
       logger.obj(result, `${req.correlation_id} ${method_name} - result: `);
       logger.info(req.correlation_id, `${method_name} - end`);

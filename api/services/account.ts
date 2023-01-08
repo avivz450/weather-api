@@ -7,12 +7,29 @@ export class AccountService {
     logger.info(correlation_id, `${method_name} - start`);
     logger.verbose(correlation_id, `${method_name} - input parameters: `, account_id);
     try {
-      logger.verbose(correlation_id, `AccountService/getAccount - calling AccountDBService/getAccount`);
+      logger.verbose(correlation_id, `${method_name} - calling AccountDBService/getAccount`);
       let account: Account = await accountDBService.getAccount(correlation_id, account_id);
 
       logger.obj(account, `${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);
       return account;
+    } catch (err) {
+      logger.err(correlation_id, `${method_name} error: `, err);
+      throw err;
+    }
+  }
+
+  async getAccounts(correlation_id: string, filters: object) {
+    const method_name = 'AccountService/getAccounts';
+    logger.info(correlation_id, `${method_name} - start`);
+    logger.obj(filters, correlation_id, `${method_name} - input parameters: `);
+    try {
+      logger.verbose(correlation_id, `${method_name} - calling AccountDBService/getAccounts`);
+      let accounts: Account[] = await accountDBService.getAccounts(correlation_id, filters);
+
+      logger.obj(accounts, `${correlation_id} ${method_name} - result: `);
+      logger.info(correlation_id, `${method_name} - end`);
+      return accounts;
     } catch (err) {
       logger.err(correlation_id, `${method_name} error: `, err);
       throw err;
@@ -25,10 +42,6 @@ export class AccountService {
     logger.verbose(correlation_id, `${method_name} - input parameters: `, account_id);
 
     try {
-      //maybe don't need ?
-      logger.verbose(correlation_id, `${method_name} - calling AccountService/getAccount`);
-      await this.getAccount(correlation_id, account_id);
-
       logger.verbose(correlation_id, `${method_name} - calling AccountDBService/deleteAccount`);
       const delete_account = await accountDBService.deleteAccount(correlation_id, account_id);
 
@@ -50,9 +63,6 @@ export class AccountService {
       logger.verbose(correlation_id, `${method_name} - calling Account/validateAccount`);
       account_in.validateAccount(correlation_id);
 
-      logger.verbose(correlation_id, `${method_name} - calling AccountService/getAccount`);
-      await this.getAccount(correlation_id, account_in.id);
-
       logger.verbose(correlation_id, `${method_name} - calling AccountDBService/updateAccount`);
       let account_after_update: Account = await accountDBService.updateAccount(correlation_id, account_in.id, account_in.getUpdatetableObject(correlation_id));
 
@@ -72,6 +82,7 @@ export class AccountService {
     logger.obj(account, `${correlation_id} ${method_name} - input: `);
 
     try {
+      logger.verbose(correlation_id, `${method_name} - calling AccountService/validateCreateAccount`);
       this.validateCreateAccount(correlation_id, account);
 
       logger.verbose(correlation_id, `${method_name} - calling AccountDBService/createAccount`);
@@ -92,10 +103,10 @@ export class AccountService {
     logger.obj(account, `${correlation_id} ${method_name} - input: `);
     try {
       if (!account.name) {
-        throw new Error('ACCOUNT_NAME_NOT_INSERTED');
+        throw new Error('MISSING_ACCOUNT_NAME');
       }
       if (!account.email) {
-        throw new Error('ACCOUNT_EMAIL_NOT_INSERTED');
+        throw new Error('MISSING_ACCOUNT_EMAIL');
       }
       account.validateAccount(correlation_id);
     } catch (err) {

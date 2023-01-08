@@ -11,10 +11,10 @@ export declare global {
       done(data: any, http_status?: HttpStatusCodes): void;
     }
   }
-  namespace logger{
-    function info(correlation_id: string, message: string, ...params): void
-    function obj(correlation_id: object, message: string, ...params): void
-    function verbose(correlation_id: string, message: string, ...params): void
-    function err(correlation_id: string, message: string, ...params): void
+  namespace logger {
+    function info(correlation_id: string, message: string, ...params): void;
+    function obj(correlation_id: object, message: string, ...params): void;
+    function verbose(correlation_id: string, message: string, ...params): void;
+    function err(correlation_id: string, message: string, ...params): void;
   }
 }

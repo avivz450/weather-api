@@ -29,7 +29,7 @@ class App {
 
   private configEnvVariables() {
     process.env = JSON.parse(fs.readFileSync('./app-config.json', 'utf8'));
-    global["logger"] = ajarLogger;
+    global['logger'] = ajarLogger;
   }
 
   private initializeMiddlewares() {

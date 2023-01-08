@@ -2,11 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0cc7159e-8a48-4552-ab7d-5fe5e6999d08" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/api/providers/mongo-provider/modules/item.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.nycrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/controllers/account.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/account.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/middlewares/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/middlewares/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/modules/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/modules/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/modules/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/modules/app.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/providers/mongo-provider/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/providers/mongo-provider/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/providers/mongo-provider/modules/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/providers/mongo-provider/modules/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/routes/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/services/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/services/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/services/db_service/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/services/db_service/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/types.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/types/account.types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/types/general.types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/utils/boolean-utility.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/boolean-utility.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/api/services/account.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/api/services/account.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/api/services/account.test.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/api/services/account.test.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/api/services/account.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/api/services/account.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.tsbuildinfo" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +54,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/avivz/src/ts-node-eslint-mocha-starter/tsconfig.json",
+    "last_opened_file_path": "C:/Users/avivz/src/nodejs-db-orm-world",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -55,7 +72,7 @@
       <recent name="C:\Users\avivz\src\ts-node-eslint-mocha-starter\src\routes\db_service" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.debug">
+  <component name="RunManager" selected="npm.test">
     <configuration name="index.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/api/index.js" working-dir="$PROJECT_DIR$">
       <method v="2">
         <option name="TypeScript.Before.Run" enabled="true" FAIL_ON_ERROR="true" CONFIG_PATH="C:\Users\avivz\src\ts-node-eslint-mocha-starter\tsconfig.json" />
@@ -110,9 +127,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.test" />
         <item itemvalue="npm.debug" />
         <item itemvalue="npm.coverage" />
-        <item itemvalue="npm.test" />
         <item itemvalue="npm.nodemon" />
       </list>
     </recent_temporary>
@@ -130,7 +147,7 @@
       <workItem from="1672399900059" duration="11467000" />
       <workItem from="1672427942542" duration="19001000" />
       <workItem from="1672575622770" duration="13266000" />
-      <workItem from="1672752502869" duration="8436000" />
+      <workItem from="1672752502869" duration="29465000" />
     </task>
     <servers />
   </component>
@@ -153,20 +170,26 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/test/unit/api/services/account.test.ts</url>
-          <line>285</line>
+          <line>284</line>
           <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/api/providers/mongo-provider/account.ts</url>
-          <line>52</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/api/providers/mongo-provider/account.ts</url>
           <line>5</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/api/providers/mongo-provider/account.ts</url>
+          <line>22</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/api/services/account.test.ts</url>
+          <line>94</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="50" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,16 +1,17 @@
 export class BooleanUtility {
   static parseToBoolean(correlation_id: string, input: string | number | boolean): boolean {
-    if (!input) {
-      return false;
-    }
+    if (input) {
+      if (typeof input == 'boolean') {
+        return input;
+      }
 
-    if (typeof input == 'boolean') {
-      return input;
-    }
+      if (input === 'false') {
+        return false;
+      } else if (input === 'true') {
+        return true;
+      }
 
-    if (input === '0' || input === '-0' || input === 0 || input === -0) {
-      return false;
+      throw new Error('INVALID_BOOLEAN_TYPE');
     }
-    return true;
   }
 }
