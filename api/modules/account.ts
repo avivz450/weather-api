@@ -174,4 +174,26 @@ export class Account {
       throw err;
     }
   }
+
+    static getUpdateObject(correlation_id: string, account_in: Account) {
+      const method_name = 'Account/getUpdateObject';
+      logger.info(correlation_id, `${method_name} - start`);
+      logger.obj(account_in, `${correlation_id} ${method_name} - input: `);
+      try {
+        const update_object = Object.keys(account_in).reduce(
+            (accumulator, key) => {
+              if(Account.updateable_fields.includes(key)){
+                accumulator[key] = account_in[key];
+              }
+              return accumulator;
+            },
+            {}
+        );
+        logger.obj(update_object, `${correlation_id} ${method_name} - output: `);
+        return update_object;
+      } catch (err) {
+        logger.err(correlation_id, `${method_name} - error: `, err);
+        throw err;
+      }
+    }
 }

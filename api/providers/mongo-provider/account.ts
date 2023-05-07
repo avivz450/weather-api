@@ -66,17 +66,15 @@ export class AccountMongoProvider {
 
     try {
       const result = await AccountMongoose.findOneAndUpdate({_id: account_id}, account_to_update, { new: true });
-
+      if(result === null){
+        throw new Error('INVALID_ACCOUNT_ID');
+      }
       logger.obj(result, `${correlation_id} ${method_name} - result: `);
       logger.info(correlation_id, `${method_name} - end`);
       return result;
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);
-      if(err.kind === "ObjectId"){
-        throw new Error('INVALID_ACCOUNT_ID');
-      }else{
-        throw  err;
-      }
+      throw  err;
     }
   }
 

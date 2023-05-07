@@ -5,10 +5,6 @@ import accountService from "../../../../api/services/account"
 import { AccountDBService } from "../../../../api/services/db_service/account";
 import { AccountService } from "../../../../api/services/account";
 import { Account } from "../../../../api/modules/account";
-import * as chaiAsPromised from "chai-as-promised";
-import * as sinonChai from "sinon-chai";
-import * as chaiSubset from "chai-subset";
-import { resetHistory } from "sinon";
 
 describe("Services/AccountService", () => {
     describe("Account service class", () => {
