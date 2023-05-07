@@ -16,6 +16,9 @@ export class AccountMongoProvider {
       return result;
     } catch (err) {
       logger.err(correlation_id, `${method_name} - error: `, err);
+      if(err.code === 11000){
+        throw new Error('DUPLICATE_ACCOUNT_EMAIL');
+      }
       throw err;
     }
   }

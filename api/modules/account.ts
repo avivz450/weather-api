@@ -113,24 +113,6 @@ export class Account {
     return accounts;
   }
 
-  static parseDeletedObjectFromDb(correlation_id: string, data: any): object | null {
-    const method_name = 'Account/parseDeletedObjectFromDb';
-    logger.obj(data, `${correlation_id} ${method_name} - input: `);
-
-    if (data) {
-      let result = {
-        id: data['account_id'] || '',
-        is_deleted: data['is_deleted'] ? BooleanUtility.parseToBoolean(correlation_id, data['is_deleted']) : false,
-      };
-
-      logger.obj(result, `${correlation_id} ${method_name} - output: `);
-      return result;
-    } else {
-      logger.verbose(correlation_id, `Account/parseDeletedObjectFromDb - output: `, null);
-      return null;
-    }
-  }
-
   static parseDeletedObjectToResponse(correlation_id: string, data: any): object | null {
     const method_name = 'Account/parseDeletedObjectToResponse';
     logger.obj(data, `${correlation_id} ${method_name} - input: `);

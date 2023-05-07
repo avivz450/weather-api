@@ -27,13 +27,7 @@ const account_schema = new mongoose.Schema(
     is_deleted: {
       type: Boolean,
       default: false,
-    },
-    items: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Item',
-      },
-    ],
+    }
   },
   {
     timestamps: true,
