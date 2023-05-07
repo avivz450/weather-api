@@ -175,15 +175,15 @@ export class Account {
     }
   }
 
-    static getUpdateObject(correlation_id: string, account_in: Account) {
+  getUpdateObject(correlation_id: string) {
       const method_name = 'Account/getUpdateObject';
       logger.info(correlation_id, `${method_name} - start`);
-      logger.obj(account_in, `${correlation_id} ${method_name} - input: `);
+      logger.obj(this, `${correlation_id} ${method_name} - input: `);
       try {
-        const update_object = Object.keys(account_in).reduce(
+        const update_object = Object.keys(this).reduce(
             (accumulator, key) => {
               if(Account.updateable_fields.includes(key)){
-                accumulator[key] = account_in[key];
+                accumulator[key] = this[key];
               }
               return accumulator;
             },

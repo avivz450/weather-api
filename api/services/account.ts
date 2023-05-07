@@ -64,7 +64,7 @@ export class AccountService {
       account_in.validateAccount(correlation_id);
 
       logger.verbose(correlation_id, `${method_name} - calling Account/getFieldsToUpdate`);
-      const fields_to_update = Account.getUpdateObject(correlation_id, account_in);
+      const fields_to_update = account_in.getUpdateObject(correlation_id);
 
       logger.verbose(correlation_id, `${method_name} - calling AccountDBService/updateAccount`);
       let account_after_update: Account = await accountDBService.updateAccount(correlation_id, account_in.id, fields_to_update);
