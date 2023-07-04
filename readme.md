@@ -1,8 +1,9 @@
 # Tickets API
 
-This is a Tickets API written in Node.js using TypeScript. 
-The API interacts with a MongoDB database to fetch tickets. 
-The database **must** be initialized with a **"ticket_service"** database and a **"tickets"** collection.
+This Tickets API written in Node.js using TypeScript.\
+The API interacts with a MongoDB database to fetch tickets. \
+The database **must** be initialized with a **"ticket_service"** database and **"tickets"** collection.\
+In the `app-config.json`  you can modify some configurations if you need.
 
 ## Prerequisites
 
