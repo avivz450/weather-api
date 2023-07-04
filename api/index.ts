@@ -1,3 +1,12 @@
-import app from './modules/app.js';
+import app from './modules/app';
 
-app.start().catch(console.log);
+async function startApp() {
+    try {
+        await app.start();
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
+}
+
+startApp();

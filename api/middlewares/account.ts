@@ -3,15 +3,15 @@ import { Account } from '../modules/account.js';
 import { HttpStatusCodes } from '../types/http_status_codes.js';
 
 const validateAccountTypes: RequestHandler = (req, res, next) => {
-  const method_name = 'Account/validateAccountTypes';
-  logger.info(req.correlation_id, `${method_name} - start`);
-  const data_to_validate = { ...req.body, ...req.params, ...req.query };
-  logger.obj(data_to_validate, `${req.correlation_id} ${method_name} - input: `);
+  const methodName = 'Account/validateAccountTypes';
+  logger.info(req.correlationId, `${methodName} - start`);
+  const dataToValidate = { ...req.body, ...req.params, ...req.query };
+  logger.obj(dataToValidate, `${req.correlationId} ${methodName} - input: `);
   try {
-    Account.validateTypes(req.correlation_id, data_to_validate);
+    Account.validateTypes(req.correlationId, dataToValidate);
     next();
   } catch (err: any) {
-    logger.err(req.correlation_id, `${method_name} - error: `, err);
+    logger.err(req.correlationId, `${methodName} - error: `, err);
     return res.error(err, HttpStatusCodes.BAD_REQUEST);
   }
 };

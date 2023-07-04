@@ -2,33 +2,33 @@ import { RequestHandler } from 'express';
 import { ErrorMessage, SuccessMessage } from '../types/messages.types.js';
 import { HttpStatusCodes } from '../types/http_status_codes.js';
 
-function error(error: Error, http_status?: HttpStatusCodes): void {
+function error(error: Error, httpStatus?: HttpStatusCodes): void {
   // @ts-ignore
   // eslint-disable-next-line no-invalid-this
   const res = this.req.res;
   const { message = 'GENERAL_ERROR' } = error;
-  const response_status = http_status || HttpStatusCodes.INTERNAL_SERVER_ERROR;
+  const responseStatus = httpStatus || HttpStatusCodes.INTERNAL_SERVER_ERROR;
 
   const response: ErrorMessage = {
     status: 'ERROR',
     message,
   };
 
-  res.status(response_status).json(response);
+  res.status(responseStatus).json(response);
 }
 
-function done(data: any = null, http_status?: HttpStatusCodes): void {
+function done(data: any = null, httpStatus?: HttpStatusCodes): void {
   // @ts-ignore
   // eslint-disable-next-line no-invalid-this
   const res = this.req.res;
-  const response_status = http_status || HttpStatusCodes.OK;
+  const responseStatus = httpStatus || HttpStatusCodes.OK;
 
   const response: SuccessMessage = {
     status: 'SUCCESS',
     data,
   };
 
-  res.status(response_status).json(response);
+  res.status(responseStatus).json(response);
 }
 
 const setDoneErrorMethods: RequestHandler = (req, res, next) => {

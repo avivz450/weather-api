@@ -1,37 +1,36 @@
-import { Account } from '../../../modules/account';
-import { EmailUtility } from '../../../utils/email-utility';
-const mongoose = require('mongoose');
+import { Account } from '../../../modules/account.js';
+import { EmailUtility } from '../../../utils/email-utility.js';
+import mongoose from 'mongoose';
 
-const account_schema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, 'MISSING_ACCOUNT_NAME'],
-      trim: true,
+const accountSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: [true, 'MISSING_ACCOUNT_NAME'],
+            trim: true,
+        },
+        email: {
+            type: String,
+            trim: true,
+            unique: true,
+            required: [true, 'MISSING_ACCOUNT_EMAIL'],
+            validate: {
+                validator: (value: string) => EmailUtility.isValidEmail(value),
+                message: 'INVALID_EMAIL',
+            },
+        },
+        isActive: {
+            type: Boolean,
+            default: true,
+        },
+        isDeleted: {
+            type: Boolean,
+            default: false,
+        },
     },
-    email: {
-      type: String,
-      trim: true,
-      unique: true,
-      required: [true, 'MISSING_ACCOUNT_EMAIL'],
-      validate(value) {
-        if (!EmailUtility.isValidEmail(value)) {
-          throw new Error('INVALID_EMAIL');
-        }
-      },
-    },
-    is_active: {
-      type: Boolean,
-      default: true,
-    },
-    is_deleted: {
-      type: Boolean,
-      default: false,
+    {
+        timestamps: true,
     }
-  },
-  {
-    timestamps: true,
-  },
 );
 
-export const AccountMongoose = mongoose.model('Account', account_schema);
+export const AccountMongoose = mongoose.model<Account>('Account', accountSchema);

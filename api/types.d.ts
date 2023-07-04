@@ -4,7 +4,7 @@ import { HttpStatusCodes } from './types/http_status_codes';
 export declare global {
   namespace Express {
     interface Request {
-      correlation_id: string;
+      correlationId: string;
     }
     interface Response {
       error(error: Error, http_status?: HttpStatusCodes): void;
@@ -12,9 +12,9 @@ export declare global {
     }
   }
   namespace logger {
-    function info(correlation_id: string, message: string, ...params): void;
-    function obj(correlation_id: object, message: string, ...params): void;
-    function verbose(correlation_id: string, message: string, ...params): void;
-    function err(correlation_id: string, message: string, ...params): void;
+    function info(correlationId: string, message: string, ...params): void;
+    function obj(correlationId: object, message: string, ...params): void;
+    function verbose(correlationId: string, message: string, ...params): void;
+    function err(correlationId: string, message: string, ...params): void;
   }
 }

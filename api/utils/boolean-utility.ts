@@ -1,5 +1,5 @@
 export class BooleanUtility {
-  static parseToBoolean(correlation_id: string, input: string | number | boolean): boolean {
+  static parseToBoolean(correlationId: string, input: string | number | boolean): boolean {
     if (input) {
       if (typeof input == 'boolean') {
         return input;

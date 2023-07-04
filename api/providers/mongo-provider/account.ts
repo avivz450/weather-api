@@ -2,101 +2,97 @@ import { Account } from '../../modules/account.js';
 import { AccountMongoose } from './modules/account.js';
 
 export class AccountMongoProvider {
-  async createAccount(correlation_id: string, account: Account) {
-    const method_name = 'AccountMongoProvider/createAccount';
-    logger.info(correlation_id, `${method_name} - start`);
-    logger.obj(account, `${correlation_id} ${method_name} - input: `);
+  async createAccount(correlationId: string, account: Account) {
+    const methodName = 'accountMongoProvider/createAccount';
+    logger.info(correlationId, `${methodName} - start`);
+    logger.obj(account, `${correlationId} ${methodName} - input: `);
     try {
-      const new_account = new AccountMongoose(account);
-
-      const result = await new_account.save();
-
-      logger.obj(result, `${correlation_id} ${method_name} - result: `);
-      logger.info(correlation_id, `${method_name} - end`);
+      const newAccount = new AccountMongoose(account);
+      const result = await newAccount.save();
+      logger.obj(result, `${correlationId} ${methodName} - result: `);
+      logger.info(correlationId, `${methodName} - end`);
       return result;
     } catch (err) {
-      logger.err(correlation_id, `${method_name} - error: `, err);
-      if(err.code === 11000){
+      logger.err(correlationId, `${methodName} - error: `, err);
+      if (err.code === 11000) {
         throw new Error('DUPLICATE_ACCOUNT_EMAIL');
       }
       throw err;
     }
   }
 
-  async getAccount(correlation_id: string, account_id: string) {
-    const method_name = 'AccountMongoProvider/getAccount';
-    logger.info(correlation_id, `${method_name} - start`);
-    logger.verbose(correlation_id, `${method_name} - input: `, account_id);
+  async getAccount(correlationId: string, accountId: string) {
+    const methodName = 'accountMongoProvider/getAccount';
+    logger.info(correlationId, `${methodName} - start`);
+    logger.verbose(correlationId, `${methodName} - input: `, accountId);
     try {
-      const result = await AccountMongoose.findById(account_id);
-
-      logger.obj(result, `${correlation_id} ${method_name} - result: `);
-      logger.info(correlation_id, `${method_name} - end`);
+      const result = await AccountMongoose.findById(accountId);
+      logger.obj(result, `${correlationId} ${methodName} - result: `);
+      logger.info(correlationId, `${methodName} - end`);
       return result;
     } catch (err) {
-      logger.err(correlation_id, `${method_name} - error: `, err);
-      if(err.kind === "ObjectId"){
+      logger.err(correlationId, `${methodName} - error: `, err);
+      if (err.kind === "ObjectId") {
         throw new Error('INVALID_ACCOUNT_ID');
-      }else{
+      } else {
         throw err;
       }
     }
   }
 
-  async getAccounts(correlation_id: string, filters: object) {
-    const method_name = 'AccountMongoProvider/getAccounts';
-    logger.info(correlation_id, `${method_name} - start`);
-    logger.obj(filters, correlation_id, `${method_name} - input: `);
+  async getAccounts(correlationId: string, filters: object) {
+    const methodName = 'accountMongoProvider/getAccounts';
+    logger.info(correlationId, `${methodName} - start`);
+    logger.obj(filters, `${correlationId} ${methodName} - input: `);
     try {
       const result = await AccountMongoose.find(filters);
-
-      logger.obj(result, `${correlation_id} ${method_name} - result: `);
-      logger.info(correlation_id, `${method_name} - end`);
+      logger.obj(result, `${correlationId} ${methodName} - result: `);
+      logger.info(correlationId, `${methodName} - end`);
       return result;
     } catch (err) {
-      logger.err(correlation_id, `${method_name} - error: `, err);
+      logger.err(correlationId, `${methodName} - error: `, err);
       throw err;
     }
   }
 
-  async updateAccount(correlation_id: string, account_id: string, account_to_update: Partial<Account>) {
-    const method_name = 'AccountMongoProvider/updateAccount';
-    logger.info(correlation_id, `${method_name} - start`);
-    logger.obj({ account_id, account_to_update }, `${correlation_id} ${method_name} - input: `);
+  async updateAccount(correlationId: string, accountId: string, accountToUpdate: Partial<Account>) {
+    const methodName = 'accountMongoProvider/updateAccount';
+    logger.info(correlationId, `${methodName} - start`);
+    logger.obj({ accountId, accountToUpdate }, `${correlationId} ${methodName} - input: `);
 
     try {
-      const result = await AccountMongoose.findOneAndUpdate({_id: account_id}, account_to_update, { new: true });
-      if(result === null){
+      const result = await AccountMongoose.findOneAndUpdate({ _id: accountId }, accountToUpdate, { new: true });
+      if (result === null) {
         throw new Error('INVALID_ACCOUNT_ID');
       }
-      logger.obj(result, `${correlation_id} ${method_name} - result: `);
-      logger.info(correlation_id, `${method_name} - end`);
+      logger.obj(result, `${correlationId} ${methodName} - result: `);
+      logger.info(correlationId, `${methodName} - end`);
       return result;
     } catch (err) {
-      logger.err(correlation_id, `${method_name} - error: `, err);
-      throw  err;
+      logger.err(correlationId, `${methodName} - error: `, err);
+      throw err;
     }
   }
 
-  async deleteAccount(correlation_id: string, account_id: string) {
-    const method_name = 'AccountMongoProvider/deleteAccount';
-    logger.info(correlation_id, `${method_name} - start`);
-    logger.verbose(correlation_id, `${method_name} - input: `, account_id);
+  async deleteAccount(correlationId: string, accountId: string) {
+    const methodName = 'accountMongoProvider/deleteAccount';
+    logger.info(correlationId, `${methodName} - start`);
+    logger.verbose(correlationId, `${methodName} - input: `, accountId);
     try {
-      const result = await AccountMongoose.findByIdAndUpdate(account_id, { is_deleted: true }, { new: true, runValidators: true });
-
-      logger.obj(result, `${correlation_id} ${method_name} - result: `);
-      logger.info(correlation_id, `${method_name} - end`);
+      const result = await AccountMongoose.findByIdAndUpdate(accountId, { isDeleted: true }, { new: true, runValidators: true });
+      logger.obj(result, `${correlationId} ${methodName} - result: `);
+      logger.info(correlationId, `${methodName} - end`);
       return result;
     } catch (err) {
-      logger.err(correlation_id, `${method_name} - error: `, err);
-      if(err.kind === "ObjectId"){
+      logger.err(correlationId, `${methodName} - error: `, err);
+      if (err.kind === "ObjectId") {
         throw new Error('INVALID_ACCOUNT_ID');
-      }else{
-        throw  err;
-      }     }
+      } else {
+        throw err;
+      }
+    }
   }
 }
 
 const accountMongoProvider = new AccountMongoProvider();
-export default accountMongoProvider;
+export { accountMongoProvider };

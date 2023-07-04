@@ -1,7 +1,7 @@
 import * as sinon from "sinon";
 import {expect} from "chai";
 import MOCK_DATA from "../../../utils/mock/account";
-import accountService from "../../../../api/services/account"
+import {accountService} from "../../../../api/services/account"
 import { AccountDBService } from "../../../../api/services/db_service/account";
 import { AccountService } from "../../../../api/services/account";
 import { Account } from "../../../../api/modules/account";

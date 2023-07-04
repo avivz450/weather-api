@@ -1,16 +1,15 @@
-import * as express from 'express';
-import * as cors from 'cors';
-import * as log from '@ajar/marker';
-import { urlNotFound } from '../middlewares/error.handler.js';
-import attachRequestId from '../middlewares/attach_request_id.js';
-import accountRouter from '../routes/account.js';
-import * as fs from 'fs';
-import setDoneErrorMethods from '../middlewares/set_done_error.js';
-const mongoose = require('mongoose');
-import * as ajarLogger from '@ajar/marker';
+import express from 'express';
+import cors from 'cors';
+import { urlNotFound } from '../middlewares/error.handler';
+import attachRequestId from '../middlewares/attach_request_id';
+import accountRouter from '../routes/account';
+import mongoose from 'mongoose';
+import fs from 'fs';
+import logger from '@ajar/marker';
+import setDoneErrorMethods from "../middlewares/set_done_error";
 
 class App {
-  private readonly app;
+  private readonly app: express.Application;
 
   constructor() {
     this.app = express();
@@ -21,15 +20,23 @@ class App {
     this.connectMongoDB();
   }
 
-  connectMongoDB() {
-    mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.DB_NAME}`, {
-      useNewUrlParser: true,
-    });
+  private configEnvVariables() {
+    const appConfig = fs.readFileSync('./app-config.json', 'utf8');
+    const envVariables = JSON.parse(appConfig);
+    process.env = { ...process.env, ...envVariables };
+    global.logger = logger;
   }
 
-  private configEnvVariables() {
-    process.env = JSON.parse(fs.readFileSync('./app-config.json', 'utf8'));
-    global['logger'] = ajarLogger;
+  private connectMongoDB() {
+    mongoose.set("strictQuery", false);
+    mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.DB_NAME}`)
+        .then(() => {
+          logger.info('Connected to MongoDB');
+        })
+        .catch((error) => {
+          logger.err('Failed to connect to MongoDB:', error);
+          process.exit(1);
+        });
   }
 
   private initializeMiddlewares() {
@@ -40,16 +47,18 @@ class App {
   }
 
   private initializeRoutes() {
-    this.app.use(`${process.env.API_PATH}/account`, accountRouter.router);
+    this.app.use(`${process.env.API_PATH}/account`, accountRouter);
   }
 
   private initializeErrorMiddlewares() {
     this.app.use(urlNotFound);
   }
 
-  async start() {
-    this.app.listen(Number(process.env.PORT), process.env.HOST as string, () => {
-      log.magenta('api is live on', ` ✨⚡  http://${process.env.HOST}:${process.env.PORT} ✨⚡`);
+  public async start() {
+    const port = Number(process.env.PORT);
+    const host = process.env.HOST as string;
+    this.app.listen(port, host, () => {
+      logger.magenta('API is live on', `✨⚡  http://${host}:${port} ✨⚡`);
     });
   }
 }

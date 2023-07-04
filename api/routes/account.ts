@@ -1,11 +1,17 @@
-import * as express from 'express';
-import accountController from '../controllers/account.controller.js';
-import validateAccountTypes from '../middlewares/account.js';
+import { Router } from 'express';
+import {accountController} from '../controllers/account';
+import validateAccountTypes from '../middlewares/account';
 
-class Account {
-  private readonly _router = express.Router();
+class AccountRouter {
+  private readonly router: Router;
 
   constructor() {
+    this.router = Router();
+
+    this.initializeRoutes();
+  }
+
+  private initializeRoutes() {
     this.router.post('/', validateAccountTypes, accountController.createAccount);
     this.router.get('/:account_id', validateAccountTypes, accountController.getAccount);
     this.router.get('/', validateAccountTypes, accountController.getAccounts);
@@ -13,11 +19,11 @@ class Account {
     this.router.delete('/:account_id', validateAccountTypes, accountController.deleteAccount);
   }
 
-  get router() {
-    return this._router;
+  public getRouter() {
+    return this.router;
   }
 }
 
-const accountRouter = new Account();
+const accountRouter = new AccountRouter();
 
-export default accountRouter;
+export default accountRouter.getRouter();
