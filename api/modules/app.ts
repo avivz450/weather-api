@@ -2,11 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import { urlNotFound } from '../middlewares/error.handler';
 import attachRequestId from '../middlewares/attach_request_id';
-import accountRouter from '../routes/account';
-import mongoose from 'mongoose';
+import ticketRouter from '../routes/ticket';
 import fs from 'fs';
 import logger from '@ajar/marker';
 import setDoneErrorMethods from "../middlewares/set_done_error";
+import {ticketMongoProvider} from "../providers/mongo-provider/ticket";
+
+
 
 class App {
   private readonly app: express.Application;
@@ -17,7 +19,12 @@ class App {
     this.initializeMiddlewares();
     this.initializeRoutes();
     this.initializeErrorMiddlewares();
-    this.connectMongoDB();
+  }
+
+  private async connectMongoDB() {
+    const mongoUrl = `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`;
+    const dbName = 'ticket_service';
+    await ticketMongoProvider.connect(mongoUrl, dbName);
   }
 
   private configEnvVariables() {
@@ -25,18 +32,6 @@ class App {
     const envVariables = JSON.parse(appConfig);
     process.env = { ...process.env, ...envVariables };
     global.logger = logger;
-  }
-
-  private connectMongoDB() {
-    mongoose.set("strictQuery", false);
-    mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.DB_NAME}`)
-        .then(() => {
-          logger.info('Connected to MongoDB');
-        })
-        .catch((error) => {
-          logger.err('Failed to connect to MongoDB:', error);
-          process.exit(1);
-        });
   }
 
   private initializeMiddlewares() {
@@ -47,7 +42,7 @@ class App {
   }
 
   private initializeRoutes() {
-    this.app.use(`${process.env.API_PATH}/account`, accountRouter);
+    this.app.use(`${process.env.API_PATH}/ticket`, ticketRouter);
   }
 
   private initializeErrorMiddlewares() {
@@ -57,6 +52,7 @@ class App {
   public async start() {
     const port = Number(process.env.PORT);
     const host = process.env.HOST as string;
+    await this.connectMongoDB();
     this.app.listen(port, host, () => {
       logger.magenta('API is live on', `✨⚡  http://${host}:${port} ✨⚡`);
     });

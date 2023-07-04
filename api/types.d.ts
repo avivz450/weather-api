@@ -1,4 +1,4 @@
-import { HttpStatusCodes } from './types/http_status_codes';
+import { HttpStatusCodes } from './types/enums';
 
 // @ts-ignore
 export declare global {

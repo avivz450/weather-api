@@ -1,7 +1,7 @@
 {
     "PORT" : "3000",
     "HOST" : "127.0.0.1",
-    "DB_NAME": "account_service",
+    "DB_NAME": "ticket_service",
     "MONGO_HOST": "127.0.0.1",
     "MONGO_PORT": "27017",
     "API_PATH": "/api"

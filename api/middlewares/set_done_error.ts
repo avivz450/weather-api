@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
-import { ErrorMessage, SuccessMessage } from '../types/messages.types.js';
-import { HttpStatusCodes } from '../types/http_status_codes.js';
+import { ErrorMessage, SuccessMessage } from '../types/types';
+import { HttpStatusCodes } from '../types/enums';
 
 function error(error: Error, httpStatus?: HttpStatusCodes): void {
   // @ts-ignore
