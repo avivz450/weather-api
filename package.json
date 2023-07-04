@@ -2,13 +2,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "nodemon": "nodemon",
-    "start": "node api/index.js",
-    "lint": "eslint api/**/*.ts",
-    "format": "prettier api/**/*.ts --write",
-    "test": "tsc && mocha test/**/*.test.js",
-    "coverage": "nyc --reporter=text npm test",
-    "debug": "tsc --build && node ./api/index.js"
+    "start": "tsc --build && node ./api/index.js"
   },
   "keywords": [
     "typescript",
