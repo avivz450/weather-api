@@ -1,8 +1,6 @@
 {
     "PORT" : "3000",
     "HOST" : "127.0.0.1",
-    "DB_NAME": "ticket_service",
-    "MONGO_HOST": "127.0.0.1",
-    "MONGO_PORT": "27017",
-    "API_PATH": "/api"
+    "API_PATH": "/weather-conditions",
+    "WEATHER_API_KEY": "5Pk7L5pFV8IzHQXJL1FHDeOBFmDpLRew"
 }

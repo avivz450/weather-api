@@ -2,12 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import { urlNotFound } from '../middlewares/error.handler';
 import attachRequestId from '../middlewares/attach_request_id';
-import ticketRouter from '../routes/ticket';
+import weatherConditionsRouter from '../routes/weather-conditions';
 import fs from 'fs';
 import logger from '@ajar/marker';
 import setDoneErrorMethods from "../middlewares/set_done_error";
-import {ticketMongoProvider} from "../providers/mongo-provider/ticket";
-
 
 
 class App {
@@ -19,12 +17,6 @@ class App {
     this.initializeMiddlewares();
     this.initializeRoutes();
     this.initializeErrorMiddlewares();
-  }
-
-  private async connectMongoDB() {
-    const mongoUrl = `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`;
-    const dbName = 'ticket_service';
-    await ticketMongoProvider.connect(mongoUrl, dbName);
   }
 
   private configEnvVariables() {
@@ -42,7 +34,7 @@ class App {
   }
 
   private initializeRoutes() {
-    this.app.use(`${process.env.API_PATH}/ticket`, ticketRouter);
+    this.app.use(`${process.env.API_PATH}`, weatherConditionsRouter);
   }
 
   private initializeErrorMiddlewares() {
@@ -52,7 +44,6 @@ class App {
   public async start() {
     const port = Number(process.env.PORT);
     const host = process.env.HOST as string;
-    await this.connectMongoDB();
     this.app.listen(port, host, () => {
       logger.magenta('API is live on', `✨⚡  http://${host}:${port} ✨⚡`);
     });

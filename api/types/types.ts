@@ -13,12 +13,3 @@ export interface SuccessMessage extends BaseMessage {
   };
 }
 
-export interface DateRange {
-  from: number;
-  to: number;
-}
-
-export interface Pagination {
-  page: number;
-  limit: number;
-}
