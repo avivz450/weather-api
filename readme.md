@@ -1,7 +1,7 @@
 # Weather Condition API
 
 This API written in Node.js using TypeScript.\
-The API interacts with tomorrow.io weather API to get weather condition timeline . \
+The API interacts with tomorrow.io weather API to get weather conditions' timeline. \
 In the `app-config.json`  you can modify some configurations if you need (like host and port).
 
 ## Prerequisites
