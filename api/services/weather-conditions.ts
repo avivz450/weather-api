@@ -1,13 +1,15 @@
-import {makeHttpRequest} from "../utilities/http-request";
-import {ConditionInterval, WeatherCondition, WeatherForecast} from "../types/weatherCondition";
+import { makeHttpRequest } from "../utilities/http-request";
+import { ConditionInterval, WeatherCondition, WeatherForecast } from "../types/weatherCondition";
+import {ValidationError} from "../modules/validation-error";
 
 export class WeatherConditionsService {
-  validOperators = ["AND", "OR"]
+  private validOperators = ["AND", "OR"];
+  private weatherParameters = ["temperature","humidity","windSpeed","rainIntensity"]
 
   async getConditionsTimeline(correlationId: string, location: string, rule: string, operator: string = "AND"): Promise<ConditionInterval[]> {
     const methodName = 'WeatherConditionsService/getConditionsTimeline';
     logger.info(correlationId, `${methodName} - start`);
-    logger.obj({location, rule, operator}, correlationId, `${methodName} - input parameters:`);
+    logger.obj({ location, rule, operator }, correlationId, `${methodName} - input parameters:`);
 
     try {
       logger.verbose(correlationId, `${methodName} - calling WeatherConditionsService/validateInput`);
@@ -24,9 +26,9 @@ export class WeatherConditionsService {
         units: "metric",
         startTime: "now",
         endTime: "nowPlus3d"
-      }
+      };
       logger.verbose(correlationId, `${methodName} - calling Utilities/makeHttpRequest`);
-      const response = await makeHttpRequest("https://api.tomorrow.io/v4/timelines", "GET", requestParams);
+      const response = await makeHttpRequest(correlationId, "https://api.tomorrow.io/v4/timelines", "GET", requestParams);
       const weatherForecast: WeatherForecast[] = response.data.timelines[0].intervals;
 
       logger.verbose(correlationId, `${methodName} - calling Utilities/createConditionIntervals`);
@@ -41,7 +43,10 @@ export class WeatherConditionsService {
     }
   }
 
-  validateInput(correlationId: string, location: string, rule: string, operator: string): void {
+  private validateInput(correlationId: string, location: string, rule: string, operator: string): void {
+    const methodName = 'WeatherConditionsService/validateInput';
+    logger.verbose(correlationId, `${methodName} - start`);
+
     const validationErrors: string[] = [];
     const locationPattern = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
 
@@ -54,53 +59,61 @@ export class WeatherConditionsService {
     }
 
     const conditions = rule.split(",");
-    const conditionPattern = /^(temperature|humidity|windSpeed|rainIntensity)(>|<)(-?\d+)$/;
+    const conditionPattern = new RegExp(`^(${this.weatherParameters.join("|")})(>|<)(-?\\d+)$`);
 
     for (const condition of conditions) {
       if (!conditionPattern.test(condition)) {
-        validationErrors.push('each rule must be in the format "(condition)(operator)(integer)"');
-        break
+        validationErrors.push('each condition must be in the format "(field)(operator)(integer)"');
+        break;
       }
     }
 
     if (validationErrors.length > 0) {
       const errorMessage = validationErrors.join(', ');
-      logger.err(correlationId, `Validation Error: ${errorMessage}`);
-      throw new Error(errorMessage);
+      logger.err(correlationId, `VALIDATION_ERROR: ${errorMessage}`);
+      throw new ValidationError(errorMessage);
     }
+
+    logger.verbose(correlationId, `${methodName} - end`);
   }
 
   private convertToConditionArr(correlationId: string, rule: string): WeatherCondition[] {
+    const methodName = 'WeatherConditionsService/convertToConditionArr';
+    logger.verbose(correlationId, `${methodName} - start`);
+
     const conditions: WeatherCondition[] = [];
 
     const ruleParts = rule.split(',');
     for (const part of ruleParts) {
-      const regex = /^(humidity|temperature|windSpeed|rainIntensity)([<>])(\d+)$/;
-      const match = part.match(regex);
+      const conditionPattern = new RegExp(`^(${this.weatherParameters.join("|")})(>|<)(-?\\d+)$`);
+      const match = part.match(conditionPattern);
       const [, field, operator, value] = match;
-      const rule: WeatherCondition = {field, operator, value: Number(value)}
-      conditions.push(rule);
+      const condition: WeatherCondition = { field, operator, value: Number(value) };
+      conditions.push(condition);
     }
 
+    logger.verbose(correlationId, `${methodName} - end`);
     return conditions;
   }
 
   private createConditionIntervals(correlationId: string, weatherForecasts: WeatherForecast[], conditionsArr: WeatherCondition[], operator: string): ConditionInterval[] {
+    const methodName = 'WeatherConditionsService/createConditionIntervals';
+    logger.verbose(correlationId, `${methodName} - start`);
+
     const result: ConditionInterval[] = [];
     let lastConditionInterval: ConditionInterval;
     let nextIntervalStartTime: string = weatherForecasts[0].startTime;
 
     for (const forecast of weatherForecasts) {
-      const metConditionsFields: string[] = conditionsArr
+      const metConditionsArr = conditionsArr
           .filter(condition => {
             const forecastValue = forecast.values[condition.field];
             return condition.operator === ">" ? forecastValue > condition.value : forecastValue < condition.value;
-          })
-          .map(condition => condition.field);
+          });
 
       const condition_met =
-          (operator === "OR" && metConditionsFields.length > 0) ||
-          (operator === "AND" && metConditionsFields.length === conditionsArr.length);
+          (operator === "OR" && metConditionsArr.length > 0) ||
+          (operator === "AND" && metConditionsArr.length === conditionsArr.length);
 
       if (lastConditionInterval && lastConditionInterval.condition_met !== condition_met) {
         result.push({
@@ -119,7 +132,7 @@ export class WeatherConditionsService {
       };
     }
 
-    if (nextIntervalStartTime !== lastConditionInterval.startTime) {
+    if (lastConditionInterval && nextIntervalStartTime !== lastConditionInterval.startTime) {
       result.push({
         startTime: nextIntervalStartTime,
         endTime: lastConditionInterval.endTime,
@@ -127,6 +140,7 @@ export class WeatherConditionsService {
       });
     }
 
+    logger.verbose(correlationId, `${methodName} - end`);
     return result;
   }
 }

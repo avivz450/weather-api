@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {weatherConditionsController} from '../controllers/weather-conditions';
+import {validateGetTimeline} from "../middlewares/validate-get-timeline";
 
 class WeatherConditionsRouter {
   private readonly router: Router;
@@ -11,7 +12,7 @@ class WeatherConditionsRouter {
   }
 
   private initializeRoutes() {
-    this.router.get('/', weatherConditionsController.getConditionsTimeline);
+    this.router.get('/',validateGetTimeline, weatherConditionsController.getConditionsTimeline);
   }
 
   public getRouter() {

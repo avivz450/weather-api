@@ -3,7 +3,7 @@ interface BaseMessage {
 }
 
 export interface ErrorMessage extends BaseMessage {
-  message: string;
+  [key: string]: any;
 }
 
 export interface SuccessMessage extends BaseMessage {
